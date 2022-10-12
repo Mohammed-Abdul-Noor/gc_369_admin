@@ -5,61 +5,106 @@ import '../../../widgets/gridCont.dart';
 List valuelist = [
   {
     "title": "Total Members",
-    "value": getCount().toString(),
+    "value": totalMembers.toString(),
     "color": Colors.orange
   },
-  {"title": "Total IDs", "value": "3253", "color": Colors.red},
-  {"title": "Total IDs", "value": "256", "color": Colors.black},
+  {"title": "Total IDs", "value": totalId.toString(), "color": Colors.red},
+  {
+    "title": "Total Rebirth IDs",
+    "value": totalRebirthId.toString(),
+    "color": Colors.black
+  },
   {"title": "Total Gen IDs", "value": "0", "color": Colors.deepOrangeAccent},
-  {"title": "Total Received Amount", "value": "387107", "color": Colors.pink},
-  {"title": "Total GH", "value": "1995000", "color": Colors.green},
-  {"title": "Total PH", "value": "1995000", "color": Colors.indigo},
+  {
+    "title": "Total Received Amount",
+    "value": totalAmount.toString(),
+    "color": Colors.pink
+  },
+  {"title": "Total GH", "value": totalGH.toString(), "color": Colors.green},
+  {"title": "Total PH", "value": totalPH.toString(), "color": Colors.indigo},
 ];
+int? totalMembers;
+int? totalId;
+double? totalRebirthId;
+double? totalAmount;
+double? totalGH;
+double? totalPH;
 
-Future<int> getCount() async {
-  int count = await FirebaseFirestore.instance
-      .collection('collection')
-      .get()
-      .then((value) => value.size);
-  print("----------------------------------------------");
-  print(count);
-  print("----------------------------------------------");
-  return count;
+class LargeScreenView extends StatefulWidget {
+  const LargeScreenView({Key? key}) : super(key: key);
+
+  @override
+  State<LargeScreenView> createState() => _LargeScreenViewState();
 }
 
-class LargeScreenView extends StatelessWidget {
-  const LargeScreenView({Key? key}) : super(key: key);
+class _LargeScreenViewState extends State<LargeScreenView> {
+  getCount() async {
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .snapshots()
+        .listen((event) {
+      totalMembers = 0;
+      totalId = 0;
+      totalRebirthId = 0;
+      totalAmount = 0;
+      totalGH = 0;
+      totalPH = 0;
+      totalMembers = event.docs.length;
+      for (DocumentSnapshot user in event.docs) {
+        if (user['status'] == true) {
+          totalId = totalId! + 1;
+        }
+        totalRebirthId = totalRebirthId! + user['rebirthId'];
+        totalGH = totalGH! + user['receivehelp'];
+        totalPH = totalPH! + user['sendhelp'];
+      }
+      print(totalId);
+      print(totalId! * 119);
+      totalAmount = totalAmount! + (119 * totalId!);
+      print(totalAmount);
+    });
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getCount();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.width;
     var w = MediaQuery.of(context).size.height;
-    double _width = MediaQuery.of(context).size.width;
-    return Column(
-      children: [
-        Container(
-          width: h * 0.9,
-          height: h,
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 30,
-                childAspectRatio: 0.7,
-                mainAxisExtent: 150),
-            itemCount: valuelist.length,
-            itemBuilder: (context, index) {
-              return Wrap(children: [
-                GContainer(
-                  title: valuelist[index]['title'],
-                  value: valuelist[index]['value'],
-                  color: valuelist[index]['color'],
-                )
-              ]);
-            },
-          ),
-        )
-      ],
-    );
+    return totalMembers == null
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : Column(
+            children: [
+              Container(
+                width: h * 0.9,
+                height: h,
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 30,
+                      childAspectRatio: 0.7,
+                      mainAxisExtent: 150),
+                  itemCount: valuelist.length,
+                  itemBuilder: (context, index) {
+                    return Wrap(children: [
+                      GContainer(
+                        title: valuelist[index]['title'],
+                        value: valuelist[index]['value'],
+                        color: valuelist[index]['color'],
+                      )
+                    ]);
+                  },
+                ),
+              )
+            ],
+          );
   }
 }
