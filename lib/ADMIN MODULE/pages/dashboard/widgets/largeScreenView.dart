@@ -84,7 +84,7 @@ class _LargeScreenViewState extends State<LargeScreenView> {
             children: [
               Container(
                 width: h * 0.9,
-                height: h,
+                height: w,
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
