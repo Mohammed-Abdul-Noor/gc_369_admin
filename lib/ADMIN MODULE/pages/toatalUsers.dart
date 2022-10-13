@@ -186,20 +186,18 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                           dividerThickness: 3,
                           showCheckboxColumn: true,
                           horizontalMargin: 50,
-                          columns: [
+                          columns: const [
+                            DataColumn(numeric: true, label: Text('SI.No')),
                             DataColumn(
-                                numeric: true,
-                                onSort: (columnIndex, ascending) =>
-                                    const Text(''),
-                                label: const Text('SI.No')),
-                            const DataColumn(label: Text('User ID')),
-                            const DataColumn(label: Text('Name')),
-                            const DataColumn(label: Text('Mobile')),
-                            const DataColumn(
+                              label: Text('User ID'),
+                            ),
+                            DataColumn(label: Text('Name')),
+                            DataColumn(label: Text('Mobile')),
+                            DataColumn(
                                 label: Expanded(child: Text('Join Date'))),
-                            const DataColumn(label: Text('Status')),
-                            const DataColumn(label: Text('User Panel')),
-                            const DataColumn(label: Text('View')),
+                            DataColumn(label: Text('Status')),
+                            DataColumn(label: Text('User Panel')),
+                            DataColumn(label: Text('View')),
                           ],
                           rows: List.generate(data.length, (index) {
                             var user = data[index];
