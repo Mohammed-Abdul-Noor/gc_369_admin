@@ -38,11 +38,15 @@ class LargeScreenView extends StatefulWidget {
 }
 
 class _LargeScreenViewState extends State<LargeScreenView> {
-  getCount() async {
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .snapshots()
-        .listen((event) {
+  @override
+  void initState() {
+    super.initState();
+    getCount();
+    loop();
+  }
+
+  getCount() {
+    FirebaseFirestore.instance.collection('Users').snapshots().listen((event) {
       totalMembers = 0;
       totalId = 0;
       totalRebirthId = 0;
@@ -61,16 +65,29 @@ class _LargeScreenViewState extends State<LargeScreenView> {
       print(totalId);
       print(totalId! * 119);
       totalAmount = totalAmount! + (119 * totalId!);
+
+      setState(() {});
     });
+    print(mounted);
     if (mounted) {
       setState(() {});
     }
   }
 
+  loop() async {
+    for (int i = 1; i > 0; i++) {
+      if (totalMembers != null) {
+        setState(() {});
+        break;
+      }
+      await Future.delayed(Duration(seconds: 1));
+    }
+  }
+
   @override
-  void initState() {
-    getCount();
-    super.initState();
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override

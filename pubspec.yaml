@@ -39,6 +39,8 @@ dependencies:
   firebase_auth: ^1.2.0
   firebase_core: ^1.20.0
   cloud_firestore: ^3.4.3
+  timeago:
+  intl: ^0.17.0
   flutter_admin_scaffold: ^1.1.1
   marquee: ^2.2.3
   google_fonts: ^3.0.1
