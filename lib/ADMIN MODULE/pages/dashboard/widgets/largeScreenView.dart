@@ -61,9 +61,10 @@ class _LargeScreenViewState extends State<LargeScreenView> {
       print(totalId);
       print(totalId! * 119);
       totalAmount = totalAmount! + (119 * totalId!);
-      print(totalAmount);
     });
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
