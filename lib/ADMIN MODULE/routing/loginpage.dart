@@ -90,7 +90,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                 child: ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.green)),
+                      backgroundColor: MaterialStateProperty.all(Colors.green)),
                   child: const Text('submit',
                       style: TextStyle(color: Colors.white)),
                   onPressed: () {

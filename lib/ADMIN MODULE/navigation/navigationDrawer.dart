@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,7 +57,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     final provider = Provider.of<NavigationProvider>(context);
     final isCollapsed = provider.isCollapsed;
     return SizedBox(
-        width: isCollapsed ? MediaQuery.of(context).size.width * 0.2 : null,
+        width: isCollapsed ? MediaQuery.of(context).size.width * 0.06 : 230,
         child: Drawer(
           child: Container(
             color: Colors.indigo[900],

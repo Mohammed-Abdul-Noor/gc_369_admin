@@ -63,7 +63,7 @@ class _LargeScreenState extends State<LargeScreen> {
     return Row(
       children: [
         const SizedBox(
-          width: 230,
+         // width: 230,
           child: NavigationDrawerWidget(),
         ),
         Expanded(
