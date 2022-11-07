@@ -6,10 +6,8 @@ import 'ProvideHelp.dart';
 import 'genIDModel.dart';
 import 'getHelp.dart';
 
-int currentUserLevel=0;
 
-
-UsersModel? users;
+UsersModel? currentuser;
 UsersModel? sponsorUser1;
 UsersModel? sponsorUser2;
 UsersModel? sponsorUser3;
@@ -19,7 +17,7 @@ class UsersModel {
   String? name;
   DateTime? joinDate;
   String? mobno;
-  Map<String,dynamic>? address;
+  Map<String, dynamic>? address;
   String? email;
   String? accno;
   String? accholname;
@@ -55,15 +53,17 @@ class UsersModel {
   List<dynamic>? referral;
   DateTime? firstLevelJoinDate;
   GenIdModel? genId;
-  GetHelpUsers?getHelpUsers;
-  ProvideHelpUsers?provideHelpUsers;
-  Map<String,dynamic>?getCount;
-  Map<String,dynamic>?provideCount;
+  GetHelpUsers? getHelpUsers;
+  ProvideHelpUsers? provideHelpUsers;
+  Map<String, dynamic>? getCount;
+  Map<String, dynamic>? provideCount;
   String? fproof;
   String? bproof;
-
-
-
+  int? downline1;
+  int? downline2;
+  int? downline3;
+  List? search;
+  String? type;
 
   UsersModel({
     this.whatsNO,
@@ -111,9 +111,12 @@ class UsersModel {
     this.fproof,
     this.bproof,
     this.spnsrId2,
-    this.spnsrId3
-
-////////////////
+    this.spnsrId3,
+    this.downline1,
+    this.downline2,
+    this.downline3,
+    this.search,
+    this.type
   });
 
   UsersModel.fromJson(Map<String, dynamic> json) {
@@ -155,16 +158,20 @@ class UsersModel {
     wallet = json['wallet'] ?? 0;
     eligible = json['eligible'] ?? false;
     referral = json['referral'] ?? [];
+    search = json['search'] ?? [];
     firstLevelJoinDate = json['firstLevelJoinDate'].toDate() ?? DateTime;
-    genId=GenIdModel.fromJson(json['genId'] ?? {});
-    getHelpUsers=GetHelpUsers.fromJson(json['getHelpUsers'] ?? {});
-    provideHelpUsers=ProvideHelpUsers.fromJson(json['provideHelpUsers'] ?? {});
-    provideCount=json['provideCount'] ?? {};
-    getCount=json['getCount'] ?? {};
-    fproof = json['fproof'] ?? "";
-    fproof = json['bproof'] ?? "";
-
-
+    genId = GenIdModel.fromJson(json['genId'] ?? {});
+    getHelpUsers = GetHelpUsers.fromJson(json['getHelpUsers'] ?? {});
+    provideHelpUsers =
+        ProvideHelpUsers.fromJson(json['provideHelpUsers'] ?? {});
+    provideCount = json['provideCount'] ?? {};
+    getCount = json['getCount'] ?? {};
+    fproof = json['fProof'] ?? "";
+    bproof = json['bProof'] ?? "";
+    type = json['type'] ?? "";
+    downline1 = json['downline1'] ?? 0;
+    downline2 = json['downline2'] ?? 0;
+    downline3 = json['downline3'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -175,13 +182,14 @@ class UsersModel {
     data['name'] = name ?? "";
     data['joinDate'] = joinDate ?? DateTime;
     data['mobno'] = mobno ?? "";
-    data['address'] = address??{};
+    data['address'] = address ?? {};
     data['email'] = email ?? "";
     data['accno'] = accno ?? "";
     data['accholname'] = accholname ?? "";
     data['ifscno'] = ifscno ?? "";
     data['bankname'] = bankname ?? '';
     data['branch'] = branch ?? "";
+    data['type'] = type ?? "";
     data['googlepayno'] = googlepayno ?? "";
     data['phonepayno'] = phonepayno ?? "";
     data['paytmno'] = paytmno ?? '';
@@ -204,6 +212,7 @@ class UsersModel {
     data['sendCount'] = sendCount ?? 0;
     data['checkGenId'] = checkGenId ?? false;
     data['referral'] = referral ?? [];
+    data['search'] = search ?? [];
     data['wallet'] = wallet ?? 0;
     data['eligible'] = eligible ?? false;
     data['motherId'] = motherId ?? true;
@@ -211,13 +220,15 @@ class UsersModel {
     data['genId'] = genId?.toJson();
     data['getHelpUsers'] = getHelpUsers?.toJson();
     data['provideHelpUsers'] = provideHelpUsers?.toJson();
-    data['provideCount'] = provideCount??{};
-    data['getCount'] = getCount??{};
-    data['fproof'] = fproof ?? '';
-    data['bproof'] = bproof ?? '';
+    data['provideCount'] = provideCount ?? {};
+    data['getCount'] = getCount ?? {};
+    data['fProof'] = fproof ?? '';
+    data['bProof'] = bproof ?? '';
+    data['downline1'] = downline1 ?? 0;
+    data['downline2'] = downline2 ?? 0;
+    data['downline3'] = downline3 ?? 0;
     return data;
   }
-
 
   UsersModel.fromdocumentsnapshot(DocumentSnapshot userMap)
       : uid = userMap['uid'],
@@ -242,9 +253,9 @@ class UsersModel {
         directmember = userMap['directmember'],
         rebirthId = userMap['rebirthId'],
         status = userMap['status'],
-        spnsr_Id = userMap['spnsr_Id']??"",
-        spnsrId2 = userMap['spnsrId2']??"",
-        spnsrId3 = userMap['spnsrId3']??"",
+        spnsr_Id = userMap['spnsr_Id'] ?? "",
+        spnsrId2 = userMap['spnsrId2'] ?? "",
+        spnsrId3 = userMap['spnsrId3'] ?? "",
         sponsoremobile = userMap['sponsoremobile'],
         sponsorincome = userMap['sponsorincome'],
         mystatus = userMap['mystatus'],
@@ -258,15 +269,20 @@ class UsersModel {
         eligible = userMap['eligible'],
         panNo = userMap['panNo'],
         referral = userMap['referral'],
+        search = userMap['search'],
         getHelpUsers = userMap['getHelpUsers'],
         provideHelpUsers = userMap['provideHelpUsers'],
         provideCount = userMap['provideCount'],
         getCount = userMap['getCount'],
-        fproof = userMap['fproof'],
-        bproof = userMap['fproof']
-  ;
-}
+        fproof = userMap['fProof'],
+        type = userMap['type'],
+        bproof = userMap['bProof'],
+        downline1 = userMap['downline1'],
+        downline2 = userMap['downline2'],
+        downline3 = userMap['downline3'];
 
+  fromJson(data) {}
+}
 
 List<UsersModel> listOfUsers(QuerySnapshot userSnap) {
   List<UsersModel> usersList = [];
@@ -283,6 +299,7 @@ Future<List<UsersModel>> getUsers(String userId) async {
       .get();
   return listOfUsers(usrs);
 }
+
 StreamSubscription? Streamcurrentuser;
 
 usersListener(String userId) {
@@ -292,7 +309,8 @@ usersListener(String userId) {
       .snapshots()
       .listen((event) {
     print(event.data());
-    users = UsersModel.fromJson(event.data()!);
+    currentuser = UsersModel.fromJson(event.data()!);
+  //  currentUserLevel = event['sno'];
     print("---------------------------------------------------");
     print(event.exists);
     print("---------------------------------------------------");

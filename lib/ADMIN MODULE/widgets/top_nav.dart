@@ -51,7 +51,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
             ),
           ),
           SizedBox(width: 20),
-          CustomText(text: 'Arun pp69', size: 16, color: Colors.grey, weight: FontWeight.bold)
+          CustomText(text: 'ADMIN 369', size: 16, color: Colors.grey, weight: FontWeight.bold)
 
         ],
       ),

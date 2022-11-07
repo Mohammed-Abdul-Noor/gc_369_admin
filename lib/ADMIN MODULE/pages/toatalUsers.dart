@@ -29,6 +29,8 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
   //   search = TextEditingController();
   // }
 
+
+
  Stream<QuerySnapshot<Map<String,dynamic>>>? userStream;
   DocumentSnapshot? lastDoc;
   DocumentSnapshot? firstDoc;
@@ -39,7 +41,10 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
    // usersListener(currentUserId);
     _controller=ScrollController();
     _controller1=ScrollController();
-    userStream =  FirebaseFirestore.instance.collection('Users').limit(10).snapshots();
+    userStream =  FirebaseFirestore.instance.collection('Users')
+        .orderBy('joinDate')
+
+        .limit(10).snapshots();
     search=TextEditingController();
     super.initState();
 
@@ -51,11 +56,14 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
       ind=0;
 
       userStream =
-          FirebaseFirestore.instance.collection('Users').limit(10).snapshots();
+          FirebaseFirestore.instance.collection('Users')
+              .orderBy('joinDate')
+              .limit(10).snapshots();
     } else {
       ind+=10;
       userStream = FirebaseFirestore.instance
           .collection('Users')
+          .orderBy('joinDate')
           .startAfterDocument(lastDoc!)
           .limit(10)
           .snapshots();
@@ -71,12 +79,17 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
       ind=0;
 
       userStream =
-          FirebaseFirestore.instance.collection('Users').limit(10).snapshots();
+          FirebaseFirestore.instance.collection('Users')
+              .orderBy('joinDate')
+
+              .limit(10).snapshots();
     } else {
       ind-=10;
 
       userStream = FirebaseFirestore.instance
           .collection('Users')
+          .orderBy('joinDate')
+
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
           .limit(10)
           .snapshots();
@@ -113,7 +126,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
             ],
           ),
           const SizedBox(height: 15),
-          DecoratedBox(
+          Container(
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black.withOpacity(0.1))),
             child: Padding(
@@ -121,16 +134,106 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Total User',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  // const Text(
+                  //   'Total User',
+                  //   style: TextStyle(
+                  //     color: Colors.red,
+                  //     fontSize: 20,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                   const SizedBox(height: 10),
-                  Row(
+                  currentWidth<650?
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(
+                                    color: Colors.black.withOpacity(0.3))),
+                            alignment: Alignment.center,
+                            height: 20,
+                            width: 50,
+                            child: const Text('Copy'),
+                          ),
+                          const SizedBox(width: 10),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(
+                                    color: Colors.black.withOpacity(0.3))),
+                            alignment: Alignment.center,
+                            height: 20,
+                            width: 50,
+                            child: const Text('CSV'),
+                          ),
+                          const SizedBox(width: 10),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(
+                                    color: Colors.black.withOpacity(0.3))),
+                            alignment: Alignment.center,
+                            height: 20,
+                            width: 50,
+                            child: const Text('Excel'),
+                          ),
+                          const SizedBox(width: 10),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(
+                                    color: Colors.black.withOpacity(0.3))),
+                            alignment: Alignment.center,
+                            height: 20,
+                            width: 50,
+                            child: const Text('PDF'),
+                          ),
+                          // Text((pageIndex+1).toString()),
+                          // Text((ind+1).toString()),
+                        ],
+                      ),
+
+                      const SizedBox(height: 9),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          const Text('Search'),
+                          SizedBox(width: 6),
+                          Container(
+                            height: 30,
+                            width: 150,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(
+                                    color: Colors.black.withOpacity(0.3))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: TextFormField(
+                                controller: search,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                                onFieldSubmitted: (value){
+                                  setState(() {
+
+                                    //  usersFiltered = userStream;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                 : Row(
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -220,6 +323,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                  //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                 builder: (context, snapshot) {
                   var data = snapshot.data!.docs;
+
                   lastDoc = snapshot.data!.docs[data.length - 1];
                   lastDocuments[pageIndex] = lastDoc!;
                   firstDoc = snapshot.data!.docs[0];
@@ -245,7 +349,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                       ),
                       DataColumn(label: Text('Name')),
                       DataColumn(label: Text('Mobile')),
-                     // DataColumn(label: Expanded(child: Text('Join Date'))),
+                      DataColumn(label: Expanded(child: Text('Join Date'))),
                       DataColumn(label: Text('Status')),
                       DataColumn(label: Text('User Panel')),
                       DataColumn(label: Text('View')),
@@ -257,7 +361,8 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                         DataCell(Text(user['uid'])),
                         DataCell(Text(user['name'])),
                         DataCell(Text(user['mobno'])),
-                       // DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
+                        DataCell(Text("${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
+                      //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
                         DataCell(
                             Text(user['status'] ? 'Active' : 'Not Active')),
                         DataCell(
@@ -271,14 +376,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                                       color:
                                           Colors.black.withOpacity(0.3))),
                               alignment: Alignment.center,
-                              child: InkWell(
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const UserApp(),
-                                      )),
-                                  child: const Text('Goto Panel'))),
+                              child: const Text('Goto Panel')),
                         ),
                         DataCell(Container(
                             height: 30,
