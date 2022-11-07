@@ -60,7 +60,7 @@ class _SmallScreenState extends State<SmallScreen> {
     return Scaffold(
       body: Container(
         //constraints: BoxConstraints.expand(),
-        child: _pages[_selectedIndex],
+        child: _pages[_selectedIndex=1],
       ),
     );
   }

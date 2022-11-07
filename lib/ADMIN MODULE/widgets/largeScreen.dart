@@ -69,7 +69,7 @@ class _LargeScreenState extends State<LargeScreen> {
         Expanded(
           flex: 5,
           child: Scaffold(
-            body: _screens[_selectedIndex]
+            body: _screens[_selectedIndex=1]
           ),
         )
       ],

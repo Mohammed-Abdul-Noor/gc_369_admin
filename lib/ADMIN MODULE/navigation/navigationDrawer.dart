@@ -152,7 +152,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => SiteLayout(
-                                index: index,
+                                index: 1,
                               )),
                       (route) => false);
                   print('/////////////////////////////');

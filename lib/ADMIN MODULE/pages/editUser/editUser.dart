@@ -866,7 +866,7 @@ class _EditUserState extends State<EditUser> {
                                                                 'Cancel')),
                                                         TextButton(
                                                             onPressed: () {
-                                                              Navigator.push(context, MaterialPageRoute(builder: (context) => TotalUsersPage(),));
+                                                              Navigator.pop(context);
                                                               final userdata =
                                                                   UsersModel(
                                                                 accholname:
@@ -1065,6 +1065,10 @@ class _EditUserState extends State<EditUser> {
                                         },
                                         child: const Text('Update'),
                                       ),
+                                      SizedBox(width: 15),
+                                      ElevatedButton(onPressed: (){
+                                        Navigator.pop(context);
+                                      }, child: Text('Home')),
                                       const SizedBox(
                                         height: 40,
                                       ),
