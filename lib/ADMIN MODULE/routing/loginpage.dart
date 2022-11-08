@@ -121,8 +121,8 @@ validator: (value){
                         print(nameController.text);
                         print(passwordController.text);
                       }
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //     builder: (context) => SiteLayout(index: 1)));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SiteLayout(index: 1)));
                     },
                   )),
               SizedBox(height: 10),

@@ -305,6 +305,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                           ),
                         ),
                       ),
+
                     ],
                   ),
                 ],
@@ -322,7 +323,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                  //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                 builder: (context, snapshot) {
                   var data = snapshot.data!.docs;
-
+                  print(data.length);
                   lastDoc = snapshot.data!.docs[data.length - 1];
                   lastDocuments[pageIndex] = lastDoc!;
                   firstDoc = snapshot.data!.docs[0];
