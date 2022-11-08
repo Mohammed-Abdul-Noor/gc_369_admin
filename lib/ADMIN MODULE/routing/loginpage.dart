@@ -115,13 +115,18 @@ validator: (value){
                       if (nameController.text == 'admin@gmail.com' &&
                           passwordController.text == 'admin369') {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SiteLayout(index: 1)));
+                            builder: (context) => SiteLayout(index: 1))
+                        );
 
                         print(nameController.text);
                         print(passwordController.text);
                       }
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => SiteLayout(index: 1)));
                     },
                   )),
+              SizedBox(height: 10),
+              Center(child: Text('Version 1.0.2'))
             ],
           )),
     );

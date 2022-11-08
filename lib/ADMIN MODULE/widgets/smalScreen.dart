@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gc_369/ADMIN%20MODULE/pages/editUser/kyc/kyc.dart';
 
 import '../../main.dart';
 import '../pages/accountReport.dart';
@@ -19,22 +20,22 @@ import '../pages/webInfo.dart';
 import '../pages/withdrawEligible.dart';
 
 List<Widget> _pages =[
-  DashboardPage(),
+ // DashboardPage(),
   TotalUsersPage(),
-  GenIdActivatePage(),
-  RebirthGenIdPage(),
-  RejectIdPage(),
-  ClubsPage(),
-  PaymentRequestPage(),
-  WithdrawEligiblePage(),
-  TransactionHistoryPage(),
-  InboxMessagePage(),
-  SendMessagePage(),
-  PlanReportPage(),
-  UserReportPage(),
-  AccountReportPage(),
-  WebInfoPage(),
-  ChangePasswordPage()
+   GenIdActivatePage(),
+  // RebirthGenIdPage(),
+  // RejectIdPage(),
+  // ClubsPage(),
+  // PaymentRequestPage(),
+  // WithdrawEligiblePage(),
+  // TransactionHistoryPage(),
+  // InboxMessagePage(),
+  // SendMessagePage(),
+  // PlanReportPage(),
+  // UserReportPage(),
+  // AccountReportPage(),
+  // WebInfoPage(),
+  // ChangePasswordPage()
 ];
 
 
@@ -60,7 +61,7 @@ class _SmallScreenState extends State<SmallScreen> {
     return Scaffold(
       body: Container(
         //constraints: BoxConstraints.expand(),
-        child: _pages[_selectedIndex=1],
+        child: _pages[_selectedIndex],
       ),
     );
   }

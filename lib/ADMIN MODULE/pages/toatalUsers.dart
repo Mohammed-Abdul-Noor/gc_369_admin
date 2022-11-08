@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 
 import '../widgets/userApp.dart';
 import 'editUser/editUser.dart';
-import 'editUser/uploadDoc.dart';
 import 'editUser/userModel.dart';
 
 
@@ -42,7 +41,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
     _controller=ScrollController();
     _controller1=ScrollController();
     userStream =  FirebaseFirestore.instance.collection('Users')
-        .orderBy('joinDate')
+        .orderBy('index').where('index',isNotEqualTo: 0)
 
         .limit(10).snapshots();
     search=TextEditingController();
@@ -57,13 +56,13 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
 
       userStream =
           FirebaseFirestore.instance.collection('Users')
-              .orderBy('joinDate')
+              .orderBy('index')
               .limit(10).snapshots();
     } else {
       ind+=10;
       userStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('joinDate')
+          .orderBy('index')
           .startAfterDocument(lastDoc!)
           .limit(10)
           .snapshots();
@@ -80,7 +79,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
 
       userStream =
           FirebaseFirestore.instance.collection('Users')
-              .orderBy('joinDate')
+              .orderBy('index')
 
               .limit(10).snapshots();
     } else {
@@ -88,7 +87,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
 
       userStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('joinDate')
+          .orderBy('index')
 
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
           .limit(10)
@@ -432,7 +431,9 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                       ),
                       DataColumn(label: Text('Name')),
                       DataColumn(label: Text('Mobile')),
-                     // DataColumn(label: Expanded(child: Text('Join Date'))),
+                      DataColumn(label: Expanded(child: Text('Join Date'))),
+
+                      // DataColumn(label: Expanded(child: Text('Join Date'))),
                       DataColumn(label: Text('Status')),
                       DataColumn(label: Text('User Panel')),
                       DataColumn(label: Text('View')),
@@ -444,7 +445,9 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                         DataCell(Text(user['uid'])),
                         DataCell(Text(user['name'])),
                         DataCell(Text(user['mobno'])),
-                       // DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
+                        DataCell(Text("${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
+
+                        // DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
                         DataCell(
                             Text(user['status'] ? 'Active' : 'Not Active')),
                         DataCell(

@@ -26,22 +26,22 @@ import '../pages/withdrawEligible.dart';
 import 'navigationProvider.dart';
 
 List<Widget> _screens = [
-  DashboardPage(),
+ // DashboardPage(),
   TotalUsersPage(),
   GenIdActivatePage(),
-  RebirthGenIdPage(),
-  RejectIdPage(),
-  ClubsPage(),
-  PaymentRequestPage(),
-  WithdrawEligiblePage(),
-  TransactionHistoryPage(),
-  InboxMessagePage(),
-  SendMessagePage(),
-  PlanReportPage(),
-  UserReportPage(),
-  AccountReportPage(),
-  WebInfoPage(),
-  ChangePasswordPage()
+  // RebirthGenIdPage(),
+  // RejectIdPage(),
+  // ClubsPage(),
+  // PaymentRequestPage(),
+  // WithdrawEligiblePage(),
+  // TransactionHistoryPage(),
+  // InboxMessagePage(),
+  // SendMessagePage(),
+  // PlanReportPage(),
+  // UserReportPage(),
+  // AccountReportPage(),
+  // WebInfoPage(),
+  // ChangePasswordPage()
 ];
 
 class NavigationDrawerWidget extends StatefulWidget {
@@ -152,7 +152,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => SiteLayout(
-                                index: 1,
+                                index: test,
                               )),
                       (route) => false);
                   print('/////////////////////////////');

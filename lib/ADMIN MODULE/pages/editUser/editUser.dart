@@ -85,8 +85,8 @@ class _EditUserState extends State<EditUser> {
     if (kDebugMode) {
       print(widget.user.address);
     }
-    url=currentuser?.fproof??"";
-    urb=currentuser?.bproof??"";
+    url=currentuser?.fProof??"";
+    urb=currentuser?.bProof??"";
     print("+++++++++++++++++++++++++++++++++++++++");
     print(url);
     print(urb);

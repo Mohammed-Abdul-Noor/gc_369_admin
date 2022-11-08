@@ -6,6 +6,7 @@ import '../pages/accountReport.dart';
 import '../pages/changePassword.dart';
 import '../pages/clubs.dart';
 import '../pages/dashboard/dashboard.dart';
+import '../pages/editUser/kyc/kyc.dart';
 import '../pages/genIdActivate.dart';
 import '../pages/paymentRequest.dart';
 import '../pages/planReport.dart';
@@ -19,22 +20,22 @@ import '../pages/userReport.dart';
 import '../pages/webInfo.dart';
 import '../pages/withdrawEligible.dart';
 List<Widget> _screens =[
-   DashboardPage(),
+  // DashboardPage(),
    TotalUsersPage(),
-   GenIdActivatePage(),
-   RebirthGenIdPage(),
-   RejectIdPage(),
-   ClubsPage(),
-   PaymentRequestPage(),
-   WithdrawEligiblePage(),
-   TransactionHistoryPage(),
-   InboxMessagePage(),
-   SendMessagePage(),
-   PlanReportPage(),
-   UserReportPage(),
-   AccountReportPage(),
-   WebInfoPage(),
-   ChangePasswordPage()
+    GenIdActivatePage(),
+   // RebirthGenIdPage(),
+   // RejectIdPage(),
+   // ClubsPage(),
+   // PaymentRequestPage(),
+   // WithdrawEligiblePage(),
+   // TransactionHistoryPage(),
+   // InboxMessagePage(),
+   // SendMessagePage(),
+   // PlanReportPage(),
+   // UserReportPage(),
+   // AccountReportPage(),
+   // WebInfoPage(),
+   // ChangePasswordPage()
 ];
 
 class LargeScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _LargeScreenState extends State<LargeScreen> {
         Expanded(
           flex: 5,
           child: Scaffold(
-            body: _screens[_selectedIndex=1]
+            body: _screens[_selectedIndex]
           ),
         )
       ],

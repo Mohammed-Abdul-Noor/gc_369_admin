@@ -2,20 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'editUser/editUser.dart';
-import 'editUser/userModel.dart';
+import '../editUser.dart';
+import '../userModel.dart';
 
 
 
-
-class GenIdActivatePage extends StatefulWidget {
-  const GenIdActivatePage({Key? key}) : super(key: key);
+class KycPage extends StatefulWidget {
+  const KycPage({Key? key}) : super(key: key);
 
   @override
-  State<GenIdActivatePage> createState() => _GenIdActivatePageState();
+  State<KycPage> createState() => _KycPageState();
 }
 
-class _GenIdActivatePageState extends State<GenIdActivatePage> {
+class _KycPageState extends State<KycPage> {
 
   TextEditingController? search ;
   // Stream ?userStream;
@@ -41,8 +40,8 @@ class _GenIdActivatePageState extends State<GenIdActivatePage> {
     // usersListener(currentUserId);
     _controller=ScrollController();
     _controller1=ScrollController();
-    kycStream =  FirebaseFirestore.instance.collection('Users').where('fProof',isEqualTo: '')
-        .where('bProof',isEqualTo: '')
+    kycStream =  FirebaseFirestore.instance.collection('Users').where('fproof',isEqualTo: '')
+        .where('bproof',isEqualTo: '')
         .orderBy('joinDate')
 
         .limit(10).snapshots();
@@ -323,10 +322,6 @@ class _GenIdActivatePageState extends State<GenIdActivatePage> {
                     // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                     //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                     builder: (context, snapshot) {
-                      print(snapshot.error);
-                      if(!snapshot.hasData){
-                        return Center(child: CircularProgressIndicator(),);
-                      }
                       var data = snapshot.data!.docs;
 
                       lastDoc = snapshot.data!.docs[data.length - 1];
@@ -407,8 +402,7 @@ class _GenIdActivatePageState extends State<GenIdActivatePage> {
                     }):
                 StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
                     stream:FirebaseFirestore.instance.collection('Users')
-                        .where('search',arrayContains: search!.text.toUpperCase()).where('fProof',isEqualTo: '').where('bProof',isEqualTo: '')
-                        .limit(10).snapshots(),
+                        .where('search',arrayContains: search!.text.toUpperCase()).limit(10).snapshots(),
                     // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                     //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                     builder: (context, snapshot) {
@@ -438,7 +432,7 @@ class _GenIdActivatePageState extends State<GenIdActivatePage> {
                           ),
                           DataColumn(label: Text('Name')),
                           DataColumn(label: Text('Mobile')),
-                          DataColumn(label: Expanded(child: Text('Join Date'))),
+                          // DataColumn(label: Expanded(child: Text('Join Date'))),
                           DataColumn(label: Text('Status')),
                           DataColumn(label: Text('User Panel')),
                           DataColumn(label: Text('View')),
@@ -450,7 +444,7 @@ class _GenIdActivatePageState extends State<GenIdActivatePage> {
                             DataCell(Text(user['uid'])),
                             DataCell(Text(user['name'])),
                             DataCell(Text(user['mobno'])),
-                            DataCell(Text("${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
+                            // DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
                             DataCell(
                                 Text(user['status'] ? 'Active' : 'Not Active')),
                             DataCell(

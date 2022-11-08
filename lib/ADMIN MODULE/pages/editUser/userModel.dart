@@ -57,8 +57,8 @@ class UsersModel {
   ProvideHelpUsers? provideHelpUsers;
   Map<String, dynamic>? getCount;
   Map<String, dynamic>? provideCount;
-  String? fproof;
-  String? bproof;
+  String? fProof;
+  String? bProof;
   int? downline1;
   int? downline2;
   int? downline3;
@@ -108,8 +108,8 @@ class UsersModel {
     this.provideHelpUsers,
     this.provideCount,
     this.getCount,
-    this.fproof,
-    this.bproof,
+    this.fProof,
+    this.bProof,
     this.spnsrId2,
     this.spnsrId3,
     this.downline1,
@@ -166,8 +166,8 @@ class UsersModel {
         ProvideHelpUsers.fromJson(json['provideHelpUsers'] ?? {});
     provideCount = json['provideCount'] ?? {};
     getCount = json['getCount'] ?? {};
-    fproof = json['fProof'] ?? "";
-    bproof = json['bProof'] ?? "";
+    fProof = json['fProof'] ?? "";
+    bProof = json['bProof'] ?? "";
     type = json['type'] ?? "";
     downline1 = json['downline1'] ?? 0;
     downline2 = json['downline2'] ?? 0;
@@ -222,8 +222,8 @@ class UsersModel {
     data['provideHelpUsers'] = provideHelpUsers?.toJson();
     data['provideCount'] = provideCount ?? {};
     data['getCount'] = getCount ?? {};
-    data['fProof'] = fproof ?? '';
-    data['bProof'] = bproof ?? '';
+    data['fProof'] = fProof ?? '';
+    data['bProof'] = bProof ?? '';
     data['downline1'] = downline1 ?? 0;
     data['downline2'] = downline2 ?? 0;
     data['downline3'] = downline3 ?? 0;
@@ -274,9 +274,9 @@ class UsersModel {
         provideHelpUsers = userMap['provideHelpUsers'],
         provideCount = userMap['provideCount'],
         getCount = userMap['getCount'],
-        fproof = userMap['fProof'],
+        fProof = userMap['fProof'],
         type = userMap['type'],
-        bproof = userMap['bProof'],
+        bProof = userMap['bProof'],
         downline1 = userMap['downline1'],
         downline2 = userMap['downline2'],
         downline3 = userMap['downline3'];
