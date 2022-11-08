@@ -172,7 +172,7 @@ class _GenIdActivatePageState extends State<GenIdActivatePage> {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
+                                        borderRadius: BorderRadius.circular(4),
                                         border: Border.all(
                                             color: Colors.black.withOpacity(0.3))),
                                     alignment: Alignment.center,
