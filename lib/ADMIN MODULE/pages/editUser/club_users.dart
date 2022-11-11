@@ -438,11 +438,11 @@ class _ClubUsersState extends State<ClubUsers> {
             ),
             Row(
               children: [
-                ElevatedButton(onPressed: (){
+              pageIndex==0?Container():  ElevatedButton(onPressed: (){
                   prev();
                 }, child: Text('Previous')),
                 SizedBox(width: 30,),
-                ElevatedButton(onPressed: (){
+                lastDoc==null?Container():  ElevatedButton(onPressed: (){
                   next();
                 } ,child: Text('Next'))
               ],

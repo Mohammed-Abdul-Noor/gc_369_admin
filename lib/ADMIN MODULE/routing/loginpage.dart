@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pages/layout.dart';
-
+SharedPreferences? preferences;
 class Loginpage extends StatefulWidget {
   @override
   State<Loginpage> createState() => _LoginpageState();
 }
-
+String userId="";
+String password="";
 class _LoginpageState extends State<Loginpage> {
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,6 +34,30 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 var loginkey = GlobalKey();
+  Future loginEvent() async {
+    preferences = await SharedPreferences.getInstance();
+    userId = preferences?.getString('userId') ?? "";
+    password = preferences?.getString('password') ?? "";
+    if (userId == 'admin@gmail.com' &&
+        password == 'admin369') {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => SiteLayout(index: 1))
+      );
+
+      print(nameController.text);
+      print(passwordController.text);
+    }
+    //var password =localStorage.getString('pass');
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    loginEvent();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +95,7 @@ var loginkey = GlobalKey();
                       border: OutlineInputBorder(),
                       labelText: 'Your ID',
                     ),
-validator: (value){
-                      if(value!="admin@mail.com"){
-                        return 'invalid UserName';
-                      }else{
-                        return null;
-                      }
-},
+
                   ),
 
                   Padding(
@@ -90,13 +112,7 @@ validator: (value){
                       border: OutlineInputBorder(),
                       labelText: 'Your Password',
                     ),
-                    validator: (value){
-                      if(value!="admin@369"){
-                        return 'invalid Password';
-                      }else{
-                        return null;
-                      }
-                    },
+
                   ),
                 ],
               ),
@@ -114,6 +130,10 @@ validator: (value){
                     onPressed: () {
                       if (nameController.text == 'admin@gmail.com' &&
                           passwordController.text == 'admin369') {
+                        preferences?.setString('userId',
+                            nameController.text);
+                        preferences?.setString('password',
+                            passwordController.text);
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => SiteLayout(index: 1))
                         );

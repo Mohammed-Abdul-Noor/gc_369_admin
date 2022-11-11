@@ -67,7 +67,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
     pageIndex++;
     if (lastDoc == null || pageIndex == 0) {
       ind=0;
-
+      pageIndex=0;
       userStream =
           FirebaseFirestore.instance.collection('Users')
               .orderBy('index')
@@ -435,6 +435,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                  //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                 builder: (context, snapshot) {
                   var data = snapshot.data!.docs;
+
                   lastDoc = snapshot.data!.docs[data.length - 1];
                   lastDocuments[pageIndex] = lastDoc!;
                   firstDoc = snapshot.data!.docs[0];
@@ -527,7 +528,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
           ),
           Row(
             children: [
-              ElevatedButton(onPressed: (){
+              pageIndex==0?Container():  ElevatedButton(onPressed: (){
                 prev();
               }, child: Text('Previous')),
               SizedBox(width: 30,),
