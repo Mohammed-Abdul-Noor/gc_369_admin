@@ -25,6 +25,9 @@ class _ClubsPageState extends State<ClubsPage> {
         .snapshots();
   }
 
+
+
+
   next() {
     pageIndex++;
     if (lastDoc == null || pageIndex == 0) {
