@@ -64,6 +64,7 @@ dependencies:
   csv:
   cached_network_image:
   firebase_storage: ^10.3.4
+  url_launcher: ^6.1.6
 
 
 dev_dependencies:

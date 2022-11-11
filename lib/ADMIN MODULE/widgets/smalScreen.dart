@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:gc_369/ADMIN%20MODULE/Company/charityAmount.dart';
+import 'package:gc_369/ADMIN%20MODULE/Company/clubAmount.dart';
 import 'package:gc_369/ADMIN%20MODULE/pages/editUser/kyc/kyc.dart';
+import 'package:gc_369/ADMIN%20MODULE/widgets/changePassword.dart';
 
 import '../../main.dart';
 import '../pages/accountReport.dart';
 import '../pages/changePassword.dart';
 import '../pages/clubs.dart';
 import '../pages/dashboard/dashboard.dart';
-import '../pages/genIdActivate.dart';
+import '../pages/dashboard/userVerification.dart';
+import '../pages/editUser/club_users.dart';
+import '../pages/editUser/password/passwordTable.dart';
 import '../pages/paymentRequest.dart';
 import '../pages/planReport.dart';
 import '../pages/rebirth_genId.dart';
@@ -20,9 +25,20 @@ import '../pages/webInfo.dart';
 import '../pages/withdrawEligible.dart';
 
 List<Widget> _pages =[
- // DashboardPage(),
+  DashboardPage(),
   TotalUsersPage(),
-   GenIdActivatePage(),
+  KycPage(),
+  CharityAmountPage(),
+  NewUsers(),
+  PasswordTable(),
+  UserVerification(),
+  ClubUsers(sno: 0,),
+  ClubUsers(sno: 1,),
+  ClubUsers(sno: 2,),
+  ClubUsers(sno: 3,),
+  ClubUsers(sno: 4,),
+  ClubUsers(sno: 5,),
+ // Changepasswords(),
   // RebirthGenIdPage(),
   // RejectIdPage(),
   // ClubsPage(),

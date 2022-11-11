@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/userApp.dart';
 import 'editUser/editUser.dart';
@@ -15,6 +16,19 @@ class TotalUsersPage extends StatefulWidget {
 }
 
 class _TotalUsersPageState extends State<TotalUsersPage> {
+  Future<void>? _launched;
+
+
+
+
+  _launchURLBrowser() async {
+    var url = Uri.parse("https://www.369globalclub.org/");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
    TextEditingController? search ;
   // Stream ?userStream;
@@ -98,9 +112,18 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
    ScrollController? _controller;
    ScrollController? _controller1;
 
+  Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
+    if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    } else {
+      return const Text('');
+    }
+  }
+
   Map<int, DocumentSnapshot> lastDocuments = {};
   @override
   Widget build(BuildContext context) {
+
     final currentWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Padding(
@@ -305,7 +328,6 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ],
@@ -323,7 +345,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                  //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                 builder: (context, snapshot) {
                   var data = snapshot.data!.docs;
-                  print(data.length);
+
                   lastDoc = snapshot.data!.docs[data.length - 1];
                   lastDocuments[pageIndex] = lastDoc!;
                   firstDoc = snapshot.data!.docs[0];
@@ -376,7 +398,13 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                                       color:
                                           Colors.black.withOpacity(0.3))),
                               alignment: Alignment.center,
-                              child: const Text('Goto Panel')),
+                              // child: InkWell(
+                              //     onTap:(){
+                              //       _launchURLBrowser();
+                              //
+                              //     },
+                            child: const Text('Goto Panel'),
+                          ),
                         ),
                         DataCell(Container(
                             height: 30,
@@ -393,7 +421,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                                     context,
 
                                     MaterialPageRoute(
-                                      builder: (context) =>  EditUser(user:UsersModel.fromJson(user.data())),
+                                      builder: (context) =>  EditUser(user:UserModel.fromJson(user.data())),
                                     ));},
                                 child: const Text('Edit')))),
                       ]);
@@ -462,14 +490,17 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                                       color:
                                           Colors.black.withOpacity(0.3))),
                               alignment: Alignment.center,
-                              child: InkWell(
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const UserApp(),
-                                      )),
-                                  child: const Text('Goto Panel'))),
+                              // child: InkWell(
+                              //     onTap: () {
+                              //
+                              //       _launchURLBrowser();
+                              //
+                              //
+                              //       // Navigator.push(context, MaterialPageRoute(builder: (context) => UserApp(),));
+                              //     },
+                              //
+                                child: const Text('Goto Panel')
+                           ),
                         ),
                         DataCell(Container(
                             height: 30,
@@ -486,7 +517,7 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                                     context,
 
                                     MaterialPageRoute(
-                                      builder: (context) =>  EditUser(user:UsersModel.fromJson(user.data())),
+                                      builder: (context) =>  EditUser(user:UserModel.fromJson(user.data())),
                                     ));},
                                 child: const Text('Edit')))),
                       ]);
@@ -504,8 +535,10 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                next();
               } ,child: Text('Next'))
             ],
-          )
+          ),
+          FutureBuilder<void>(future: _launched, builder: _launchStatus),
         ]),
+
       ),
     ));
   }

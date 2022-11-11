@@ -23,12 +23,13 @@ import '../pages/transactionHistory.dart';
 import '../pages/userReport.dart';
 import '../pages/webInfo.dart';
 import '../pages/withdrawEligible.dart';
+import '../routing/loginpage.dart';
 import 'navigationProvider.dart';
 
 List<Widget> _screens = [
  // DashboardPage(),
-  TotalUsersPage(),
-  GenIdActivatePage(),
+ //  TotalUsersPage(),
+ //  TotalUsersPage(),
   // RebirthGenIdPage(),
   // RejectIdPage(),
   // ClubsPage(),
@@ -74,6 +75,19 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   // Spacer(),
                   // buildCollapsiveIcon(context, isCollapsed),
                   const SizedBox(height: 12),
+                  isCollapsed?IconButton(onPressed: (){
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);
+                  }, icon:Icon (Icons.logout,color: Colors.white,))
+                 : Row(
+                    children: [
+
+                      IconButton(onPressed: (){
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);
+                      }, icon:Icon (Icons.logout,color: Colors.white,)),
+                      SizedBox(width: 23),
+                      Text('Logout',style: TextStyle(color: Colors.white),)
+                    ],
+                  )
                 ],
               ),
             ),
@@ -189,3 +203,4 @@ Widget buildMenuItem({
           ),
   );
 }
+

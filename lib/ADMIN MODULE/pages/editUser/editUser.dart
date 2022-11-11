@@ -19,7 +19,7 @@ import 'package:image_picker/image_picker.dart';
 
 class EditUser extends StatefulWidget {
   static const String id = "TopProfile";
-  final UsersModel user;
+  final UserModel user;
 
   EditUser({
     Key? key,
@@ -41,7 +41,7 @@ class _EditUserState extends State<EditUser> {
   bool imageAvailable = false;
   late Uint8List imageFile;
   var typeId;
-  UsersModel? user;
+  UserModel? user;
   TextEditingController s = TextEditingController();
   TextEditingController joinDateController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -85,8 +85,8 @@ class _EditUserState extends State<EditUser> {
     if (kDebugMode) {
       print(widget.user.address);
     }
-    url=currentuser?.fProof??"";
-    urb=currentuser?.bProof??"";
+    url=currentuser?.fproof??"";
+    urb=currentuser?.bproof??"";
     print("+++++++++++++++++++++++++++++++++++++++");
     print(url);
     print(urb);
@@ -936,7 +936,7 @@ class _EditUserState extends State<EditUser> {
                                               phonePayController.text !=
                                                   '' ||
                                               payTmController.text !=
-                                                  '') &&
+                                                  '') ||
                                           upiIdController.text !=
                                               '' &&url!=""&&urb !="") {
                                         showDialog(
@@ -960,7 +960,7 @@ class _EditUserState extends State<EditUser> {
                                                             context,
                                                             );
                                                         final userdata =
-                                                        UsersModel(
+                                                        UserModel(
                                                           accholname:
                                                           acHolderNameController
                                                               .text,
@@ -1150,8 +1150,7 @@ class _EditUserState extends State<EditUser> {
                                             : branchNameController.text == ''
                                             ? showSnackbar("Please Enter Branch Name")
                                             : googlePayController.text == ''
-                                            ? showSnackbar("Please Enter Google pay number")
-                                            : showSnackbar("Please Enter Google UPI Id");
+                                             ?showSnackbar("Please Enter Google pay number"):null;
                                       }
                                     }
                                   },
@@ -1197,7 +1196,9 @@ class _EditUserState extends State<EditUser> {
         .then((p0) async {
       url = (await ref.getDownloadURL()).toString();
       print(url);
-      setState(() {});
+      if(mounted) {
+        setState(() {});
+      }
     });
 
   }

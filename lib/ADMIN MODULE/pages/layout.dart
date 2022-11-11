@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 
@@ -6,9 +7,14 @@ import '../responsiveness/responsive.dart';
 import '../widgets/largeScreen.dart';
 import '../widgets/smalScreen.dart';
 import '../widgets/top_nav.dart';
-
-
-
+import 'editUser/userModel.dart';
+Map<String, dynamic> currentPlan = {};
+var rcv_amt;
+var snd_amt;
+int currentUserLevel =0;
+UserModel? clubUser;
+UserModel? charityUser;
+List plans = [];
 
 
 class SiteLayout extends StatefulWidget {
@@ -20,7 +26,61 @@ class SiteLayout extends StatefulWidget {
 
 class _SiteLayoutState extends State<SiteLayout> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  getCurrentPlan() async {
+    print('33333333333333333333333333333');
+    DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
+        .instance
+        .collection('settings')
+        .doc('settings')
+        .get();
+    if (event.exists) {
+      plans = event.data()!['plan'];
+    }
+    if (currentPlan.keys.isEmpty && currentuser != null) {
+      for (int i = 0; i < plans.length; i++) {
+        if (plans[i]['sno'] == currentUserLevel) {
+          currentPlan = plans[i];
 
+          break;
+        }
+        // else if (currentUserLevel == 0) {
+        //   currentPlan = plans[5];
+
+        //   setState(() {});
+        //   break;
+        //  }
+      }
+    }
+    DocumentSnapshot<Map<String, dynamic>> clUsr = await FirebaseFirestore
+        .instance
+        .collection('Users')
+        .doc(event.data()!['clubId'])
+        .get();
+    clubUser = UserModel.fromJson(clUsr.data()!);
+    DocumentSnapshot<Map<String, dynamic>> chUsr = await FirebaseFirestore
+        .instance
+        .collection('Users')
+        .doc(event.data()!['charityId'])
+        .get();
+    charityUser = UserModel.fromJson(chUsr.data()!);
+    rcv_amt = currentPlan['rcv_amt'];
+    snd_amt = currentPlan['snd_amt'];
+    if(mounted) {
+      setState(() {});
+    }
+  }
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+
+
+    getCurrentPlan();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

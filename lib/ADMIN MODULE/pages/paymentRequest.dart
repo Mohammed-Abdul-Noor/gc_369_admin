@@ -132,10 +132,10 @@ class PaymentRequestPage extends StatelessWidget {
                             const DataColumn(label: Text('User ID')),
                             const DataColumn(label: Text('Date')),
                             const DataColumn(label: Text('Proof')),
-                            const DataColumn(label: Text('Transaction ID')),
+                            const DataColumn(label: Text('Payment Method')),
                             const DataColumn(label: Text('Amount')),
                             const DataColumn(label: Text('Details')),
-                            const DataColumn(label: Text('Send amount')),
+                            const DataColumn(label: Text('Status')),
                             const DataColumn(label: Text('Remove')),
                           ],
                           rows: [
@@ -149,7 +149,7 @@ class PaymentRequestPage extends StatelessWidget {
                                 child: const Image(fit:BoxFit.fill,
                                     image: NetworkImage('https://miro.medium.com/max/1400/1*1LAC-yi-AB1txZ6Q4iYkAA.png'),),
                               )),
-                              const DataCell(Text('250')),
+                              const DataCell(Text('Google Pay')),
                               const DataCell(Text('250')),
                               const DataCell(Text('sdfgh')),
                               DataCell(Container(
@@ -183,7 +183,7 @@ class PaymentRequestPage extends StatelessWidget {
                                           MaterialPageRoute(
                                             builder: (context) => const UserApp(),
                                           )),
-                                      child: const Text('remove')))),
+                                      child: const Text('Accept')))),
                             ]),
                           ]),
                     ),

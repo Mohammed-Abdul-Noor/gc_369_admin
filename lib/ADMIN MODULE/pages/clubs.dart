@@ -42,7 +42,9 @@ class _ClubsPageState extends State<ClubsPage> {
           .snapshots();
     }
 
-    setState(() {});
+    if(mounted) {
+      setState(() {});
+    }
   }
 
   prev() {
@@ -62,7 +64,9 @@ class _ClubsPageState extends State<ClubsPage> {
           .limit(10)
           .snapshots();
     }
-    setState(() {});
+    if(mounted) {
+      setState(() {});
+    }
   }
 
   Map<int, DocumentSnapshot> lastDocuments = {};

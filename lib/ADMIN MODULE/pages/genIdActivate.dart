@@ -8,14 +8,14 @@ import 'editUser/userModel.dart';
 
 
 
-class GenIdActivatePage extends StatefulWidget {
-  const GenIdActivatePage({Key? key}) : super(key: key);
+class kycPage extends StatefulWidget {
+  const kycPage({Key? key}) : super(key: key);
 
   @override
-  State<GenIdActivatePage> createState() => _GenIdActivatePageState();
+  State<kycPage> createState() => _kycPageState();
 }
 
-class _GenIdActivatePageState extends State<GenIdActivatePage> {
+class _kycPageState extends State<kycPage> {
 
   TextEditingController? search ;
   // Stream ?userStream;
@@ -104,7 +104,8 @@ class _GenIdActivatePageState extends State<GenIdActivatePage> {
     final currentWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body:   StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-            stream: search!.text==''?FirebaseFirestore.instance.collection('Users').where('fProof',isEqualTo: '')
+            stream: search!.text==''?FirebaseFirestore.instance.collection('Users')
+                .where('fProof',isEqualTo: '')
                 .where('bProof',isEqualTo: '')
                 .where('index',isNotEqualTo: 0)
                 .orderBy('index')
@@ -402,7 +403,7 @@ class _GenIdActivatePageState extends State<GenIdActivatePage> {
                                         context,
 
                                         MaterialPageRoute(
-                                          builder: (context) =>  EditUser(user:UsersModel.fromJson(user.data())),
+                                          builder: (context) =>  EditUser(user:UserModel.fromJson(user.data())),
                                         ));},
                                   child: const Text('Edit')))),
                         ]);

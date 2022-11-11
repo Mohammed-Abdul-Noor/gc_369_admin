@@ -2,17 +2,19 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+import '../layout.dart';
 import 'ProvideHelp.dart';
 import 'genIDModel.dart';
 import 'getHelp.dart';
 
 
-UsersModel? currentuser;
-UsersModel? sponsorUser1;
-UsersModel? sponsorUser2;
-UsersModel? sponsorUser3;
+UserModel? currentuser;
+UserModel? sponsorUser1;
+UserModel? sponsorUser2;
+UserModel? sponsorUser3;
 
-class UsersModel {
+class UserModel {
   String? uid;
   String? name;
   DateTime? joinDate;
@@ -25,10 +27,13 @@ class UsersModel {
   String? bankname;
   String? panNo;
   String? whatsNO;
+  String? whatsappcc;
+  String? mobcc;
   String? branch;
   String? googlepayno;
   String? phonepayno;
   int? sno;
+  int? index;
   String? paytmno;
   String? upiId;
   int? sendhelp;
@@ -44,7 +49,7 @@ class UsersModel {
   int? sponsorincome;
   String? mystatus;
   String? password;
-  int? recCount;
+  int? receiveCount;
   int? sendCount;
   bool? checkGenId;
   bool? motherId;
@@ -57,74 +62,93 @@ class UsersModel {
   ProvideHelpUsers? provideHelpUsers;
   Map<String, dynamic>? getCount;
   Map<String, dynamic>? provideCount;
-  String? fProof;
-  String? bProof;
+  Map<String, dynamic>? clubAmt;
+  Map<String, dynamic>? charAmt;
+  Map<String, dynamic>? upgradeAmt;
+  Map<String, dynamic>? spnsrAmt1;
+  Map<String, dynamic>? spnsrAmt2;
+  Map<String, dynamic>? spnsrAmt3;
+  Map<String, dynamic>? enteredDate;
+  String? fproof;
+  String? bproof;
   int? downline1;
   int? downline2;
   int? downline3;
   List? search;
   String? type;
 
-  UsersModel({
-    this.whatsNO,
-    this.panNo,
-    this.uid,
-    this.name,
-    this.joinDate,
-    this.mobno,
-    this.address,
-    this.email,
-    this.accno,
-    this.accholname,
-    this.ifscno,
-    this.bankname,
-    this.branch,
-    this.googlepayno,
-    this.phonepayno,
-    this.paytmno,
-    this.upiId,
-    this.sendhelp,
-    this.receivehelp,
-    this.levelincome,
-    this.directmember,
-    this.rebirthId,
-    this.status,
-    this.spnsr_Id,
-    this.sponsoremobile,
-    this.sponsorincome,
-    this.mystatus,
-    this.password,
-    this.recCount,
-    this.sendCount,
-    this.sno,
-    this.checkGenId,
-    this.eligible,
-    this.motherId,
-    this.referral,
-    this.wallet,
-    this.firstLevelJoinDate,
-    this.genId,
-    this.getHelpUsers,
-    this.provideHelpUsers,
-    this.provideCount,
-    this.getCount,
-    this.fProof,
-    this.bProof,
-    this.spnsrId2,
-    this.spnsrId3,
-    this.downline1,
-    this.downline2,
-    this.downline3,
-    this.search,
-    this.type
-  });
+  UserModel(
+      {this.whatsNO,
+        this.panNo,
+        this.uid,
+        this.name,
+        this.joinDate,
+        this.mobno,
+        this.address,
+        this.email,
+        this.accno,
+        this.accholname,
+        this.ifscno,
+        this.bankname,
+        this.branch,
+        this.googlepayno,
+        this.phonepayno,
+        this.paytmno,
+        this.upiId,
+        this.sendhelp,
+        this.receivehelp,
+        this.levelincome,
+        this.directmember,
+        this.rebirthId,
+        this.status,
+        this.spnsr_Id,
+        this.sponsoremobile,
+        this.sponsorincome,
+        this.mystatus,
+        this.password,
+        this.receiveCount,
+        this.sendCount,
+        this.sno,
+        this.checkGenId,
+        this.eligible,
+        this.motherId,
+        this.referral,
+        this.wallet,
+        this.firstLevelJoinDate,
+        this.genId,
+        this.getHelpUsers,
+        this.provideHelpUsers,
+        this.provideCount,
+        this.getCount,
+        this.fproof,
+        this.bproof,
+        this.spnsrId2,
+        this.spnsrId3,
+        this.downline1,
+        this.downline2,
+        this.downline3,
+        this.search,
+        this.type,
+        this.charAmt,
+        this.clubAmt,
+        this.enteredDate,
+        this.upgradeAmt,
+        this.spnsrAmt1,
+        this.spnsrAmt2,
+        this.spnsrAmt3,
+        this.index,
+        this.mobcc,
+        this.whatsappcc});
 
-  UsersModel.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'] ?? "";
     panNo = json['panNo'] ?? "";
     whatsNO = json['whatsNO'] ?? "";
+    whatsappcc = json['whatsappcc'] ?? "";
+    mobcc = json['mobcc'] ?? "";
     name = json['name'] ?? "";
-    joinDate = json['joinDate'].toDate() ?? DateTime;
+    joinDate =
+    json['joinDate'] == null ? DateTime.now() : json['joinDate'].toDate();
     mobno = json['mobno'] ?? "";
     address = json['address'] ?? {};
     email = json['email'] ?? "";
@@ -151,7 +175,8 @@ class UsersModel {
     mystatus = json['mystatus'] ?? '';
     password = json['password'] ?? '';
     sno = json['sno'] ?? 0;
-    recCount = json['recCount'] ?? 0;
+    index = json['index'] ?? 0;
+    receiveCount = json['recCount'] ?? 0;
     sendCount = json['sendCount'] ?? 0;
     checkGenId = json['checkGenId'] ?? false;
     motherId = json['motherId'] ?? true;
@@ -159,29 +184,41 @@ class UsersModel {
     eligible = json['eligible'] ?? false;
     referral = json['referral'] ?? [];
     search = json['search'] ?? [];
-    firstLevelJoinDate = json['firstLevelJoinDate'].toDate() ?? DateTime;
+    firstLevelJoinDate = json['firstLevelJoinDate'] == null
+        ? DateTime.now()
+        : json['firstLevelJoinDate'].toDate();
     genId = GenIdModel.fromJson(json['genId'] ?? {});
     getHelpUsers = GetHelpUsers.fromJson(json['getHelpUsers'] ?? {});
     provideHelpUsers =
         ProvideHelpUsers.fromJson(json['provideHelpUsers'] ?? {});
     provideCount = json['provideCount'] ?? {};
     getCount = json['getCount'] ?? {};
-    fProof = json['fProof'] ?? "";
-    bProof = json['bProof'] ?? "";
+    clubAmt = json['clubAmt'] ?? {};
+    charAmt = json['charAmt'] ?? {};
+    enteredDate = json['enteredDate'] ?? {};
+    fproof = json['fProof'] ?? "";
+    bproof = json['bProof'] ?? "";
+    whatsappcc = json['whatsappcc'] ?? "";
     type = json['type'] ?? "";
     downline1 = json['downline1'] ?? 0;
     downline2 = json['downline2'] ?? 0;
     downline3 = json['downline3'] ?? 0;
+    upgradeAmt = json['upgradeAmt'] ?? {};
+    spnsrAmt1 = json['spnsrAmt1'] ?? {};
+    spnsrAmt2 = json['spnsrAmt2'] ?? {};
+    spnsrAmt3 = json['spnsrAmt3'] ?? {};
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['uid'] = uid;
     data['whatsNo'] = whatsNO;
+    data['whatsappcc'] = whatsappcc;
     data['panNo'] = panNo ?? "";
     data['name'] = name ?? "";
-    data['joinDate'] = joinDate ?? DateTime;
+    data['joinDate'] = joinDate ?? DateTime.now();
     data['mobno'] = mobno ?? "";
+    data['mobcc'] = mobcc ?? "";
     data['address'] = address ?? {};
     data['email'] = email ?? "";
     data['accno'] = accno ?? "";
@@ -195,6 +232,7 @@ class UsersModel {
     data['paytmno'] = paytmno ?? '';
     data['upiId'] = upiId ?? '';
     data['sendhelp'] = sendhelp ?? 0;
+    data['index'] = index ?? 0;
     data['receivehelp'] = receivehelp ?? 0;
     data['levelincome'] = levelincome ?? 0;
     data['directmember'] = directmember ?? 0;
@@ -203,12 +241,13 @@ class UsersModel {
     data['spnsr_Id'] = spnsr_Id ?? "";
     data['spnsrId2'] = spnsrId2 ?? "";
     data['spnsrId3'] = spnsrId3 ?? "";
+    data['whatsappcc'] = whatsappcc ?? "";
     data['sponsoremobile'] = sponsoremobile ?? "";
     data['sponsorincome'] = sponsorincome ?? 0;
     data['mystatus'] = mystatus ?? '';
     data['password'] = password ?? '';
     data['sno'] = sno ?? 0;
-    data['recCount'] = recCount ?? 0;
+    data['recCount'] = receiveCount ?? 0;
     data['sendCount'] = sendCount ?? 0;
     data['checkGenId'] = checkGenId ?? false;
     data['referral'] = referral ?? [];
@@ -222,19 +261,26 @@ class UsersModel {
     data['provideHelpUsers'] = provideHelpUsers?.toJson();
     data['provideCount'] = provideCount ?? {};
     data['getCount'] = getCount ?? {};
-    data['fProof'] = fProof ?? '';
-    data['bProof'] = bProof ?? '';
+    data['clubAmt'] = clubAmt ?? {};
+    data['charAmt'] = charAmt ?? {};
+    data['enteredDate'] = enteredDate ?? {};
+    data['fProof'] = fproof ?? '';
+    data['bProof'] = bproof ?? '';
     data['downline1'] = downline1 ?? 0;
     data['downline2'] = downline2 ?? 0;
     data['downline3'] = downline3 ?? 0;
+    data['upgradeAmt'] = upgradeAmt ?? {};
+    data['spnsrAmt1'] = spnsrAmt1 ?? {};
+    data['spnsrAmt2'] = spnsrAmt2 ?? {};
+    data['spnsrAmt3'] = spnsrAmt3 ?? {};
     return data;
   }
 
-  UsersModel.fromdocumentsnapshot(DocumentSnapshot userMap)
+  UserModel.fromdocumentsnapshot(DocumentSnapshot userMap)
       : uid = userMap['uid'],
         whatsNO = userMap['whatsNO'],
         name = userMap['name'],
-        joinDate = userMap['joinDate'],
+        joinDate = userMap['joinDate'].toDate(),
         mobno = userMap['mobno'],
         address = userMap['address'],
         email = userMap['email'],
@@ -242,6 +288,7 @@ class UsersModel {
         accholname = userMap['accholname'],
         ifscno = userMap['ifscno'],
         bankname = userMap['bankname'],
+        whatsappcc = userMap['whatsappcc'],
         branch = userMap['branch'],
         googlepayno = userMap['googlepayno'],
         phonepayno = userMap['phonepayno'],
@@ -253,6 +300,7 @@ class UsersModel {
         directmember = userMap['directmember'],
         rebirthId = userMap['rebirthId'],
         status = userMap['status'],
+        index = userMap['index'],
         spnsr_Id = userMap['spnsr_Id'] ?? "",
         spnsrId2 = userMap['spnsrId2'] ?? "",
         spnsrId3 = userMap['spnsrId3'] ?? "",
@@ -262,7 +310,7 @@ class UsersModel {
         password = userMap['password'],
         sno = userMap['sno'],
         checkGenId = userMap['checkGenId'],
-        recCount = userMap['recCount'],
+        receiveCount = userMap['recCount'],
         sendCount = userMap['sendCount'],
         motherId = userMap['motherId'],
         wallet = userMap['wallet'],
@@ -274,9 +322,16 @@ class UsersModel {
         provideHelpUsers = userMap['provideHelpUsers'],
         provideCount = userMap['provideCount'],
         getCount = userMap['getCount'],
-        fProof = userMap['fProof'],
+        clubAmt = userMap['clubAmt'],
+        charAmt = userMap['charAmt'],
+        enteredDate = userMap['enteredDate'],
+        upgradeAmt = userMap['upgradeAmt'],
+        spnsrAmt1 = userMap['spnsrAmt1'],
+        spnsrAmt2 = userMap['spnsrAmt2'],
+        spnsrAmt3 = userMap['spnsrAmt3'],
+        fproof = userMap['fProof'],
         type = userMap['type'],
-        bProof = userMap['bProof'],
+        bproof = userMap['bProof'],
         downline1 = userMap['downline1'],
         downline2 = userMap['downline2'],
         downline3 = userMap['downline3'];
@@ -284,15 +339,15 @@ class UsersModel {
   fromJson(data) {}
 }
 
-List<UsersModel> listOfUsers(QuerySnapshot userSnap) {
-  List<UsersModel> usersList = [];
+List<UserModel> listOfUsers(QuerySnapshot userSnap) {
+  List<UserModel> usersList = [];
   for (DocumentSnapshot docs in userSnap.docs) {
-    usersList.add(UsersModel.fromdocumentsnapshot(docs));
+    usersList.add(UserModel.fromdocumentsnapshot(docs));
   }
   return usersList;
 }
 
-Future<List<UsersModel>> getUsers(String userId) async {
+Future<List<UserModel>> getUsers(String userId) async {
   QuerySnapshot usrs = await FirebaseFirestore.instance
       .collection('Users')
       .where('uid', isEqualTo: userId)
@@ -302,17 +357,22 @@ Future<List<UsersModel>> getUsers(String userId) async {
 
 StreamSubscription? Streamcurrentuser;
 
-usersListener(String userId) {
+currentUserListener(String userId) {
   Streamcurrentuser = FirebaseFirestore.instance
       .collection("Users")
       .doc(userId)
       .snapshots()
       .listen((event) {
     print(event.data());
-    currentuser = UsersModel.fromJson(event.data()!);
-  //  currentUserLevel = event['sno'];
+    currentuser = UserModel.fromJson(event.data()!);
+    currentUserLevel = event['sno'];
     print("---------------------------------------------------");
     print(event.exists);
     print("---------------------------------------------------");
   });
 }
+
+// GC2502694     0
+// GC9462971     1
+// GC5132990     z
+// GC8922992     5

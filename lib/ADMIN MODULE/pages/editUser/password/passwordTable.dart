@@ -1,20 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../editUser.dart';
 import '../userModel.dart';
+import 'newpassword.dart';
 
 
 
-class KycPage extends StatefulWidget {
-  const KycPage({Key? key}) : super(key: key);
+
+class PasswordTable extends StatefulWidget {
+  const PasswordTable({Key? key}) : super(key: key);
 
   @override
-  State<KycPage> createState() => _KycPageState();
+  State<PasswordTable> createState() => _PasswordTableState();
 }
 
-class _KycPageState extends State<KycPage> {
+class _PasswordTableState extends State<PasswordTable> {
+  Future<void>? _launched;
+
+
+
+
+  _launchURLBrowser() async {
+    var url = Uri.parse("https://www.369globalclub.org/");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   TextEditingController? search ;
   // Stream ?userStream;
@@ -30,7 +45,7 @@ class _KycPageState extends State<KycPage> {
 
 
 
-  Stream<QuerySnapshot<Map<String,dynamic>>>? kycStream;
+  Stream<QuerySnapshot<Map<String,dynamic>>>? userStream;
   DocumentSnapshot? lastDoc;
   DocumentSnapshot? firstDoc;
   int pageIndex = 0;
@@ -40,9 +55,8 @@ class _KycPageState extends State<KycPage> {
     // usersListener(currentUserId);
     _controller=ScrollController();
     _controller1=ScrollController();
-    kycStream =  FirebaseFirestore.instance.collection('Users').where('fproof',isEqualTo: '')
-        .where('bproof',isEqualTo: '')
-        .orderBy('joinDate')
+    userStream =  FirebaseFirestore.instance.collection('Users')
+        .orderBy('index').where('index',isNotEqualTo: 0)
 
         .limit(10).snapshots();
     search=TextEditingController();
@@ -55,23 +69,21 @@ class _KycPageState extends State<KycPage> {
     if (lastDoc == null || pageIndex == 0) {
       ind=0;
 
-      kycStream =
+      userStream =
           FirebaseFirestore.instance.collection('Users')
-              .orderBy('joinDate')
+              .orderBy('index')
               .limit(10).snapshots();
     } else {
       ind+=10;
-      kycStream = FirebaseFirestore.instance
+      userStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('joinDate')
+          .orderBy('index')
           .startAfterDocument(lastDoc!)
           .limit(10)
           .snapshots();
     }
 
-    if(mounted) {
-      setState(() {});
-    }
+    setState(() {});
   }
 
   prev() {
@@ -80,32 +92,39 @@ class _KycPageState extends State<KycPage> {
       print("here");
       ind=0;
 
-      kycStream =
+      userStream =
           FirebaseFirestore.instance.collection('Users')
-              .orderBy('joinDate')
+              .orderBy('index')
 
               .limit(10).snapshots();
     } else {
       ind-=10;
 
-      kycStream = FirebaseFirestore.instance
+      userStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('joinDate')
+          .orderBy('index')
 
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
           .limit(10)
           .snapshots();
     }
-    if(mounted) {
-      setState(() {});
-    }
+    setState(() {});
   }
   ScrollController? _controller;
   ScrollController? _controller1;
 
+  Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
+    if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    } else {
+      return const Text('');
+    }
+  }
+
   Map<int, DocumentSnapshot> lastDocuments = {};
   @override
   Widget build(BuildContext context) {
+
     final currentWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Padding(
@@ -322,7 +341,7 @@ class _KycPageState extends State<KycPage> {
                 scrollDirection: Axis.horizontal,
                 child: search!.text==''?
                 StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-                    stream:kycStream,
+                    stream:userStream,
                     // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                     //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                     builder: (context, snapshot) {
@@ -380,7 +399,11 @@ class _KycPageState extends State<KycPage> {
                                           color:
                                           Colors.black.withOpacity(0.3))),
                                   alignment: Alignment.center,
-                                  child: const Text('Goto Panel')),
+                                  child: InkWell(
+                                      onTap:(){
+                                        _launchURLBrowser();
+
+                                      },child: const Text('Goto Panel'))),
                             ),
                             DataCell(Container(
                                 height: 30,
@@ -397,7 +420,7 @@ class _KycPageState extends State<KycPage> {
                                           context,
 
                                           MaterialPageRoute(
-                                            builder: (context) =>  EditUser(user:UserModel.fromJson(user.data())),
+                                            builder: (context) =>  NewPassword(user:UserModel.fromJson(user.data())),
                                           ));},
                                     child: const Text('Edit')))),
                           ]);
@@ -436,6 +459,8 @@ class _KycPageState extends State<KycPage> {
                           ),
                           DataColumn(label: Text('Name')),
                           DataColumn(label: Text('Mobile')),
+                          DataColumn(label: Expanded(child: Text('Join Date'))),
+
                           // DataColumn(label: Expanded(child: Text('Join Date'))),
                           DataColumn(label: Text('Status')),
                           DataColumn(label: Text('User Panel')),
@@ -448,6 +473,8 @@ class _KycPageState extends State<KycPage> {
                             DataCell(Text(user['uid'])),
                             DataCell(Text(user['name'])),
                             DataCell(Text(user['mobno'])),
+                            DataCell(Text("${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
+
                             // DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
                             DataCell(
                                 Text(user['status'] ? 'Active' : 'Not Active')),
@@ -462,7 +489,15 @@ class _KycPageState extends State<KycPage> {
                                           color:
                                           Colors.black.withOpacity(0.3))),
                                   alignment: Alignment.center,
-                                  child: const Text('Goto Panel')),
+                                  child: InkWell(
+                                      onTap: () {
+
+                                        _launchURLBrowser();
+
+
+                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => UserApp(),));
+                                      },
+                                      child: const Text('Goto Panel'))),
                             ),
                             DataCell(Container(
                                 height: 30,
@@ -479,7 +514,7 @@ class _KycPageState extends State<KycPage> {
                                           context,
 
                                           MaterialPageRoute(
-                                            builder: (context) =>  EditUser(user:UserModel.fromJson(user.data())),
+                                            builder: (context) =>  NewPassword(user:UserModel.fromJson(user.data())),
                                           ));},
                                     child: const Text('Edit')))),
                           ]);
@@ -497,8 +532,10 @@ class _KycPageState extends State<KycPage> {
                     next();
                   } ,child: Text('Next'))
                 ],
-              )
+              ),
+              FutureBuilder<void>(future: _launched, builder: _launchStatus),
             ]),
+
           ),
         ));
   }
