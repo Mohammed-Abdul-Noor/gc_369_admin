@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -49,12 +50,20 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
               minHeight: 70.0,
               initialLabelIndex: 0,
               totalSwitches: 2,
+              activeBgColor: [Colors.green],
+              activeFgColor: Colors.white,
+              inactiveBgColor:Colors.red ,
+              inactiveFgColor: Colors.white,
               labels: [
                 'Enable Register',
                 'Disable Register',
               ],
 
               onToggle: (index) {
+
+                FirebaseFirestore.instance.collection('settings').doc('settings').update({
+                  'registration':index==0?false:true,
+                });
               },
             ),
           ),

@@ -5,7 +5,7 @@ import 'package:gc_369/ADMIN%20MODULE/pages/editUser/userModel.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'editUser.dart';
+import '../pages/editUser/editUser.dart';
 
 
 

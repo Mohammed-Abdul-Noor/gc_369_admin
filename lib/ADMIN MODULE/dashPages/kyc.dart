@@ -1,35 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../userModel.dart';
-import 'newpassword.dart';
-
+import '../pages/editUser/editUser.dart';
+import '../pages/editUser/userModel.dart';
 
 
 
-class PasswordTable extends StatefulWidget {
-  const PasswordTable({Key? key}) : super(key: key);
+class KycPage extends StatefulWidget {
+  const KycPage({Key? key}) : super(key: key);
 
   @override
-  State<PasswordTable> createState() => _PasswordTableState();
+  State<KycPage> createState() => _KycPageState();
 }
 
-class _PasswordTableState extends State<PasswordTable> {
-  Future<void>? _launched;
-
-
-
-
-  _launchURLBrowser() async {
-    var url = Uri.parse("https://www.369globalclub.org/");
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+class _KycPageState extends State<KycPage> {
 
   TextEditingController? search ;
   // Stream ?userStream;
@@ -45,7 +30,7 @@ class _PasswordTableState extends State<PasswordTable> {
 
 
 
-  Stream<QuerySnapshot<Map<String,dynamic>>>? userStream;
+  Stream<QuerySnapshot<Map<String,dynamic>>>? kycStream;
   DocumentSnapshot? lastDoc;
   DocumentSnapshot? firstDoc;
   int pageIndex = 0;
@@ -55,8 +40,9 @@ class _PasswordTableState extends State<PasswordTable> {
     // usersListener(currentUserId);
     _controller=ScrollController();
     _controller1=ScrollController();
-    userStream =  FirebaseFirestore.instance.collection('Users')
-        .orderBy('index').where('index',isNotEqualTo: 0)
+    kycStream =  FirebaseFirestore.instance.collection('Users').where('fproof',isEqualTo: '')
+        .where('bproof',isEqualTo: '')
+        .orderBy('joinDate')
 
         .limit(10).snapshots();
     search=TextEditingController();
@@ -69,21 +55,23 @@ class _PasswordTableState extends State<PasswordTable> {
     if (lastDoc == null || pageIndex == 0) {
       ind=0;
 
-      userStream =
+      kycStream =
           FirebaseFirestore.instance.collection('Users')
-              .orderBy('index')
+              .orderBy('joinDate')
               .limit(10).snapshots();
     } else {
       ind+=10;
-      userStream = FirebaseFirestore.instance
+      kycStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('index')
+          .orderBy('joinDate')
           .startAfterDocument(lastDoc!)
           .limit(10)
           .snapshots();
     }
 
-    setState(() {});
+    if(mounted) {
+      setState(() {});
+    }
   }
 
   prev() {
@@ -92,39 +80,32 @@ class _PasswordTableState extends State<PasswordTable> {
       print("here");
       ind=0;
 
-      userStream =
+      kycStream =
           FirebaseFirestore.instance.collection('Users')
-              .orderBy('index')
+              .orderBy('joinDate')
 
               .limit(10).snapshots();
     } else {
       ind-=10;
 
-      userStream = FirebaseFirestore.instance
+      kycStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('index')
+          .orderBy('joinDate')
 
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
           .limit(10)
           .snapshots();
     }
-    setState(() {});
+    if(mounted) {
+      setState(() {});
+    }
   }
   ScrollController? _controller;
   ScrollController? _controller1;
 
-  Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
-    if (snapshot.hasError) {
-      return Text('Error: ${snapshot.error}');
-    } else {
-      return const Text('');
-    }
-  }
-
   Map<int, DocumentSnapshot> lastDocuments = {};
   @override
   Widget build(BuildContext context) {
-
     final currentWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Padding(
@@ -166,119 +147,8 @@ class _PasswordTableState extends State<PasswordTable> {
                       //   ),
                       // ),
                       const SizedBox(height: 10),
-                      currentWidth<650?
-                      Column(
+                       Row(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-
-
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(
-                                        color: Colors.black.withOpacity(0.3))),
-                                alignment: Alignment.center,
-                                height: 20,
-                                width: 50,
-                                child: const Text('Copy'),
-                              ),
-                              const SizedBox(width: 10),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(
-                                        color: Colors.black.withOpacity(0.3))),
-                                alignment: Alignment.center,
-                                height: 20,
-                                width: 50,
-                                child: const Text('CSV'),
-                              ),
-                              const SizedBox(width: 10),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(
-                                        color: Colors.black.withOpacity(0.3))),
-                                alignment: Alignment.center,
-                                height: 20,
-                                width: 50,
-                                child: const Text('Excel'),
-                              ),
-                              const SizedBox(width: 10),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(
-                                        color: Colors.black.withOpacity(0.3))),
-                                alignment: Alignment.center,
-                                height: 20,
-                                width: 50,
-                                child: const Text('PDF'),
-                              ),
-                              // Text((pageIndex+1).toString()),
-                              // Text((ind+1).toString()),
-                            ],
-                          ),
-
-                          const SizedBox(height: 9),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-
-                              const Text('Search'),
-                              SizedBox(width: 6),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(
-                                        color: Colors.black.withOpacity(0.3))),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: TextFormField(
-                                    controller: search,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
-                                    onFieldSubmitted: (value){
-                                      setState(() {
-
-                                        //  usersFiltered = userStream;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                          : Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(
-                                    color: Colors.black.withOpacity(0.3))),
-                            alignment: Alignment.center,
-                            height: 20,
-                            width: 50,
-                            child: const Text('Copy'),
-                          ),
-                          const SizedBox(width: 10),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(
-                                    color: Colors.black.withOpacity(0.3))),
-                            alignment: Alignment.center,
-                            height: 20,
-                            width: 50,
-                            child: const Text('CSV'),
-                          ),
                           const SizedBox(width: 10),
                           Container(
                             decoration: BoxDecoration(
@@ -291,16 +161,6 @@ class _PasswordTableState extends State<PasswordTable> {
                             child: const Text('Excel'),
                           ),
                           const SizedBox(width: 10),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(
-                                    color: Colors.black.withOpacity(0.3))),
-                            alignment: Alignment.center,
-                            height: 20,
-                            width: 50,
-                            child: const Text('PDF'),
-                          ),
                           // Text((pageIndex+1).toString()),
                           // Text((ind+1).toString()),
                           const Spacer(),
@@ -337,14 +197,13 @@ class _PasswordTableState extends State<PasswordTable> {
               ),
               // SizedBox(height: 10),
               Scrollbar(
-                controller: _controller1 ,
                 scrollbarOrientation: ScrollbarOrientation.top,
                 child: SingleChildScrollView(
                   controller:_controller1 ,
                   scrollDirection: Axis.horizontal,
                   child: search!.text==''?
                   StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-                      stream:userStream,
+                      stream:kycStream,
                       // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                       //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                       builder: (context, snapshot) {
@@ -402,11 +261,7 @@ class _PasswordTableState extends State<PasswordTable> {
                                             color:
                                             Colors.black.withOpacity(0.3))),
                                     alignment: Alignment.center,
-                                    child: InkWell(
-                                        onTap:(){
-                                          _launchURLBrowser();
-
-                                        },child: const Text('Goto Panel'))),
+                                    child: const Text('Goto Panel')),
                               ),
                               DataCell(Container(
                                   height: 30,
@@ -423,7 +278,7 @@ class _PasswordTableState extends State<PasswordTable> {
                                             context,
 
                                             MaterialPageRoute(
-                                              builder: (context) =>  NewPassword(user:UserModel.fromJson(user.data())),
+                                              builder: (context) =>  EditUser(user:UserModel.fromJson(user.data())),
                                             ));},
                                       child: const Text('Edit')))),
                             ]);
@@ -462,8 +317,6 @@ class _PasswordTableState extends State<PasswordTable> {
                             ),
                             DataColumn(label: Text('Name')),
                             DataColumn(label: Text('Mobile')),
-                            DataColumn(label: Expanded(child: Text('Join Date'))),
-
                             // DataColumn(label: Expanded(child: Text('Join Date'))),
                             DataColumn(label: Text('Status')),
                             DataColumn(label: Text('User Panel')),
@@ -476,8 +329,6 @@ class _PasswordTableState extends State<PasswordTable> {
                               DataCell(Text(user['uid'])),
                               DataCell(Text(user['name'])),
                               DataCell(Text(user['mobno'])),
-                              DataCell(Text("${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
-
                               // DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
                               DataCell(
                                   Text(user['status'] ? 'Active' : 'Not Active')),
@@ -492,15 +343,7 @@ class _PasswordTableState extends State<PasswordTable> {
                                             color:
                                             Colors.black.withOpacity(0.3))),
                                     alignment: Alignment.center,
-                                    child: InkWell(
-                                        onTap: () {
-
-                                          _launchURLBrowser();
-
-
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => UserApp(),));
-                                        },
-                                        child: const Text('Goto Panel'))),
+                                    child: const Text('Goto Panel')),
                               ),
                               DataCell(Container(
                                   height: 30,
@@ -517,7 +360,7 @@ class _PasswordTableState extends State<PasswordTable> {
                                             context,
 
                                             MaterialPageRoute(
-                                              builder: (context) =>  NewPassword(user:UserModel.fromJson(user.data())),
+                                              builder: (context) =>  EditUser(user:UserModel.fromJson(user.data())),
                                             ));},
                                       child: const Text('Edit')))),
                             ]);
@@ -532,15 +375,14 @@ class _PasswordTableState extends State<PasswordTable> {
                     prev();
                   }, child: Text('Previous')),
                   SizedBox(width: 30,),
-                 lastDoc==null&&pageIndex!=0?Container():ElevatedButton(onPressed: (){
+                  lastDoc==null&&pageIndex!=0?Container():
+                  ElevatedButton(onPressed: (){
                     next();
                   } ,child: Text('Next'))
                 ],
-              ),
-              FutureBuilder<void>(future: _launched, builder: _launchStatus),
+              )
             ]),
-
-          ]),
+        ]  ),
         ));
   }
 }

@@ -18,7 +18,7 @@ import '../pages/rebirth_genId.dart';
 import '../pages/rejectId.dart';
 import '../pages/sendMessge/InboxMessage.dart';
 import '../pages/sendMessge/SendMessagePage.dart';
-import '../pages/toatalUsers.dart';
+import '../dashPages/toatalUsers.dart';
 import '../pages/transactionHistory.dart';
 import '../pages/userReport.dart';
 import '../pages/webInfo.dart';

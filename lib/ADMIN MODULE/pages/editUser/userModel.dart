@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 import '../layout.dart';
 import 'ProvideHelp.dart';
 import 'genIDModel.dart';
 import 'getHelp.dart';
-
 
 UserModel? currentuser;
 UserModel? sponsorUser1;
@@ -76,9 +74,13 @@ class UserModel {
   int? downline3;
   List? search;
   String? type;
+  int?currentPlanLevel;
+  int?currentCount;
 
   UserModel(
-      {this.whatsNO,
+      {this.currentCount,
+        this.currentPlanLevel,
+        this.whatsNO,
         this.panNo,
         this.uid,
         this.name,
@@ -203,6 +205,8 @@ class UserModel {
     downline1 = json['downline1'] ?? 0;
     downline2 = json['downline2'] ?? 0;
     downline3 = json['downline3'] ?? 0;
+    currentPlanLevel = json['currentPlanLevel'] ?? 0;
+    currentCount = json['currentCount'] ?? 0;
     upgradeAmt = json['upgradeAmt'] ?? {};
     spnsrAmt1 = json['spnsrAmt1'] ?? {};
     spnsrAmt2 = json['spnsrAmt2'] ?? {};
@@ -233,6 +237,8 @@ class UserModel {
     data['upiId'] = upiId ?? '';
     data['sendhelp'] = sendhelp ?? 0;
     data['index'] = index ?? 0;
+    data['currentPlanLevel'] = currentPlanLevel ?? 0;
+    data['currentCount'] = currentCount ?? 0;
     data['receivehelp'] = receivehelp ?? 0;
     data['levelincome'] = levelincome ?? 0;
     data['directmember'] = directmember ?? 0;
@@ -301,6 +307,8 @@ class UserModel {
         rebirthId = userMap['rebirthId'],
         status = userMap['status'],
         index = userMap['index'],
+        currentPlanLevel = userMap['currentPlanLevel'],
+        currentCount = userMap['currentCount'],
         spnsr_Id = userMap['spnsr_Id'] ?? "",
         spnsrId2 = userMap['spnsrId2'] ?? "",
         spnsrId3 = userMap['spnsrId3'] ?? "",

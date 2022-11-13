@@ -5,21 +5,23 @@ import 'package:gc_369/ADMIN%20MODULE/pages/editUser/password/passwordTable.dart
 import 'package:gc_369/ADMIN%20MODULE/widgets/changePassword.dart';
 
 import '../../main.dart';
+import '../dashPages/TotalGenID.dart';
+import '../dashPages/geniDS.dart';
 import '../navigation/navigationDrawer.dart';
 import '../pages/accountReport.dart';
 import '../pages/changePassword.dart';
 import '../pages/clubs.dart';
 import '../pages/dashboard/dashboard.dart';
-import '../pages/dashboard/userVerification.dart';
-import '../pages/editUser/club_users.dart';
-import '../pages/editUser/kyc/kyc.dart';
+import '../dashPages/userVerification.dart';
+import '../dashPages/club_users.dart';
+import '../dashPages/kyc.dart';
 import '../pages/paymentRequest.dart';
 import '../pages/planReport.dart';
 import '../pages/rebirth_genId.dart';
 import '../pages/rejectId.dart';
 import '../pages/sendMessge/InboxMessage.dart';
 import '../pages/sendMessge/SendMessagePage.dart';
-import '../pages/toatalUsers.dart';
+import '../dashPages/toatalUsers.dart';
 import '../pages/transactionHistory.dart';
 import '../pages/userReport.dart';
 import '../pages/webInfo.dart';
@@ -29,9 +31,12 @@ List<Widget> _screens =[
    TotalUsersPage(),
    KycPage(),
   CharityAmountPage(),
-  NewUsers(),
+  CreateGenID(),
   PasswordTable(),
   UserVerification(),
+  GenIDS(),
+  TotalGenID(),
+  CreateGenID(),
   ClubUsers(sno: 0,),
   ClubUsers(sno: 1,),
   ClubUsers(sno: 2,),

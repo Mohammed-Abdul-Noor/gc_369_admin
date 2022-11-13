@@ -15,14 +15,42 @@ int currentUserLevel =0;
 UserModel? clubUser;
 UserModel? charityUser;
 List plans = [];
+List phData = [];
+List ghData = [];
+//List plans = [];
+Map planMap = {};
+//List sendUserdata=[];
+//Map sendUserdata={};
+Map sendUserPlan = {};
 
 
+setSearchParam(String caseNumber) {
+  List<String> caseSearchList = [];
+  String temp = "";
+
+  List<String> nameSplits = caseNumber.split(" ");
+  for (int i = 0; i < nameSplits.length; i++) {
+    String name = "";
+
+    for (int k = i; k < nameSplits.length; k++) {
+      name = name + nameSplits[k] + " ";
+    }
+    temp = "";
+
+    for (int j = 0; j < name.length; j++) {
+      temp = temp + name[j];
+      caseSearchList.add(temp.toUpperCase());
+    }
+  }
+  return caseSearchList;
+}
 class SiteLayout extends StatefulWidget {
    final int index;
    const SiteLayout({Key? key, required this.index}) : super(key: key);
   @override
   State<SiteLayout> createState() => _SiteLayoutState();
 }
+
 
 class _SiteLayoutState extends State<SiteLayout> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();

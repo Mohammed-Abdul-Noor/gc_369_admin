@@ -1,13 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../pages/editUser/userModel.dart';
 import '../pages/layout.dart';
+import '../widgets/changePassword.dart';
 import '../widgets/userApp.dart';
 
-class CharityAmountPage extends StatelessWidget {
+class CharityAmountPage extends StatefulWidget {
   const CharityAmountPage({Key? key}) : super(key: key);
 
+  @override
+  State<CharityAmountPage> createState() => _CharityAmountPageState();
+}
+
+class _CharityAmountPageState extends State<CharityAmountPage> {
+  ScrollController? _controller1;
   @override
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
@@ -16,8 +25,9 @@ class CharityAmountPage extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
-          child:
+        child: ListView(
+          shrinkWrap: true,
+          children:[
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Text(
               'Charity Amount',
@@ -80,191 +90,249 @@ class CharityAmountPage extends StatelessWidget {
               ),
             ),
             // SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('charityProof')
-                  .where('verify',isEqualTo: false)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    var data = snapshot.data!.docs;
-                    if (!snapshot.hasData) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasData &&
-                        snapshot.data!.docs.isEmpty) {
-                      return Text("Empty");
-                    } else {
-                      return Column(
-                        children: [
-                          DataTable(
-                              dataRowHeight: h*0.5,
+            Scrollbar(
+              controller: _controller1,
+              scrollbarOrientation: ScrollbarOrientation.top,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('charityProof')
+                    .where('verify',isEqualTo: false)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      var data = snapshot.data!.docs;
+                      if (!snapshot.hasData) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasData &&
+                          snapshot.data!.docs.isEmpty) {
+                        return Text("Empty");
+                      } else {
+                        return Column(
+                          children: [
+                            DataTable(
+                                dataRowHeight: h*0.5,
 
-                              border: TableBorder.all(color: Colors.black.withOpacity(0.1)),
-                              dataRowColor: MaterialStateProperty.resolveWith((Set states) {
-                                if (states.contains(MaterialState.selected)) {
-                                  return Colors.grey;
-                                }
-                                return Colors.white; // Use the default value.
-                              }),
-                              checkboxHorizontalMargin: Checkbox.width,
-                              columnSpacing: 50,
-                              dividerThickness: 3,
-                              showCheckboxColumn: true,
-                              horizontalMargin: 50,
-                              //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                                border: TableBorder.all(color: Colors.black.withOpacity(0.1)),
+                                dataRowColor: MaterialStateProperty.resolveWith((Set states) {
+                                  if (states.contains(MaterialState.selected)) {
+                                    return Colors.grey;
+                                  }
+                                  return Colors.white; // Use the default value.
+                                }),
+                                checkboxHorizontalMargin: Checkbox.width,
+                                columnSpacing: 50,
+                                dividerThickness: 3,
+                                showCheckboxColumn: true,
+                                horizontalMargin: 50,
+                                //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
 
-                              columns: [
-                                DataColumn(
-                                    numeric: true,
-                                    onSort: (columnIndex, ascending) => const Text(''),
-                                    label: const Text('SI.No')),
-                                const DataColumn(label: Text('User ID')),
-                                const DataColumn(label: Text('Date')),
-                                const DataColumn(label: Text('Proof')),
-                                const DataColumn(label: Text('Payment Method')),
-                                const DataColumn(label: Text('Amount')),
-                                const DataColumn(label: Text('Status')),
-                                const DataColumn(label: Text('Remove')),
-                              ],
-                              rows: List.generate(data.length, (index) {
-                                var charityProof = data[index];
+                                columns: [
+                                  DataColumn(
+                                      numeric: true,
+                                      onSort: (columnIndex, ascending) => const Text(''),
+                                      label: const Text('SI.No')),
+                                  const DataColumn(label: Text('User ID')),
+                                  const DataColumn(label: Text('Date')),
+                                  const DataColumn(label: Text('Proof')),
+                                  const DataColumn(label: Text('Payment Method')),
+                                  const DataColumn(label: Text('Amount')),
+                                  const DataColumn(label: Text('Status')),
+                                  const DataColumn(label: Text('Remove')),
+                                ],
+                                rows: List.generate(data.length, (index) {
+                                  var charityProof = data[index];
 
-                                return DataRow(cells: [
-                                  DataCell(Text('${index + 1}')),
-                                  DataCell(Text(charityProof['senderId'])),
-                                  DataCell(Text("${DateFormat('dd-MMM-yyyy').format(charityProof['sendTime'].toDate())}")),
-                                  DataCell(Container(
-                                    height: h * 0.5,
-                                    width: currentWidth < 800 ? w * 0.6 : 0.2,
-                                    child:  Image(fit: BoxFit.fill,
-                                      image: NetworkImage(
-                                          charityProof ['file']),),
-                                  )),
-                                  DataCell(Text(charityProof['paymentM'])),
-                                  DataCell(Text(charityProof['amount'])),
-                                  DataCell(Container(
-                                      height: 30,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.circular(
-                                              3),
-                                          border: Border.all(
-                                              color: Colors.black.withOpacity(
-                                                  0.3))),
-                                      alignment: Alignment.center,
-                                      child: const Text('View'))),
-                                  DataCell(Container(
-                                      height: 30,
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                          color: Colors.yellow,
-                                          borderRadius: BorderRadius.circular(
-                                              3),
-                                          border: Border.all(
-                                              color: Colors.black.withOpacity(
-                                                  0.3))),
-                                      alignment: Alignment.center,
-                                      child: InkWell(
-                                          onTap: () async {
+                                  return DataRow(cells: [
+                                    DataCell(Text('${index + 1}')),
+                                    DataCell(Text(charityProof['senderId'])),
+                                    DataCell(Text("${DateFormat('dd-MMM-yyyy').format(charityProof['sendTime'].toDate())}")),
+                                  DataCell(CachedNetworkImage(imageUrl: charityProof['file'],
 
-                                            DocumentSnapshot sendUser =
-                                            await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .doc(charityProof.get('senderId'))
-                                                .get();
+                                  width:currentWidth<700?w*0.4: w*0.2,
+                                  fit: BoxFit.fitHeight, )
+                                  ),
+                                    DataCell(Text(charityProof['paymentM'])),
+                                    DataCell(Text(charityProof['amount'])),
+                                    DataCell(Container(
+                                        height: 30,
+                                        width: 60,
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius: BorderRadius.circular(
+                                                3),
+                                            border: Border.all(
+                                                color: Colors.black.withOpacity(
+                                                    0.3))),
+                                        alignment: Alignment.center,
+                                        child: const Text('View'))),
+                                    DataCell(Container(
+                                        height: 30,
+                                        width: 90,
+                                        decoration: BoxDecoration(
+                                            color: Colors.yellow,
+                                            borderRadius: BorderRadius.circular(
+                                                3),
+                                            border: Border.all(
+                                                color: Colors.black.withOpacity(
+                                                    0.3))),
+                                        alignment: Alignment.center,
+                                        child: InkWell(
+                                            onTap: () async {
 
 
+                                          await getHelp( data, index, context,charityProof.get('senderId'));
+                                            },
 
-                                            int a=1;
-                                            print(a);a++;
-                                            Map sendUserPlan={};
-
-                                            for(var pln in plans){
-                                              print(pln);
-                                              if(pln['sno']==sendUser.get('sno')){
-                                                sendUserPlan=pln;
-                                                break;
-                                              }
-                                              else{
-
-                                              }
-                                            }
-                                            print(sendUserPlan);
-                                            print(a);a++;
-
-                                            if(sendUser.get('clubAmt')[sendUser.get('sno')??0]??0 +(int.tryParse(data[index].get('amount').toString())??0)== sendUserPlan['club_amt']&&sendUser.get('charAmt')[sendUser.get('sno')??0]??0 ==sendUserPlan['char_amt']) {
-                                              FirebaseFirestore
-                                                  .instance
-                                                  .collection('Users')
-                                                  .doc(sendUser.id)
-                                                  .update({
-
-                                                'charAmt.${sendUser.get('sno')??0}':FieldValue.increment(int.tryParse(data[index].get('amount').toString())??0),
-                                                'provideHelpUsers': {
-                                                  'Id': '',
-                                                  'Amount': 0,
-                                                  "paidAmount": 0,
-                                                }
-                                              });
-                                            }
-                                            else if(sendUser.get('charAmt')[sendUser.get('sno')??0]??0 +(int.tryParse(data[index].get('amount').toString())??0) == sendUserPlan['char_amt']){
-                                              FirebaseFirestore
-                                                  .instance
-                                                  .collection('Users')
-                                                  .doc(sendUser.id)
-                                                  .update({
-
-                                                'charAmt.${sendUser.get('sno')??0}':FieldValue.increment(int.tryParse(data[index].get('amount').toString())??0),
-
-
-
-                                                'provideHelpUsers': {
-                                                  'Id': clubUser?.uid,
-                                                  'Amount': sendUserPlan['club_amt'],
-                                                  "paidAmount": 0,
-                                                }
-                                              });
-                                            }
-                                            else if(sendUser.get('charAmt')[sendUser.get('sno')??0]??0 +(int.tryParse(data[index].get('amount').toString())??0) != sendUserPlan['char_amt']){
-                                              FirebaseFirestore
-                                                  .instance
-                                                  .collection('Users')
-                                                  .doc(sendUser.id)
-                                                  .update({
-
-                                                'charAmt.${sendUser.get('sno')??0}':FieldValue.increment(int.tryParse(data[index].get('amount').toString())??0),
-                                                'provideHelpUsers.paidAmount': FieldValue.increment(
-                                                    int.tryParse(
-                                                        data[index]['amount']) ??
-                                                        0),
-                                              });
-                                            }
-
-
-
-
-
-
-
-
-                                          },
-
-                                          child:  Text(charityProof['verify'])))),
-                                ]);
-                              })),
-                        ],
-                      );
-                    }
-                  }),
+                                            child:  Text(charityProof['verify'])))),
+                                  ]);
+                                })),
+                          ],
+                        );
+                      }
+                    }),
+              ),
             )
           ],
           ),
-        ),
+       ] ),
       ),
     );
   }
 }
+getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) async {
+  DocumentSnapshot<Map<String, dynamic>> sendUser =
+  await FirebaseFirestore
+      .instance
+      .collection('Users')
+      .doc(id)
+      .get();
+  int totalAmount = int.tryParse(
+      sendUser
+          .get('provideHelpUsers')[
+      'Amount']
+          .toString()) ??
+      0;
+  int paidAmount = int.tryParse(
+      sendUser
+          .get('provideHelpUsers')[
+      'paidAmount']
+          .toString()) ??
+      0;
+  UserModel sendUsermodel = UserModel.fromJson(sendUser.data()!);
+
+
+  Map<String, dynamic> transaction = {};
+  if (planMap == {}) {
+    DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
+        .instance
+        .collection('settings')
+        .doc('settings')
+        .get();
+    if (event.exists) {
+      plans = event.data()!['plan'];
+      planMap = event.data()!['plans'];
+    }
+  }
+  transaction = planMap[sendUsermodel?.sno][sendUsermodel?.currentPlanLevel];
+  if (transaction['amt'] == (int.tryParse(data[index]
+  ['amount']
+      .toString()) ??
+      0)) {
+    if (transaction['type'] == 4) {
+      getCharity(transaction, data, index, sendUsermodel);
+    }
+
+
+
+
+    data[index].reference.update({
+      'verify': true
+    }).then((value) {
+      showUploadMessage("Successfuly", context);
+      Navigator.pop(context);
+    });
+  }
+  else{
+    showUploadMessage("Incorrect Amount Send", context);
+  }
+}
+getCharity(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr){
+
+  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno]['last']==currentuser?.currentPlanLevel) {
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(sndUsr.uid)
+        .update({
+      'charAmt.${sndUsr.sno}':
+      FieldValue.increment(
+          int.tryParse(data[
+          index]
+          [
+          'amount']) ??
+              0),
+      'provideHelpUsers': {
+        'Id': "",
+        'Amount': 0,
+        "paidAmount": 0,
+      },
+
+      'sno':
+      FieldValue.increment(
+          1),
+      'eligible': true,
+      'currentPlanLevel':0,
+      'currentCount':0,
+      'enteredDate.${sndUsr.sno??0 + 1}':
+      FieldValue
+          .serverTimestamp(),
+    });
+  }
+  else if(transaction['cnt']==sndUsr.currentCount!+1){
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(sndUsr.uid)
+        .update({
+
+      'charAmt.${sndUsr.sno}':
+      FieldValue.increment(
+          int.tryParse(data[
+          index]
+          [
+          'amount']) ??
+              0),
+      'provideHelpUsers': {
+        'Id': "",
+        'Amount': 0,
+        "paidAmount": 0,
+      },
+      'eligible':!transaction['sent'],
+      'currentPlanLevel':FieldValue.increment(1),
+      'currentCount': 0,
+    });
+  }
+  else {
+
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(sndUsr.uid)
+        .update({
+      'charAmt.${sndUsr.sno}':
+      FieldValue.increment(
+          int.tryParse(data[
+          index]
+          [
+          'amount']) ??
+              0),
+      'provideHelpUsers': {
+        'Id': "",
+        'Amount': 0,
+        "paidAmount": 0,
+      },
+      'currentCount': FieldValue.increment(1),
+
+    });
+  }
+}
+
 
