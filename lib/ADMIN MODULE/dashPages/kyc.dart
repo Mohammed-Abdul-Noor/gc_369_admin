@@ -243,9 +243,9 @@ class _KycPageState extends State<KycPage> {
                             var user = data[index];
                             return DataRow(cells: [
                               DataCell(Text( (ind==0?index+1:ind+index+1).toString())),
-                              DataCell(Text(user['uid'])),
+                              DataCell(SelectableText(user['uid'])),
                               DataCell(Text(user['name'])),
-                              DataCell(Text(user['mobno'])),
+                              DataCell(SelectableText(user['mobno'])),
                               DataCell(Text("${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
                               //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
                               DataCell(
@@ -326,9 +326,9 @@ class _KycPageState extends State<KycPage> {
                             var user = data[index];
                             return DataRow(cells: [
                               DataCell(Text('${pageIndex+index+1}')),
-                              DataCell(Text(user['uid'])),
+                              DataCell(SelectableText(user['uid'])),
                               DataCell(Text(user['name'])),
-                              DataCell(Text(user['mobno'])),
+                              DataCell(SelectableText(user['mobno'])),
                               // DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
                               DataCell(
                                   Text(user['status'] ? 'Active' : 'Not Active')),

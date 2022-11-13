@@ -145,7 +145,7 @@ class _CharityAmountPageState extends State<CharityAmountPage> {
 
                                   return DataRow(cells: [
                                     DataCell(Text('${index + 1}')),
-                                    DataCell(Text(charityProof['senderId'])),
+                                    DataCell(SelectableText(charityProof['senderId'])),
                                     DataCell(Text("${DateFormat('dd-MMM-yyyy').format(charityProof['sendTime'].toDate())}")),
                                   DataCell(CachedNetworkImage(imageUrl: charityProof['file'],
 

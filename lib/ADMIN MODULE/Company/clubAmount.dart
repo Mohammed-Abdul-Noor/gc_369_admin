@@ -143,7 +143,7 @@ class _CreateGenIDState extends State<CreateGenID> {
 
                                     return DataRow(cells: [
                                       DataCell(Text('${index + 1}')),
-                                      DataCell(Text(clubProof['senderId'])),
+                                      DataCell(SelectableText(clubProof['senderId'])),
                                       DataCell(Text(
                                           "${DateFormat('dd-MMM-yyyy').format(clubProof['sendTime'].toDate())}")),
                                       DataCell(CachedNetworkImage(imageUrl: clubProof['file'],

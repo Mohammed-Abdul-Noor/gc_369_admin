@@ -170,11 +170,11 @@ class _UserVerificationState extends State<UserVerification> {
                                                 .data()['joinDate']
                                                 ?.toDate()))),
                                         DataCell(
-                                            Text(registration.data()['name'])),
+                                            SelectableText(registration.data()['name'])),
                                         DataCell(
-                                            Text(registration.data()['mobNo'])),
+                                            SelectableText(registration.data()['mobNo'])),
                                         DataCell(
-                                            Text(registration.data()['whatsNo'])),
+                                            SelectableText(registration.data()['whatsNo'])),
                                         DataCell(CachedNetworkImage(
                                           imageUrl: registration.data()['fProof'],
                                           width: currentWidth < 700

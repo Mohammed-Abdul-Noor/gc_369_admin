@@ -156,9 +156,9 @@ class _GenIDSState extends State<GenIDS> {
                                         DataRow(cells: [
                                           DataCell(Text('${index + 1}')),
                                           DataCell(Text(registration.data()['userId'])),
-                                          DataCell(Text(registration.data()['name'])),
-                                          DataCell(Text(registration.data()['mobNo'])),
-                                          DataCell(Text(registration.data()['whatsNo'])),
+                                          DataCell(SelectableText(registration.data()['name'])),
+                                          DataCell(SelectableText(registration.data()['mobNo'])),
+                                          DataCell(SelectableText(registration.data()['whatsNo'])),
                                           DataCell(CachedNetworkImage(imageUrl: registration.data()['fProof'],
                                             width:currentWidth<700?w*0.4: w*0.2,
                                             fit: BoxFit.fitHeight,
