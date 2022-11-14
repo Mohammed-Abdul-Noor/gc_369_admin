@@ -26,6 +26,12 @@ final itemsMain =[
    const DrawerItem(title:'Club 3 Users',icon:Icons.person),
    const DrawerItem(title:'Club 4 Users',icon:Icons.person),
    const DrawerItem(title:'Club 5 Users',icon:Icons.person),
+   const DrawerItem(title:'Seniority Level 0',icon:Icons.account_tree_outlined),
+   const DrawerItem(title:'Seniority Level 1',icon:Icons.account_tree_outlined),
+   const DrawerItem(title:'Seniority Level 2',icon:Icons.account_tree_outlined),
+   const DrawerItem(title:'Seniority Level 3',icon:Icons.account_tree_outlined),
+   const DrawerItem(title:'Seniority Level 4',icon:Icons.account_tree_outlined),
+   const DrawerItem(title:'Seniority Level 5',icon:Icons.account_tree_outlined),
 
   // const DrawerItem(title:'Withdraw Eligible',icon:Icons.currency_rupee),
   // const DrawerItem(title:'Transaction History',icon:Icons.history),

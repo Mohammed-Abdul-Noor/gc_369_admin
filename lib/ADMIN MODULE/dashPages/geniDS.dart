@@ -20,7 +20,7 @@ class GenIDS extends StatefulWidget {
 
 class _GenIDSState extends State<GenIDS> {
   ScrollController? _controller1;
-
+ bool disable = false;
   @override
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
@@ -176,22 +176,22 @@ class _GenIDSState extends State<GenIDS> {
 
                                                   InkWell(
                                                     onTap: () async {
+if(!disable){disable==true;
+    registration.reference.update({
+    'verify':true,
 
-                                                      registration.reference.update({
-                                                        'verify':true,
+    });
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(registration.data()['userId']).update({
+    'status':true,
+    'sno':1,
+    'eligible':true
+    }).then((value){
 
-                                                      });
-                                                      FirebaseFirestore.instance
-                                                          .collection('Users')
-                                                          .doc(registration.data()['userId']).update({
-                                                        'status':true,
-                                                        'sno':1,
-                                                        'eligible':true
-                                                      }).then((value){
+    });
 
-                                                      });
-
-                                                    },
+    } },
                                                     child: Container(
                                                         height: 30,
                                                         width: 60,

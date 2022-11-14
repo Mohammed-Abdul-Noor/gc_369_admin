@@ -20,6 +20,7 @@ class UserVerification extends StatefulWidget {
 
 class _UserVerificationState extends State<UserVerification> {
   ScrollController? _controller1;
+  bool disable = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class _UserVerificationState extends State<UserVerification> {
               .snapshots(),
           builder: (context, snapshot) {
             print(snapshot.error);
-           // print(lenght);
+            // print(lenght);
 
             if (!snapshot.hasData) {
               return CircularProgressIndicator();
@@ -110,13 +111,14 @@ class _UserVerificationState extends State<UserVerification> {
                       ),
                       // SizedBox(height: 10),
                       ScrollConfiguration(
-                        behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
-                          PointerDeviceKind.touch,
-                          PointerDeviceKind.mouse,
-                        },),
+                        behavior: ScrollConfiguration.of(context).copyWith(
+                          dragDevices: {
+                            PointerDeviceKind.touch,
+                            PointerDeviceKind.mouse,
+                          },
+                        ),
                         child: Scrollbar(
                           controller: _controller1,
-
                           scrollbarOrientation: ScrollbarOrientation.top,
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
@@ -169,14 +171,15 @@ class _UserVerificationState extends State<UserVerification> {
                                             .format(registration
                                                 .data()['joinDate']
                                                 ?.toDate()))),
-                                        DataCell(
-                                            SelectableText(registration.data()['name'])),
-                                        DataCell(
-                                            SelectableText(registration.data()['mobNo'])),
-                                        DataCell(
-                                            SelectableText(registration.data()['whatsNo'])),
+                                        DataCell(SelectableText(
+                                            registration.data()['name'])),
+                                        DataCell(SelectableText(
+                                            registration.data()['mobNo'])),
+                                        DataCell(SelectableText(
+                                            registration.data()['whatsNo'])),
                                         DataCell(CachedNetworkImage(
-                                          imageUrl: registration.data()['fProof'],
+                                          imageUrl:
+                                              registration.data()['fProof'],
                                           width: currentWidth < 700
                                               ? w * 0.4
                                               : w * 0.2,
@@ -197,138 +200,164 @@ class _UserVerificationState extends State<UserVerification> {
                                           children: [
                                             InkWell(
                                               onTap: () async {
-                                                DocumentSnapshot id =
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection('settings')
-                                                        .doc('settings')
-                                                        .get();
-                                                id.reference.update({
-                                                  "userId":
-                                                      FieldValue.increment(1)
-                                                });
-                                                var user =
-                                                    id["userId"].toString();
+                                                if (disable) {
+                                                  disable == true;
+                                                  DocumentSnapshot id =
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              'settings')
+                                                          .doc('settings')
+                                                          .get();
+                                                  id.reference.update({
+                                                    "userId":
+                                                        FieldValue.increment(1)
+                                                  });
+                                                  var user =
+                                                      id["userId"].toString();
 
-                                                var userid = "GC$user";
+                                                  var userid = "GC$user";
 
-                                                final userdata = UserModel(
-                                                  address: registration
-                                                      .data()['address'],
-                                                  bproof: registration
-                                                      .data()['bProof'],
-                                                  charAmt: {},
-                                                  clubAmt: {},
-                                                  directmember: 0,
-                                                  downline1: 0,
-                                                  downline2: 0,
-                                                  downline3: 0,
-                                                  checkGenId: false,
-                                                  eligible: false,
-                                                  email: "",
-                                                  enteredDate: {
-                                                  //  currentuser?.sno:FieldValue.serverTimestamp(),
-                                                  },
-                                                  fproof: registration
-                                                      .data()['fProof'],
-                                                  genId: GenIdModel(
-                                                      firstGenId: "",
-                                                      secondGenId: "",
-                                                      thirdGenId: ""),
-                                                  getCount: {},
-                                                  getHelpUsers: GetHelpUsers(
-                                                    Amount: 0,
-                                                    Id: '',
-                                                    receiveAmount: 0,
-                                                  ),
-                                                  googlepayno: "",
-                                                  ifscno: '',
-                                                  index: int.tryParse(user),
-                                                  joinDate: DateTime.now(),
-                                                  levelincome: 0,
-                                                  mobno: registration
-                                                      .data()['mobNo'],
-                                                  motherId: true,
-                                                  mystatus: '',
-                                                  name:
-                                                      registration.data()['name'],
-                                                  paytmno: "",
-                                                  phonepayno: "",
-                                                  password: registration
-                                                      .data()['password'],
-                                                  provideHelpUsers:
-                                                      ProvideHelpUsers(
-                                                          Amount: 0,
-                                                          Id: '',
-                                                          paidAmount: 0),
-                                                  panNo: '',
-                                                  provideCount: {},
-                                                  rebirthId: 0,
-                                                  receivehelp: 0,
-                                                  receiveCount: 0,
-                                                  referral: [],
-                                                  sendCount: 0,
-                                                  search: setSearchParam(userid+''+registration.data()['name']),
-                                                  sendhelp: 0,
-                                                  sno: 0,
-                                                  spnsr_Id: registration
-                                                      .data()['spnsr_Id'],
-                                                  spnsrId2: registration
-                                                      .data()['spnsrId2'],
-                                                  spnsrId3: registration
-                                                      .data()['spnsrId3'],
-                                                  spnsrAmt1: {},
-                                                  spnsrAmt2: {},
-                                                  spnsrAmt3: {},
-                                                  sponsoremobile: '',
-                                                  sponsorincome: 0,
-                                                  status: true,
-                                                  type: registration
-                                                      .data()['typeId'],
-                                                  upiId: '',
-                                                  uid: userid,
-                                                  upgradeAmt: {},
-                                                  wallet: 0,
-                                                  whatsNO: registration
-                                                      .data()['whatsNo'],
-                                                  whatsappcc: registration
-                                                      .data()['whatsCc'],
-                                                );
-                                                registration.reference.update({
-                                                  'verify': true,
-                                                  'userId': userid,
-                                                });
-                                                if(registration
-                                                    .data()['spnsr_Id'] !=''){
-                                                  FirebaseFirestore.instance.collection('Users').doc(registration
-                                                      .data()['spnsr_Id']).update(
-                                                      {
-                                                        'levelincome':FieldValue.increment(30),
-                                                        'wallet':FieldValue.increment(30),
-                                                        'downline1':FieldValue.increment(1),
-                                                      });
-                                                  FirebaseFirestore.instance.collection('Users').doc(registration
-                                                      .data()['spnsrId2']).update(
-                                                      {
-                                                        'levelincome':FieldValue.increment(15),
-                                                        'wallet':FieldValue.increment(15),
-                                                        'downline2':FieldValue.increment(1),
-                                                      });
-                                                }
-                                                FirebaseFirestore.instance
-                                                    .collection('settings')
-                                                    .doc('settings')
-                                                    .update({
-                                                  'totalMembers':
-                                                      FieldValue.increment(1),
-                                                  'totalID':
-                                                      FieldValue.increment(1),
-                                                }).then((value) {
+                                                  final userdata = UserModel(
+                                                    address: registration
+                                                        .data()['address'],
+                                                    bproof: registration
+                                                        .data()['bProof'],
+                                                    charAmt: {},
+                                                    clubAmt: {},
+                                                    directmember: 0,
+                                                    downline1: 0,
+                                                    downline2: 0,
+                                                    downline3: 0,
+                                                    checkGenId: false,
+                                                    eligible: false,
+                                                    email: "",
+                                                    enteredDate: {
+                                                      //  currentuser?.sno:FieldValue.serverTimestamp(),
+                                                    },
+                                                    fproof: registration
+                                                        .data()['fProof'],
+                                                    genId: GenIdModel(
+                                                        firstGenId: "",
+                                                        secondGenId: "",
+                                                        thirdGenId: ""),
+                                                    getCount: {},
+                                                    getHelpUsers: GetHelpUsers(
+                                                      Amount: 0,
+                                                      Id: '',
+                                                      receiveAmount: 0,
+                                                    ),
+                                                    googlepayno: "",
+                                                    ifscno: '',
+                                                    index: int.tryParse(user),
+                                                    joinDate: DateTime.now(),
+                                                    levelincome: 0,
+                                                    mobno: registration
+                                                        .data()['mobNo'],
+                                                    motherId: true,
+                                                    mystatus: '',
+                                                    name: registration
+                                                        .data()['name'],
+                                                    paytmno: "",
+                                                    phonepayno: "",
+                                                    password: registration
+                                                        .data()['password'],
+                                                    provideHelpUsers:
+                                                        ProvideHelpUsers(
+                                                            Amount: 0,
+                                                            Id: '',
+                                                            paidAmount: 0),
+                                                    panNo: '',
+                                                    provideCount: {},
+                                                    rebirthId: 0,
+                                                    receivehelp: 0,
+                                                    receiveCount: 0,
+                                                    referral: [],
+                                                    sendCount: 0,
+                                                    search: setSearchParam(
+                                                        userid +
+                                                            '' +
+                                                            registration.data()[
+                                                                'name']),
+                                                    sendhelp: 0,
+                                                    sno: 0,
+                                                    spnsr_Id: registration
+                                                        .data()['spnsr_Id'],
+                                                    spnsrId2: registration
+                                                        .data()['spnsrId2'],
+                                                    spnsrId3: registration
+                                                        .data()['spnsrId3'],
+                                                    spnsrAmt1: {},
+                                                    spnsrAmt2: {},
+                                                    spnsrAmt3: {},
+                                                    sponsoremobile: '',
+                                                    sponsorincome: 0,
+                                                    status: true,
+                                                    type: registration
+                                                        .data()['typeId'],
+                                                    upiId: '',
+                                                    uid: userid,
+                                                    upgradeAmt: {},
+                                                    wallet: 0,
+                                                    whatsNO: registration
+                                                        .data()['whatsNo'],
+                                                    whatsappcc: registration
+                                                        .data()['whatsCc'],
+                                                  );
+                                                  registration.reference
+                                                      .update({
+                                                    'verify': true,
+                                                    'userId': userid,
+                                                  });
+                                                  if (registration
+                                                          .data()['spnsr_Id'] !=
+                                                      '') {
+                                                    FirebaseFirestore.instance
+                                                        .collection('Users')
+                                                        .doc(registration
+                                                            .data()['spnsr_Id'])
+                                                        .update({
+                                                      'levelincome':
+                                                          FieldValue.increment(
+                                                              30),
+                                                      'wallet':
+                                                          FieldValue.increment(
+                                                              30),
+                                                      'downline1':
+                                                          FieldValue.increment(
+                                                              1),
+                                                    });
+                                                    FirebaseFirestore.instance
+                                                        .collection('Users')
+                                                        .doc(registration
+                                                            .data()['spnsrId2'])
+                                                        .update({
+                                                      'levelincome':
+                                                          FieldValue.increment(
+                                                              15),
+                                                      'wallet':
+                                                          FieldValue.increment(
+                                                              15),
+                                                      'downline2':
+                                                          FieldValue.increment(
+                                                              1),
+                                                    });
+                                                  }
                                                   FirebaseFirestore.instance
-                                                      .collection('Users')
-                                                      .doc(userid)
-                                                      .set(userdata.toJson());
-                                                });
+                                                      .collection('settings')
+                                                      .doc('settings')
+                                                      .update({
+                                                    'totalMembers':
+                                                        FieldValue.increment(1),
+                                                    'totalID':
+                                                        FieldValue.increment(1),
+                                                  }).then((value) {
+                                                    FirebaseFirestore.instance
+                                                        .collection('Users')
+                                                        .doc(userid)
+                                                        .set(userdata.toJson());
+                                                  });
+                                                }
                                               },
                                               child: Container(
                                                   height: 30,
@@ -340,7 +369,8 @@ class _UserVerificationState extends State<UserVerification> {
                                                               3),
                                                       border: Border.all(
                                                           color: Colors.black
-                                                              .withOpacity(0.3))),
+                                                              .withOpacity(
+                                                                  0.3))),
                                                   alignment: Alignment.center,
                                                   child: const Text('Accept')),
                                             ),
@@ -383,8 +413,8 @@ class _UserVerificationState extends State<UserVerification> {
                                                       .data()['mobNo'],
                                                   motherId: true,
                                                   mystatus: '',
-                                                  name:
-                                                      registration.data()['name'],
+                                                  name: registration
+                                                      .data()['name'],
                                                   paytmno: "",
                                                   phonepayno: "",
                                                   password: registration
@@ -444,7 +474,8 @@ class _UserVerificationState extends State<UserVerification> {
                                                               3),
                                                       border: Border.all(
                                                           color: Colors.black
-                                                              .withOpacity(0.3))),
+                                                              .withOpacity(
+                                                                  0.3))),
                                                   alignment: Alignment.center,
                                                   child: const Text('Reject')),
                                             ),
@@ -467,238 +498,137 @@ class _UserVerificationState extends State<UserVerification> {
   }
 }
 
-getSponsor1(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr){
-  data[index].reference.update({
-    'sponsorLevel':1,'verify':true
-  });
-  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno]['last']==currentuser?.currentPlanLevel) {
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(sndUsr.uid)
-        .update({
+getSponsor1(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
+    int index, UserModel sndUsr) {
+  data[index].reference.update({'sponsorLevel': 1, 'verify': true});
+  if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
+      planMap[sndUsr.sno]['last'] == currentuser?.currentPlanLevel) {
+    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt1.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
-
-      'sno':
-      FieldValue.increment(
-          1),
+      'sno': FieldValue.increment(1),
       'eligible': true,
-      'currentPlanLevel':0,
-      'currentCount':0,
-      'enteredDate.${sndUsr.sno??0 + 1}':
-      FieldValue
-          .serverTimestamp(),
+      'currentPlanLevel': 0,
+      'currentCount': 0,
+      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
     });
-  }
-  else if(transaction['cnt']==sndUsr.currentCount!+1){
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(sndUsr.uid)
-        .update({
-
+  } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
+    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt1.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
-      'currentPlanLevel':FieldValue.increment(1),
+      'currentPlanLevel': FieldValue.increment(1),
       'currentCount': 0,
     });
-  }
-  else {
-
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(sndUsr.uid)
-        .update({
+  } else {
+    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt1.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
       'currentCount': FieldValue.increment(1),
-
     });
   }
 }
-getSponsor2(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr){
-  data[index].reference.update({
-    'sponsorLevel':2,'verify':true
-  });
-  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno]['last']==currentuser?.currentPlanLevel) {
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(sndUsr.uid)
-        .update({
+
+getSponsor2(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
+    int index, UserModel sndUsr) {
+  data[index].reference.update({'sponsorLevel': 2, 'verify': true});
+  if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
+      planMap[sndUsr.sno]['last'] == currentuser?.currentPlanLevel) {
+    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt2.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
-
-      'sno':
-      FieldValue.increment(
-          1),
+      'sno': FieldValue.increment(1),
       'eligible': true,
-      'currentPlanLevel':0,
-      'currentCount':0,
-      'enteredDate.${sndUsr.sno??0 + 1}':
-      FieldValue
-          .serverTimestamp(),
+      'currentPlanLevel': 0,
+      'currentCount': 0,
+      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
     });
-  }
-  else if(transaction['cnt']==sndUsr.currentCount!+1){
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(sndUsr.uid)
-        .update({
-
+  } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
+    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt2.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
-      'currentPlanLevel':FieldValue.increment(1),
+      'currentPlanLevel': FieldValue.increment(1),
       'currentCount': 0,
     });
-  }
-  else {
-
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(sndUsr.uid)
-        .update({
+  } else {
+    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt3.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
       'currentCount': FieldValue.increment(1),
-
     });
   }
 }
-getSponsor3(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr){
-  data[index].reference.update({
-    'sponsorLevel':3,'verify':true
-  });
-  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno]['last']==currentuser?.currentPlanLevel) {
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(sndUsr.uid)
-        .update({
+
+getSponsor3(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
+    int index, UserModel sndUsr) {
+  data[index].reference.update({'sponsorLevel': 3, 'verify': true});
+  if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
+      planMap[sndUsr.sno]['last'] == currentuser?.currentPlanLevel) {
+    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt3.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
-
-      'sno':
-      FieldValue.increment(
-          1),
+      'sno': FieldValue.increment(1),
       'eligible': true,
-      'currentPlanLevel':0,
-      'currentCount':0,
-      'enteredDate.${sndUsr.sno??0 + 1}':
-      FieldValue
-          .serverTimestamp(),
+      'currentPlanLevel': 0,
+      'currentCount': 0,
+      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
     });
-  }
-  else if(transaction['cnt']==sndUsr.currentCount!+1){
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(sndUsr.uid)
-        .update({
-
+  } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
+    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt3.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
-      'currentPlanLevel':FieldValue.increment(1),
+      'currentPlanLevel': FieldValue.increment(1),
       'currentCount': 0,
     });
-  }
-  else {
-
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(sndUsr.uid)
-        .update({
+  } else {
+    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt3.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
       'currentCount': FieldValue.increment(1),
-
     });
   }
 }
-

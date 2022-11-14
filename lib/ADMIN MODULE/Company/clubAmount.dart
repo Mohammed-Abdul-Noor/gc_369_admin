@@ -17,6 +17,7 @@ class CreateGenID extends StatefulWidget {
 
 class _CreateGenIDState extends State<CreateGenID> {
   ScrollController? _controller1;
+  bool disable = false;
   @override
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
@@ -178,8 +179,12 @@ class _CreateGenIDState extends State<CreateGenID> {
                                           alignment: Alignment.center,
                                           child: InkWell(
                                               onTap: () async {
-                                               await getHelp(data,index,context,clubProof['senderId']);
-                                              },
+                                                if(!disable) {
+                                                  disable==true;
+                                                  await getHelp(
+                                                      data, index, context,
+                                                      clubProof['senderId']);
+                                                }},
                                               child: Text('verify')))),
                                     ]);
                                   })),

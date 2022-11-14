@@ -74,6 +74,7 @@ class _KycPageState extends State<KycPage> {
     }
   }
 
+
   prev() {
     pageIndex--;
     if (firstDoc == null || pageIndex == 0) {

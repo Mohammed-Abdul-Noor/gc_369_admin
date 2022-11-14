@@ -11,12 +11,15 @@ import '../widgets/userApp.dart';
 class CharityAmountPage extends StatefulWidget {
   const CharityAmountPage({Key? key}) : super(key: key);
 
+
   @override
   State<CharityAmountPage> createState() => _CharityAmountPageState();
 }
 
 class _CharityAmountPageState extends State<CharityAmountPage> {
   ScrollController? _controller1;
+  bool disable = false;
+
   @override
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
@@ -179,10 +182,15 @@ class _CharityAmountPageState extends State<CharityAmountPage> {
                                         alignment: Alignment.center,
                                         child: InkWell(
                                             onTap: () async {
+                                               if(!disable) {
+                                                 disable == true;
 
 
-                                          await getHelp( data, index, context,charityProof.get('senderId'));
-                                            },
+                                                 await getHelp(
+                                                     data, index, context,
+                                                     charityProof.get(
+                                                         'senderId'));
+                                               } },
 
                                             child:  Text(charityProof['verify'])))),
                                   ]);

@@ -7,6 +7,7 @@ import 'package:gc_369/ADMIN%20MODULE/widgets/changePassword.dart';
 import '../../main.dart';
 import '../dashPages/TotalGenID.dart';
 import '../dashPages/geniDS.dart';
+import '../dashPages/seniorityLevel/sLevel.dart';
 import '../pages/accountReport.dart';
 import '../pages/changePassword.dart';
 import '../pages/clubs.dart';
@@ -43,6 +44,12 @@ List<Widget> _pages =[
   ClubUsers(sno: 3,),
   ClubUsers(sno: 4,),
   ClubUsers(sno: 5,),
+  SeniorityLevelT(sno: 0),
+  SeniorityLevelT(sno: 1),
+  SeniorityLevelT(sno: 2),
+  SeniorityLevelT(sno: 3),
+  SeniorityLevelT(sno: 4),
+  SeniorityLevelT(sno: 5),
  // Changepasswords(),
   // RebirthGenIdPage(),
   // RejectIdPage(),
