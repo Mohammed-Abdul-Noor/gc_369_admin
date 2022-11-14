@@ -8,6 +8,7 @@ import '../../main.dart';
 import '../dashPages/TotalGenID.dart';
 import '../dashPages/geniDS.dart';
 import '../dashPages/seniorityLevel/sLevel.dart';
+import '../dashPages/sponsorlessUsers.dart';
 import '../pages/accountReport.dart';
 import '../pages/changePassword.dart';
 import '../pages/clubs.dart';
@@ -50,6 +51,7 @@ List<Widget> _pages =[
   SeniorityLevelT(sno: 3),
   SeniorityLevelT(sno: 4),
   SeniorityLevelT(sno: 5),
+  sponsorlessUsersPage(),
  // Changepasswords(),
   // RebirthGenIdPage(),
   // RejectIdPage(),
