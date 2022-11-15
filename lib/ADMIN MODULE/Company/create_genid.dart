@@ -34,7 +34,7 @@ class _CreateGenIDState extends State<CreateGenID> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Club Amount',
+                  'Create GenId',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
@@ -223,7 +223,7 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
 
   Map<String, dynamic> transaction = {};
   Map<String, dynamic> nextTransaction = {};
-  if (planMap == {}) {
+  if (planMap.keys.length<2) {
     DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
         .instance
         .collection('settings')
@@ -234,6 +234,12 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
       planMap = event.data()!['plans'];
     }
   }
+  print(planMap);
+  print(sendUsermodel?.sno.toString());
+  print(sendUsermodel?.currentPlanLevel.toString());
+  print(planMap[sendUsermodel?.sno.toString()]);
+  print(planMap[sendUsermodel?.sno.toString()][sendUsermodel?.currentPlanLevel.toString()]);
+
   transaction = planMap[sendUsermodel?.sno.toString()][sendUsermodel?.currentPlanLevel.toString()];
   nextTransaction = planMap[sendUsermodel?.sno.toString()]['${(sendUsermodel?.currentPlanLevel??0)+1}']??{};
   if (transaction['amt'] == (int.tryParse(data[index]

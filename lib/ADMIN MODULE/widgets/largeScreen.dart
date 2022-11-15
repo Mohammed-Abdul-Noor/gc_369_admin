@@ -4,6 +4,7 @@ import 'package:gc_369/ADMIN%20MODULE/Company/clubAmount.dart';
 import 'package:gc_369/ADMIN%20MODULE/pages/editUser/password/passwordTable.dart';
 
 import '../../main.dart';
+import '../Company/create_genid.dart';
 import '../dashPages/TotalGenID.dart';
 import '../dashPages/geniDS.dart';
 import '../dashPages/seniorityLevel/sLevel.dart';
@@ -19,7 +20,7 @@ List<Widget> _screens =[
    TotalUsersPage(),
    KycPage(),
   CharityAmountPage(),
-  CreateGenID(),
+  ClubAmount(),
   PasswordTable(),
   UserVerification(),
   GenIDS(),

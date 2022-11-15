@@ -8,14 +8,14 @@ import '../pages/layout.dart';
 import '../widgets/changePassword.dart';
 import '../widgets/userApp.dart';
 
-class CreateGenID extends StatefulWidget {
-  const CreateGenID({Key? key}) : super(key: key);
+class ClubAmount extends StatefulWidget {
+  const ClubAmount({Key? key}) : super(key: key);
 
   @override
-  State<CreateGenID> createState() => _CreateGenIDState();
+  State<ClubAmount> createState() => _ClubAmountState();
 }
 
-class _CreateGenIDState extends State<CreateGenID> {
+class _ClubAmountState extends State<ClubAmount> {
   ScrollController? _controller1;
   bool disable = false;
   @override
@@ -93,7 +93,7 @@ class _CreateGenIDState extends State<CreateGenID> {
                   scrollDirection: Axis.horizontal,
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                          .collection('genCreateProof')
+                          .collection('clubProof')
                           .where('verify', isEqualTo: false)
                           .snapshots(),
                       builder: (context, snapshot) {

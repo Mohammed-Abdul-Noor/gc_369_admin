@@ -5,6 +5,7 @@ import 'package:gc_369/ADMIN%20MODULE/dashPages/kyc.dart';
 import 'package:gc_369/ADMIN%20MODULE/widgets/changePassword.dart';
 
 import '../../main.dart';
+import '../Company/create_genid.dart';
 import '../dashPages/TotalGenID.dart';
 import '../dashPages/geniDS.dart';
 import '../dashPages/seniorityLevel/sLevel.dart';
@@ -33,7 +34,7 @@ List<Widget> _pages =[
   TotalUsersPage(),
   KycPage(),
   CharityAmountPage(),
-  CreateGenID(),
+  ClubAmount(),
   PasswordTable(),
   UserVerification(),
   GenIDS(),
