@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../copy/details.dart';
+import '../../copy/pdf.dart';
 import 'editUser/editUser.dart';
 import 'editUser/userModel.dart';
 
@@ -204,15 +206,39 @@ class _kycPageState extends State<kycPage> {
                                     child: const Text('Excel'),
                                   ),
                                   const SizedBox(width: 10),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        border: Border.all(
-                                            color: Colors.black.withOpacity(0.3))),
-                                    alignment: Alignment.center,
-                                    height: 20,
-                                    width: 50,
-                                    child: const Text('PDF'),
+                                  InkWell(
+                                    onTap: () async {
+                                      try{
+                                        List<Details> users =[];
+                                        for(DocumentSnapshot user in data) {
+                                          final invoice = Details(
+                                            userId: user['uid'],
+                                            name: user['uid'],
+                                            status: user['status'],
+                                            mobilenumber: user['mobno'],
+                                            join_date: DateTime
+                                                .fromMicrosecondsSinceEpoch(
+                                                user['joinDate']
+                                                    .microsecondsSinceEpoch),
+
+                                          );
+                                          users.add(invoice);
+                                        }
+                                        await GeneratePdf.downloadPdf(users);
+                                      }catch(e){
+                                        print(e);
+                                      }
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(3),
+                                          border: Border.all(
+                                              color: Colors.black.withOpacity(0.3))),
+                                      alignment: Alignment.center,
+                                      height: 20,
+                                      width: 50,
+                                      child: const Text('PDF'),
+                                    ),
                                   ),
                                   // Text((pageIndex+1).toString()),
                                   // Text((ind+1).toString()),
@@ -288,15 +314,39 @@ class _kycPageState extends State<kycPage> {
                                 child: const Text('Excel'),
                               ),
                               const SizedBox(width: 10),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(
-                                        color: Colors.black.withOpacity(0.3))),
-                                alignment: Alignment.center,
-                                height: 20,
-                                width: 50,
-                                child: const Text('PDF'),
+                              InkWell(
+                                onTap: () async {
+                                  try{
+                                    List<Details> users =[];
+                                    for(DocumentSnapshot user in data) {
+                                      final invoice = Details(
+                                        userId: user['uid'],
+                                        name: user['uid'],
+                                        status: user['status'],
+                                        mobilenumber: user['mobno'],
+                                        join_date: DateTime
+                                            .fromMicrosecondsSinceEpoch(
+                                            user['joinDate']
+                                                .microsecondsSinceEpoch),
+
+                                      );
+                                      users.add(invoice);
+                                    }
+                                    await GeneratePdf.downloadPdf(users);
+                                  }catch(e){
+                                    print(e);
+                                  }
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      border: Border.all(
+                                          color: Colors.black.withOpacity(0.3))),
+                                  alignment: Alignment.center,
+                                  height: 20,
+                                  width: 50,
+                                  child: const Text('PDF'),
+                                ),
                               ),
                               // Text((pageIndex+1).toString()),
                               // Text((ind+1).toString()),
