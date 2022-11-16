@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../widgets/userApp.dart';
 import '../pages/editUser/editUser.dart';
 import '../pages/editUser/userModel.dart';
-import 'club_users.dart';
 
 class TotalGenID extends StatefulWidget {
   const TotalGenID({Key? key}) : super(key: key);
@@ -52,10 +51,9 @@ class _TotalGenIDState extends State<TotalGenID> {
     _controller1 = ScrollController();
     userStream = FirebaseFirestore.instance
         .collection('Users')
-
-        .where('motherId', isEqualTo: false)
         .orderBy('index')
-        .limit(50)
+        .where('motherId', isEqualTo: false)
+        .limit(10)
         .snapshots();
     search = TextEditingController();
     super.initState();
@@ -70,7 +68,7 @@ class _TotalGenIDState extends State<TotalGenID> {
           .collection('Users')
           .where('motherId', isEqualTo: false)
           .orderBy('index')
-          .limit(50)
+          .limit(10)
           .snapshots();
     } else {
       ind += 10;
@@ -79,7 +77,7 @@ class _TotalGenIDState extends State<TotalGenID> {
           .where('motherId', isEqualTo: false)
           .orderBy('index')
           .startAfterDocument(lastDoc!)
-          .limit(50)
+          .limit(10)
           .snapshots();
     }
 
@@ -96,7 +94,7 @@ class _TotalGenIDState extends State<TotalGenID> {
           .collection('Users')
           .where('motherId', isEqualTo: false)
           .orderBy('index')
-          .limit(50)
+          .limit(10)
           .snapshots();
     } else {
       ind -= 10;
@@ -106,7 +104,7 @@ class _TotalGenIDState extends State<TotalGenID> {
           .where('motherId', isEqualTo: false)
           .orderBy('index')
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
-          .limit(50)
+          .limit(10)
           .snapshots();
     }
     setState(() {});
@@ -122,7 +120,7 @@ class _TotalGenIDState extends State<TotalGenID> {
       return const Text('');
     }
   }
-  QuerySnapshot<Map<String,dynamic>>? excelDocs;
+
   Map<int, DocumentSnapshot> lastDocuments = {};
   @override
   Widget build(BuildContext context) {
@@ -168,23 +166,15 @@ class _TotalGenIDState extends State<TotalGenID> {
                   const SizedBox(height: 10),
                   Row(
                     children: [
-                      InkWell(
-                        onTap: (){
-                          if(excelDocs!=null) {
-                            createExcel(excelDocs!, "Generation Ids");
-                          }
-                          // QuerySnapshot<Map<String,dynamic>>? excelDocs;
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              border: Border.all(
-                                  color: Colors.black.withOpacity(0.3))),
-                          alignment: Alignment.center,
-                          height: 20,
-                          width: 50,
-                          child: const Text('Excel'),
-                        ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            border: Border.all(
+                                color: Colors.black.withOpacity(0.3))),
+                        alignment: Alignment.center,
+                        height: 20,
+                        width: 50,
+                        child: const Text('Excel'),
                       ),
                       const SizedBox(width: 10),
                       // Text((pageIndex+1).toString()),
@@ -239,7 +229,6 @@ class _TotalGenIDState extends State<TotalGenID> {
                             snapshot.data!.docs.isEmpty) {
                           return Text("Empty");
                         } else {
-                          excelDocs=snapshot.data;
                           var data = snapshot.data!.docs;
 
                           lastDoc = snapshot.data!.docs[data.length - 1];
@@ -346,7 +335,6 @@ class _TotalGenIDState extends State<TotalGenID> {
                             snapshot.data!.docs.isEmpty) {
                           return Text("Empty");
                         } else {
-                          excelDocs=snapshot.data;
                           var data = snapshot.data!.docs;
 
                           lastDoc = snapshot.data!.docs[data.length - 1];

@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +21,7 @@ class ClubUsers extends StatefulWidget {
 class _ClubUsersState extends State<ClubUsers> {
   Future<void>? _launched;
 
-  QuerySnapshot<Map<String,dynamic>>? excelDocs;
+
 
 
   _launchURLBrowser() async {
@@ -35,7 +32,8 @@ class _ClubUsersState extends State<ClubUsers> {
       throw 'Could not launch $url';
     }
   }
- bool called =false;
+  List<String> columns=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ","BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ","CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ","DA","DB","DC","DD","DE","DF","DG","DH","DI","DJ","DK","DL","DM","DN","DO","DP","DQ","DR","DS","DT","DU","DV","DW","DX","DY","DZ","EA","EB","EC","ED","EE","EF","EG","EH","EI","EJ","EK","EL","EM","EN","EO","EP","EQ","ER","ES","ET","EU","EV","EW","EX","EY","EZ","FA","FB","FC","FD","FE","FF","FG","FH","FI","FJ","FK","FL","FM","FN","FO","FP","FQ","FR","FS","FT","FU","FV","FW","FX","FY","FZ",];
+bool called =false;
   // getPurchases(QuerySnapshot<Map<String,dynamic>> data)async{
   //
   //   int i=1;
@@ -151,7 +149,7 @@ class _ClubUsersState extends State<ClubUsers> {
         .where('sno',isEqualTo: widget.sno)
 
         .orderBy('index')
-        .limit(100)
+        .limit(10)
         .snapshots();
     search=TextEditingController();
     super.initState();
@@ -167,15 +165,15 @@ class _ClubUsersState extends State<ClubUsers> {
           FirebaseFirestore.instance.collection('Users')
           .where('sno',isEqualTo: widget.sno)
               .orderBy('index')
-              .limit(100).snapshots();
+              .limit(10).snapshots();
     } else {
-      ind+=100;
+      ind+=10;
       userStream = FirebaseFirestore.instance
           .collection('Users')
           .where('sno',isEqualTo: widget.sno)
           .orderBy('index')
           .startAfterDocument(lastDoc!)
-          .limit(100)
+          .limit(10)
           .snapshots();
     }
 
@@ -195,9 +193,9 @@ class _ClubUsersState extends State<ClubUsers> {
               .where('sno',isEqualTo: widget.sno)
               .orderBy('index')
 
-              .limit(100).snapshots();
+              .limit(10).snapshots();
     } else {
-      ind-=100;
+      ind-=10;
 
       userStream = FirebaseFirestore.instance
           .collection('Users')
@@ -205,7 +203,7 @@ class _ClubUsersState extends State<ClubUsers> {
           .orderBy('index')
 
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
-          .limit(100)
+          .limit(10)
           .snapshots();
     }
     setState(() {});
@@ -271,23 +269,15 @@ class _ClubUsersState extends State<ClubUsers> {
 
                       children: [
 
-                        InkWell(
-                          onTap: (){
-                            if(excelDocs!=null) {
-                              createExcel(excelDocs!, "club Users ${widget.sno}");
-                            }
-                            // QuerySnapshot<Map<String,dynamic>>? excelDocs;
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(
-                                    color: Colors.black.withOpacity(0.3))),
-                            alignment: Alignment.center,
-                            height: 20,
-                            width: 50,
-                            child: const Text('Excel'),
-                          ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              border: Border.all(
+                                  color: Colors.black.withOpacity(0.3))),
+                          alignment: Alignment.center,
+                          height: 20,
+                          width: 50,
+                          child: const Text('Excel'),
                         ),
                         const SizedBox(width: 10),
 
@@ -346,7 +336,6 @@ class _ClubUsersState extends State<ClubUsers> {
                     // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                     //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                     builder: (context, snapshot) {
-                      print(snapshot.error);
                       if(!snapshot.hasData){
                         return Center(child: CircularProgressIndicator(),);
                       }
@@ -357,7 +346,6 @@ class _ClubUsersState extends State<ClubUsers> {
                       //   called=true;
                       //   // getPurchases(snapshot.data!);
                       // }
-                      excelDocs=snapshot.data;
                       var data = snapshot.data!.docs;
                        print(snapshot.error);
                       lastDoc = snapshot.data!.docs[data.length - 1];
@@ -448,13 +436,12 @@ class _ClubUsersState extends State<ClubUsers> {
                     // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                     //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                     builder: (context, snapshot) {
-                      if(!snapshot.hasData){
-                        return Center(child: CircularProgressIndicator(),);
-                      }
-                      if(snapshot.hasData &&  snapshot.data!.docs.isEmpty){
-                        return Center(child: Text("No Users found!!!"),);
-                      }
-                      excelDocs=snapshot.data;
+                      // if(!snapshot.hasData){
+                      //   return Center(child: CircularProgressIndicator(),);
+                      // }
+                      // if(snapshot.hasData &&  snapshot.data!.docs.isEmpty){
+                      //   return Center(child: Text("No Users found!!!"),);
+                      // }
                       var data = snapshot.data!.docs;
                       // lastDoc = snapshot.data!.docs[data.length - 1];
                       // lastDocuments[pageIndex] = lastDoc!;
@@ -562,97 +549,4 @@ class _ClubUsersState extends State<ClubUsers> {
           ]),
         ));
   }
-}
-List<String> columns=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ","BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ","CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ","DA","DB","DC","DD","DE","DF","DG","DH","DI","DJ","DK","DL","DM","DN","DO","DP","DQ","DR","DS","DT","DU","DV","DW","DX","DY","DZ","EA","EB","EC","ED","EE","EF","EG","EH","EI","EJ","EK","EL","EM","EN","EO","EP","EQ","ER","ES","ET","EU","EV","EW","EX","EY","EZ","FA","FB","FC","FD","FE","FF","FG","FH","FI","FJ","FK","FL","FM","FN","FO","FP","FQ","FR","FS","FT","FU","FV","FW","FX","FY","FZ",];
-List<String> selected =["uid","name","joinDate","status",];
-createExcel(QuerySnapshot<Map<String,dynamic>> data,String name)async{
-
-  int i=1;
-  var excel = Excel.createExcel();
-  // var excel = Excel.createExcel();
-  Sheet sheetObject = excel[name];
-  CellStyle cellStyle = CellStyle(
-      backgroundColorHex: "#1AFF1A",
-      fontFamily: getFontFamily(FontFamily.Calibri));
-  if(data.docs.length>0) {
-    var cell = sheetObject
-        .cell(CellIndex.indexByString("A1"));
-    cell.value =
-    'SL NO'; // dynamic values support provided;
-    cell.cellStyle = cellStyle;
-    Map<String, dynamic> dt = data.docs[0].data();
-    print(dt.keys
-        .toList()
-        .length);
-    print(dt.keys.toList());
-    int k = 0;
-    for (int n = 0; n < dt.keys
-        .toList()
-        .length; n++) {
-      if(selected.contains(dt.keys.toList()[n])) {
-      var cell = sheetObject
-          .cell(CellIndex.indexByString("${columns[k + 1]}1"));
-      cell.value =
-      dt.keys.toList()[n]; // dynamic values support provided;
-      cell.cellStyle = cellStyle;
-      k++;
-    }
-  }
-  }
-
-
-  for(DocumentSnapshot<Map<String,dynamic>> doc in data.docs){
-    // address=doc.get('shippingAddress');
-    int l=0;
-    var cell = sheetObject
-        .cell(CellIndex.indexByString("A${i+1}"));
-    cell.value =
-        i.toString(); // dynamic values support provided;
-    cell.cellStyle = cellStyle;
-    // double amt=0;
-    // double commission=0;
-    // String shopsId='';
-    Map<String,dynamic> dt =data.docs[0].data();
-    Map<String,dynamic> dta =doc.data()!;
-    print("hereeee");
-    for(int n=0;n<dt.keys.toList().length;n++){
-       if(selected.contains(dt.keys.toList()[n])) {
-         var cell = sheetObject
-             .cell(CellIndex.indexByString("${columns[l + 1]}${i + 1}"));
-
-         // if (dta[dt.keys.toList()[n]].runtimeType.toString() == "Timestamp") {
-         if (dt.keys.toList()[n] == "joinDate") {
-           cell.value =
-               dta[dt.keys.toList()[n]].toDate().toString(); //
-           cell.cellStyle = cellStyle;
-         }
-         else {
-           cell.value =
-               dta[dt.keys.toList()[n]].toString();
-           cell.cellStyle = cellStyle;
-         }
-         l++;
-       }
-      //    dynamic values support provided;
-
-    }
-
-
-
-
-
-    i++;
-  }
-
-  excel.setDefaultSheet(name);
-  var fileBytes = excel.encode();
-  File file;
-
-  final content = base64Encode(fileBytes!);
-  final anchor = AnchorElement(
-      href: "data:application/octet-stream;charset=utf-16le;base64,$content")
-    ..setAttribute("download", "369 -$name.xlsx")
-    ..click();
-
-
 }

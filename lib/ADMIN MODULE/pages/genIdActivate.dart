@@ -119,14 +119,11 @@ class _kycPageState extends State<kycPage> {
               }
               int count=0;
               var data = snapshot.data!.docs;
-              if(data.length==0){
-                lastDoc=null;
-                return Center(child: Text("no users found"),);
-              }
               count=data.length;
               lastDoc = snapshot.data!.docs[data.length - 1];
               lastDocuments[pageIndex] = lastDoc!;
               firstDoc = snapshot.data!.docs[0];
+
             return Padding(
               padding: const EdgeInsets.all(10.0),
               child: SingleChildScrollView(

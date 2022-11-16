@@ -180,10 +180,10 @@ class _ClubAmountState extends State<ClubAmount> {
                                           child: InkWell(
                                               onTap: () async {
                                                 if(!disable) {
-                                                  disable=true;
+                                                  disable==true;
                                                   await getHelp(
                                                       data, index, context,
-                                                      clubProof['senderId']).then((){disable=false;});
+                                                      clubProof['senderId']);
                                                 }},
                                               child: Text('verify')))),
                                     ]);
@@ -224,8 +224,7 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
 
 
   Map<String, dynamic> transaction = {};
-  Map<String, dynamic> nextTransaction = {};
-  if (planMap.keys.length<2) {
+  if (planMap == {}) {
     DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
         .instance
         .collection('settings')
@@ -236,14 +235,13 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
       planMap = event.data()!['plans'];
     }
   }
-  transaction = planMap['${sendUsermodel?.sno}']['${sendUsermodel?.currentPlanLevel}'];
-  nextTransaction = planMap[sendUsermodel?.sno.toString()]['${(sendUsermodel?.currentPlanLevel??0)+1}']??{};
+  transaction = planMap[sendUsermodel?.sno][sendUsermodel?.currentPlanLevel];
   if (transaction['amt'] == (int.tryParse(data[index]
   ['amount']
       .toString()) ??
       0)) {
     if (transaction['type'] == 3) {
-      getClub(transaction, data, index, sendUsermodel,nextTransaction);
+      getClub(transaction, data, index, sendUsermodel);
     }
 
 
@@ -260,9 +258,9 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
     showUploadMessage("Incorrect Amount Send", context);
   }
 }
-getClub(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr,Map<String,dynamic> nextTransaction){
+getClub(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr){
 
-  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap['${sndUsr.sno}']['last']==sndUsr?.currentPlanLevel) {
+  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno]['last']==currentuser?.currentPlanLevel) {
     FirebaseFirestore.instance
         .collection('Users')
         .doc(sndUsr.uid)
@@ -309,7 +307,7 @@ getClub(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,Us
         'Amount': 0,
         "paidAmount": 0,
       },
-      'eligible':!nextTransaction['sent'],
+      'eligible':!transaction['sent'],
       'currentPlanLevel':FieldValue.increment(1),
       'currentCount': 0,
     });
