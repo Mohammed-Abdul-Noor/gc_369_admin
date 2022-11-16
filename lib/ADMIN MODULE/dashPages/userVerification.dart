@@ -240,7 +240,7 @@ class _UserVerificationState extends State<UserVerification> {
                                                     eligible: false,
                                                     email: "",
                                                     enteredDate: {
-                                                      //  currentuser?.sno:FieldValue.serverTimestamp(),
+                                                     currentuser!.sno!:FieldValue.serverTimestamp(),
                                                     },
                                                     fproof: registration
                                                         .data()['fProof'],

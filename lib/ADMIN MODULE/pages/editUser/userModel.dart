@@ -66,7 +66,7 @@ class UserModel {
   Map<String, dynamic>? spnsrAmt1;
   Map<String, dynamic>? spnsrAmt2;
   Map<String, dynamic>? spnsrAmt3;
-  Map<String, dynamic>? enteredDate;
+  Map<int, dynamic>? enteredDate;
   String? fproof;
   String? bproof;
   int? downline1;
