@@ -117,7 +117,7 @@ class _KycPageState extends State<KycPage> {
               Row(
                 children: const [
                   Text(
-                    'Total Users',
+                    'KYC Pending',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -208,8 +208,17 @@ class _KycPageState extends State<KycPage> {
                       // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                       //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                       builder: (context, snapshot) {
+                        print(snapshot.error);
+                        if(!snapshot.hasData){
+
+                          return Center(child: CircularProgressIndicator(),);
+                        }
                         var data = snapshot.data!.docs;
 
+                        if(data.length==0){
+                          lastDoc=null;
+                          return Center(child: Text("no users found"),);
+                        }
                         lastDoc = snapshot.data!.docs[data.length - 1];
                         lastDocuments[pageIndex] = lastDoc!;
                         firstDoc = snapshot.data!.docs[0];

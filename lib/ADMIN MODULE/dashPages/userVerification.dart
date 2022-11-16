@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gc_369/ADMIN%20MODULE/widgets/changePassword.dart';
 import 'package:intl/intl.dart';
 
 import '../pages/editUser/ProvideHelp.dart';
@@ -21,7 +22,6 @@ class UserVerification extends StatefulWidget {
 class _UserVerificationState extends State<UserVerification> {
   ScrollController? _controller1;
   bool disable = false;
-
   @override
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
@@ -31,7 +31,7 @@ class _UserVerificationState extends State<UserVerification> {
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection('registration')
-              .where('verify', isEqualTo: false)
+              .where('verify', isEqualTo: false).orderBy('joinDate')
               .snapshots(),
           builder: (context, snapshot) {
             print(snapshot.error);
@@ -200,8 +200,9 @@ class _UserVerificationState extends State<UserVerification> {
                                           children: [
                                             InkWell(
                                               onTap: () async {
-                                                if (disable) {
-                                                  disable == true;
+                                                if (!disable) {
+                                                  disable = true;
+
                                                   DocumentSnapshot id =
                                                       await FirebaseFirestore
                                                           .instance
@@ -209,12 +210,18 @@ class _UserVerificationState extends State<UserVerification> {
                                                               'settings')
                                                           .doc('settings')
                                                           .get();
-                                                  id.reference.update({
+                                                  if(id['userId']<1000){
+                                                    showUploadMessage('try again', context);
+                                                    return;
+                                                  }
+                                                  var user =
+                                                  id["userId"].toString();
+                                                  await id.reference.update({
                                                     "userId":
                                                         FieldValue.increment(1)
                                                   });
-                                                  var user =
-                                                      id["userId"].toString();
+
+
 
                                                   var userid = "GC$user";
 
@@ -292,7 +299,7 @@ class _UserVerificationState extends State<UserVerification> {
                                                     spnsrAmt3: {},
                                                     sponsoremobile: '',
                                                     sponsorincome: 0,
-                                                    status: true,
+                                                    status: false,
                                                     type: registration
                                                         .data()['typeId'],
                                                     upiId: '',
@@ -304,7 +311,7 @@ class _UserVerificationState extends State<UserVerification> {
                                                     whatsappcc: registration
                                                         .data()['whatsCc'],
                                                   );
-                                                  registration.reference
+                                                  await registration.reference
                                                       .update({
                                                     'verify': true,
                                                     'userId': userid,
@@ -343,7 +350,8 @@ class _UserVerificationState extends State<UserVerification> {
                                                               1),
                                                     });
                                                   }
-                                                  FirebaseFirestore.instance
+                                                  await FirebaseFirestore
+                                                      .instance
                                                       .collection('settings')
                                                       .doc('settings')
                                                       .update({
@@ -352,6 +360,7 @@ class _UserVerificationState extends State<UserVerification> {
                                                     'totalID':
                                                         FieldValue.increment(1),
                                                   }).then((value) {
+                                                    disable=false;
                                                     FirebaseFirestore.instance
                                                         .collection('Users')
                                                         .doc(userid)

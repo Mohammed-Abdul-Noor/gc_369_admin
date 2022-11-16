@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../main.dart';
 import '../drawer/drawerItem.dart';
@@ -81,11 +82,16 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                  : Row(
                     children: [
 
-                      IconButton(onPressed: (){
+                      IconButton(onPressed: () async {
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.remove('userId');
+
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);
                       }, icon:Icon (Icons.logout,color: Colors.white,)),
                       SizedBox(width: 23),
-                      Text('Logout',style: TextStyle(color: Colors.white),)
+                      InkWell(
+                          onTap: (){ Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);},
+                          child: Text('Logout',style: TextStyle(color: Colors.white),))
                     ],
                   )
                 ],

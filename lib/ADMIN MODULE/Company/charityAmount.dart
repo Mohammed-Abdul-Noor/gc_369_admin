@@ -104,13 +104,15 @@ class _CharityAmountPageState extends State<CharityAmountPage> {
                     .where('verify',isEqualTo: false)
                         .snapshots(),
                     builder: (context, snapshot) {
-                      var data = snapshot.data!.docs;
+                      print(snapshot.error);
                       if (!snapshot.hasData) {
                         return CircularProgressIndicator();
                       } else if (snapshot.hasData &&
                           snapshot.data!.docs.isEmpty) {
                         return Text("Empty");
                       } else {
+                        var data = snapshot.data!.docs;
+
                         return Column(
                           children: [
                             DataTable(
@@ -183,13 +185,11 @@ class _CharityAmountPageState extends State<CharityAmountPage> {
                                         child: InkWell(
                                             onTap: () async {
                                                if(!disable) {
-                                                 disable == true;
-
-
+                                                 disable = true;
                                                  await getHelp(
                                                      data, index, context,
                                                      charityProof.get(
-                                                         'senderId'));
+                                                         'senderId')).then((){disable=false;});
                                                } },
 
                                             child:  Text(charityProof['verify'])))),
@@ -231,6 +231,7 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
 
 
   Map<String, dynamic> transaction = {};
+  Map<String, dynamic> nextTransaction = {};
   if (planMap == {}) {
     DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
         .instance
@@ -242,13 +243,14 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
       planMap = event.data()!['plans'];
     }
   }
-  transaction = planMap[sendUsermodel?.sno][sendUsermodel?.currentPlanLevel];
+  transaction = planMap[sendUsermodel?.sno.toString()][sendUsermodel?.currentPlanLevel.toString()];
+  nextTransaction = planMap[sendUsermodel?.sno.toString()]['${(sendUsermodel?.currentPlanLevel??0)+1}']??{};
   if (transaction['amt'] == (int.tryParse(data[index]
   ['amount']
       .toString()) ??
       0)) {
     if (transaction['type'] == 4) {
-      getCharity(transaction, data, index, sendUsermodel);
+      getCharity(transaction, data, index, sendUsermodel,nextTransaction);
     }
 
 
@@ -265,9 +267,9 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
     showUploadMessage("Incorrect Amount Send", context);
   }
 }
-getCharity(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr){
+getCharity(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr,Map<String,dynamic> nextTransaction){
 
-  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno]['last']==currentuser?.currentPlanLevel) {
+  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno.toString()]['last']==sndUsr?.currentPlanLevel) {
     FirebaseFirestore.instance
         .collection('Users')
         .doc(sndUsr.uid)
@@ -314,7 +316,7 @@ getCharity(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index
         'Amount': 0,
         "paidAmount": 0,
       },
-      'eligible':!transaction['sent'],
+      'eligible':!nextTransaction['sent'],
       'currentPlanLevel':FieldValue.increment(1),
       'currentCount': 0,
     });

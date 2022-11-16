@@ -174,6 +174,7 @@ class _ClubsPageState extends State<ClubsPage> {
               StreamBuilder<QuerySnapshot>(
                   stream: userStream,
                   builder: (context, snapshot) {
+                    print(snapshot.error);
                     var data = snapshot.data!.docs;
                     if (data.length > 0) {
                       lastDoc = snapshot.data!.docs[data.length - 1];
