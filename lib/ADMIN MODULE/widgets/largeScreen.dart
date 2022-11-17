@@ -7,6 +7,7 @@ import '../../main.dart';
 import '../Company/create_genid.dart';
 import '../dashPages/TotalGenID.dart';
 import '../dashPages/geniDS.dart';
+import '../dashPages/proof_verification.dart';
 import '../dashPages/seniorityLevel/sLevel.dart';
 import '../dashPages/sponsorlessUsers.dart';
 import '../navigation/navigationDrawer.dart';
@@ -39,6 +40,7 @@ List<Widget> _screens =[
   SeniorityLevelT(sno: 4),
   SeniorityLevelT(sno: 5),
   sponsorlessUsersPage(),
+  ProofVerification(),
  // NewUsers(),
  // Changepasswords(),
 
