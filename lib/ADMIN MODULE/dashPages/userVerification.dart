@@ -356,6 +356,7 @@ class _UserVerificationState extends State<UserVerification> {
                                                         .collection('Users')
                                                         .doc(userid)
                                                         .set(userdata.toJson());
+                                                    disable =false;
                                                   });
                                                 }
                                               },
