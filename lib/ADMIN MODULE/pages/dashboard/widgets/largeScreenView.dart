@@ -41,7 +41,7 @@ class _LargeScreenViewState extends State<LargeScreenView> {
   @override
   void initState() {
     super.initState();
-    getCount();
+    // getCount();
     loop();
   }
 
