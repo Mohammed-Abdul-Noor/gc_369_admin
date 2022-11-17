@@ -184,6 +184,7 @@ class _ClubAmountState extends State<ClubAmount> {
                                                   await getHelp(
                                                       data, index, context,
                                                       clubProof['senderId']);
+                                                  disable =false;
                                                 }},
                                               child: Text('verify')))),
                                     ]);
@@ -224,7 +225,7 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
 
 
   Map<String, dynamic> transaction = {};
-  if (planMap == {}) {
+  if (planMap.keys.length<2) {
     DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
         .instance
         .collection('settings')
@@ -235,7 +236,7 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
       planMap = event.data()!['plans'];
     }
   }
-  transaction = planMap[sendUsermodel?.sno][sendUsermodel?.currentPlanLevel];
+  transaction = planMap['${sendUsermodel?.sno}']['${sendUsermodel?.currentPlanLevel}'];
   if (transaction['amt'] == (int.tryParse(data[index]
   ['amount']
       .toString()) ??
@@ -251,7 +252,8 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
       'verify': true
     }).then((value) {
       showUploadMessage("Successfuly", context);
-      Navigator.pop(context);
+
+      // Navigator.pop(context);
     });
   }
   else{
@@ -260,7 +262,7 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
 }
 getClub(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr){
 
-  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno]['last']==currentuser?.currentPlanLevel) {
+  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap['${sndUsr.sno}']['last']==currentuser?.currentPlanLevel) {
     FirebaseFirestore.instance
         .collection('Users')
         .doc(sndUsr.uid)
