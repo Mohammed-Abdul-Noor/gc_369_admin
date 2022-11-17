@@ -374,7 +374,7 @@ createGenId(UserModel sndUsr) async {
       eligible: true,
       email: sndUsr.email,
       enteredDate: {
-        0 :FieldValue.serverTimestamp(),
+        '0' :FieldValue.serverTimestamp(),
       },
       fproof: sndUsr.fproof,
       genId: GenIdModel(
@@ -447,7 +447,7 @@ createGenId(UserModel sndUsr) async {
       eligible: true,
       email: sndUsr.email,
       enteredDate: {
-        0 :FieldValue.serverTimestamp(),
+        '0' :FieldValue.serverTimestamp(),
       },
       fproof: sndUsr.fproof,
       genId: GenIdModel(
@@ -520,7 +520,7 @@ createGenId(UserModel sndUsr) async {
       eligible: true,
       email: sndUsr.email,
       enteredDate: {
-        0 :FieldValue.serverTimestamp(),
+        '0' :FieldValue.serverTimestamp(),
       },
       fproof: sndUsr.fproof,
       genId: GenIdModel(

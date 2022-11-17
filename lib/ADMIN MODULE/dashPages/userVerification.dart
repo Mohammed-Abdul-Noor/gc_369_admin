@@ -213,13 +213,27 @@ class _UserVerificationState extends State<UserVerification> {
     var user =
     id["userId"].toString();
     if(id["userId"]>1000) {
-      id.reference.update({
-        "userId":
-        FieldValue.increment(1)
-      });
+      var userid="";
+      bool increment=true;
+      if(registration
+          .data()['userId']==""||registration
+          .data()['userId']==null){
+        id.reference.update({
+          "userId":
+          FieldValue.increment(1)
+        });
+         userid = "GC$user";
+      }
+      else{
+        increment=false;
+        userid=registration
+            .data()['userId'];
+
+      }
 
 
-      var userid = "GC$user";
+
+
 
       final userdata = UserModel(
         address: registration
@@ -236,7 +250,7 @@ class _UserVerificationState extends State<UserVerification> {
         eligible: false,
         email: "",
         enteredDate: {
-          0: FieldValue.serverTimestamp(),
+          '0': FieldValue.serverTimestamp(),
         },
         fproof: registration
             .data()['fProof'],
@@ -307,6 +321,35 @@ class _UserVerificationState extends State<UserVerification> {
         whatsappcc: registration
             .data()['whatsCc'],
       );
+
+
+      FirebaseFirestore.instance
+          .collection('settings')
+          .doc('settings')
+          .update({
+        'totalMembers':
+        FieldValue.increment(increment?1:0),
+        'totalID':
+        FieldValue.increment(increment?1:0),
+      }).then((value) {
+        print("===================================");
+        String newId =userid;
+        print(userid);
+        print(userid.runtimeType);
+        Map<String, dynamic> userMap =userdata.toJson();
+        print(userMap);
+        try {
+          FirebaseFirestore.instance
+              .collection('Users')
+              .doc(newId)
+              .set(userMap);
+        }
+        catch(err){
+          print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+          print(err.toString());
+        }
+        disable = false;
+      });
       registration.reference
           .update({
         'verify': true,
@@ -346,21 +389,6 @@ class _UserVerificationState extends State<UserVerification> {
               1),
         });
       }
-      FirebaseFirestore.instance
-          .collection('settings')
-          .doc('settings')
-          .update({
-        'totalMembers':
-        FieldValue.increment(1),
-        'totalID':
-        FieldValue.increment(1),
-      }).then((value) {
-        FirebaseFirestore.instance
-            .collection('Users')
-            .doc(userid)
-            .set(userdata.toJson());
-        disable = false;
-      });
     }
     else{
       showUploadMessage("Try again", context);

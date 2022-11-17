@@ -66,7 +66,7 @@ class UserModel {
   Map<String, dynamic>? spnsrAmt1;
   Map<String, dynamic>? spnsrAmt2;
   Map<String, dynamic>? spnsrAmt3;
-  Map? enteredDate;
+  Map<String, dynamic>? enteredDate;
   String? fproof;
   String? bproof;
   int? downline1;
@@ -215,25 +215,45 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
+
     data['uid'] = uid;
+
     data['whatsNo'] = whatsNO;
+
     data['whatsappcc'] = whatsappcc;
+
     data['panNo'] = panNo ?? "";
+
     data['name'] = name ?? "";
+
     data['joinDate'] = joinDate ?? DateTime.now();
+
     data['mobno'] = mobno ?? "";
+
     data['mobcc'] = mobcc ?? "";
+
     data['address'] = address ?? {};
+
     data['email'] = email ?? "";
+
     data['accno'] = accno ?? "";
+
     data['accholname'] = accholname ?? "";
+
     data['ifscno'] = ifscno ?? "";
+
     data['bankname'] = bankname ?? '';
+
     data['branch'] = branch ?? "";
+
     data['type'] = type ?? "";
+
     data['googlepayno'] = googlepayno ?? "";
+
     data['phonepayno'] = phonepayno ?? "";
+
     data['paytmno'] = paytmno ?? '';
+
     data['upiId'] = upiId ?? '';
     data['sendhelp'] = sendhelp ?? 0;
     data['index'] = index ?? 0;
