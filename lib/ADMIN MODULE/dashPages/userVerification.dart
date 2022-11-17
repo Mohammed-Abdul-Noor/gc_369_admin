@@ -200,7 +200,7 @@ class _UserVerificationState extends State<UserVerification> {
                                           children: [
                                             InkWell(
                                               onTap: () async {
-                                                if (disable) {
+                                                if (!disable) {
                                                   disable == true;
                                                   DocumentSnapshot id =
                                                       await FirebaseFirestore
