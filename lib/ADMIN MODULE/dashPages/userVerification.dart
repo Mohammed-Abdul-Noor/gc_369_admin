@@ -388,6 +388,16 @@ class _UserVerificationState extends State<UserVerification> {
           FieldValue.increment(
               1),
         });
+        FirebaseFirestore.instance
+            .collection('Users')
+            .doc(registration
+            .data()['spnsrId3'])
+            .update({
+
+          'downline3':
+          FieldValue.increment(
+              1),
+        });
       }
     }
     else{
