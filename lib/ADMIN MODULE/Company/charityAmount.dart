@@ -192,7 +192,7 @@ class _CharityAmountPageState extends State<CharityAmountPage> {
                                                          'senderId'));
                                                } },
 
-                                            child:  Text(charityProof['verify'])))),
+                                            child:  Text('verify')))),
                                   ]);
                                 })),
                           ],
@@ -231,18 +231,23 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
 
 
   Map<String, dynamic> transaction = {};
-  if (planMap == {}) {
+  if (planMap.keys.length<2) {
     DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
         .instance
         .collection('settings')
         .doc('settings')
         .get();
     if (event.exists) {
+      print(event.data());
       plans = event.data()!['plan'];
       planMap = event.data()!['plans'];
     }
+    print(sendUsermodel?.sno);
+    print([sendUsermodel?.currentPlanLevel]);
+    print(planMap[sendUsermodel?.sno.toString()]);
+    print(planMap[sendUsermodel?.sno.toString()][sendUsermodel?.currentPlanLevel.toString()]);
   }
-  transaction = planMap[sendUsermodel?.sno][sendUsermodel?.currentPlanLevel];
+  transaction = planMap[sendUsermodel?.sno.toString()][sendUsermodel?.currentPlanLevel.toString()];
   if (transaction['amt'] == (int.tryParse(data[index]
   ['amount']
       .toString()) ??
@@ -258,7 +263,7 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
       'verify': true
     }).then((value) {
       showUploadMessage("Successfuly", context);
-      Navigator.pop(context);
+      // Navigator.pop(context);
     });
   }
   else{
@@ -267,7 +272,7 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
 }
 getCharity(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr){
 
-  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno]['last']==currentuser?.currentPlanLevel) {
+  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno.toString()]['last']==currentuser?.currentPlanLevel) {
     FirebaseFirestore.instance
         .collection('Users')
         .doc(sndUsr.uid)
