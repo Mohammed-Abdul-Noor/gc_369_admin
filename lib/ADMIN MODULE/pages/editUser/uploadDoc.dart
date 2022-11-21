@@ -1,7 +1,7 @@
 
 
 import 'dart:io';
-import 'package:gc_369/ADMIN%20MODULE/pages/editUser/userModel.dart';
+import 'package:gc_369/ADMIN%20MODULE/model/userModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';

@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../pages/editUser/ProvideHelp.dart';
+import '../pages/editUser/genIDModel.dart';
+import '../pages/editUser/getHelp.dart';
+import '../pages/layout.dart';
 import '../widgets/userApp.dart';
 import '../pages/editUser/editUser.dart';
-import '../pages/editUser/userModel.dart';
+import '../model/userModel.dart';
 
 
 class TotalUsersPage extends StatefulWidget {

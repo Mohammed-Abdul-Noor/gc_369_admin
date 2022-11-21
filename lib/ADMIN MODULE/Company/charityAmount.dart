@@ -3,10 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../pages/editUser/userModel.dart';
+import '../model/userModel.dart';
 import '../pages/layout.dart';
 import '../widgets/changePassword.dart';
-import '../widgets/userApp.dart';
 
 class CharityAmountPage extends StatefulWidget {
   const CharityAmountPage({Key? key}) : super(key: key);

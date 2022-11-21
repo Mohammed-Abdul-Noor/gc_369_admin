@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../../copy/details.dart';
 import '../../copy/pdf.dart';
 import 'editUser/editUser.dart';
-import 'editUser/userModel.dart';
+import '../model/userModel.dart';
 
 
 

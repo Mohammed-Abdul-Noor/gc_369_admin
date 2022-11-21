@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../layout.dart';
-import 'ProvideHelp.dart';
-import 'genIDModel.dart';
-import 'getHelp.dart';
+import '../pages/layout.dart';
+import '../pages/editUser/ProvideHelp.dart';
+import '../pages/editUser/genIDModel.dart';
+import '../pages/editUser/getHelp.dart';
 
 UserModel? currentuser;
 UserModel? sponsorUser1;
@@ -140,7 +140,7 @@ class UserModel {
         this.spnsrAmt3,
         this.index,
         this.mobcc,
-        this.whatsappcc});
+        this.whatsappcc,});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'] ?? "";

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/editUser/uploadDoc.dart';
-import '../pages/editUser/userModel.dart';
+import '../model/userModel.dart';
 
 class Changepasswords extends StatefulWidget {
   static const String id = "changepasswords";

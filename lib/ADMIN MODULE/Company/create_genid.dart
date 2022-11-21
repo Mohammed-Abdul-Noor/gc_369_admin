@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import '../pages/editUser/ProvideHelp.dart';
 import '../pages/editUser/genIDModel.dart';
 import '../pages/editUser/getHelp.dart';
-import '../pages/editUser/userModel.dart';
+import '../model/userModel.dart';
 import '../pages/layout.dart';
 import '../widgets/changePassword.dart';
 import '../widgets/userApp.dart';

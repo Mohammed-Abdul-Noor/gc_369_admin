@@ -9,14 +9,14 @@ import '../pages/layout.dart';
 import '../widgets/changePassword.dart';
 import '../widgets/userApp.dart';
 
-class ClubAmount extends StatefulWidget {
-  const ClubAmount({Key? key}) : super(key: key);
+class SendRecieveProof extends StatefulWidget {
+  const SendRecieveProof({Key? key}) : super(key: key);
 
   @override
-  State<ClubAmount> createState() => _ClubAmountState();
+  State<SendRecieveProof> createState() => _SendRecieveProofState();
 }
 
-class _ClubAmountState extends State<ClubAmount> {
+class _SendRecieveProofState extends State<SendRecieveProof> {
   ScrollController? _controller1;
   bool disable = false;
   @override
@@ -32,7 +32,7 @@ class _ClubAmountState extends State<ClubAmount> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Club Amount',
+                'Transactions',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -93,8 +93,7 @@ class _ClubAmountState extends State<ClubAmount> {
                   scrollDirection: Axis.horizontal,
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                          .collection('clubProof')
-                          .where('verify', isEqualTo: false)
+                          .collection('Proof')
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
@@ -111,15 +110,15 @@ class _ClubAmountState extends State<ClubAmount> {
                                   border: TableBorder.all(
                                       color: Colors.black.withOpacity(0.1)),
                                   dataRowColor:
-                                      MaterialStateProperty.resolveWith(
+                                  MaterialStateProperty.resolveWith(
                                           (Set states) {
-                                    if (states
-                                        .contains(MaterialState.selected)) {
-                                      return Colors.grey;
-                                    }
-                                    return Colors
-                                        .white; // Use the default value.
-                                  }),
+                                        if (states
+                                            .contains(MaterialState.selected)) {
+                                          return Colors.grey;
+                                        }
+                                        return Colors
+                                            .white; // Use the default value.
+                                      }),
                                   checkboxHorizontalMargin: Checkbox.width,
                                   columnSpacing: 50,
                                   dividerThickness: 3,
@@ -131,7 +130,7 @@ class _ClubAmountState extends State<ClubAmount> {
                                     DataColumn(
                                         numeric: true,
                                         onSort: (columnIndex, ascending) =>
-                                            const Text(''),
+                                        const Text(''),
                                         label: const Text('SI.No')),
                                     const DataColumn(label: Text('User ID')),
                                     const DataColumn(label: Text('Date')),
@@ -166,7 +165,7 @@ class _ClubAmountState extends State<ClubAmount> {
                                           decoration: BoxDecoration(
                                               color: Colors.red,
                                               borderRadius:
-                                                  BorderRadius.circular(3),
+                                              BorderRadius.circular(3),
                                               border: Border.all(
                                                   color: Colors.black
                                                       .withOpacity(0.3))),
@@ -174,9 +173,9 @@ class _ClubAmountState extends State<ClubAmount> {
                                           child: const Text('View'))),
                                       DataCell(Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           Container(
                                               height: 30,
@@ -184,7 +183,7 @@ class _ClubAmountState extends State<ClubAmount> {
                                               decoration: BoxDecoration(
                                                   color: Colors.yellow,
                                                   borderRadius:
-                                                      BorderRadius.circular(3),
+                                                  BorderRadius.circular(3),
                                                   border: Border.all(
                                                       color: Colors.black
                                                           .withOpacity(0.3))),
@@ -198,7 +197,7 @@ class _ClubAmountState extends State<ClubAmount> {
                                                           index,
                                                           context,
                                                           clubProof[
-                                                              'senderId']);
+                                                          'senderId']);
                                                       disable = false;
                                                     }
                                                   },
@@ -226,7 +225,7 @@ class _ClubAmountState extends State<ClubAmount> {
 getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
     String id) async {
   DocumentSnapshot<Map<String, dynamic>> sendUser =
-      await FirebaseFirestore.instance.collection('Users').doc(id).get();
+  await FirebaseFirestore.instance.collection('Users').doc(id).get();
   int totalAmount =
       int.tryParse(sendUser.get('provideHelpUsers')['Amount'].toString()) ?? 0;
   int paidAmount =
@@ -247,7 +246,7 @@ getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
     }
   }
   transaction =
-      planMap['${sendUsermodel?.sno}']['${sendUsermodel?.currentPlanLevel}'];
+  planMap['${sendUsermodel?.sno}']['${sendUsermodel?.currentPlanLevel}'];
   if (transaction['amt'] ==
       (int.tryParse(data[index]['amount'].toString()) ?? 0)) {
     if (transaction['type'] == 3) {
@@ -270,7 +269,7 @@ getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
       planMap['${sndUsr.sno}']['last'] == currentuser?.currentPlanLevel) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'clubAmt.${sndUsr.sno}':
-          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
+      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
@@ -285,7 +284,7 @@ getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'clubAmt.${sndUsr.sno}':
-          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
+      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
@@ -298,7 +297,7 @@ getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   } else {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'clubAmt.${sndUsr.sno}':
-          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
+      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,

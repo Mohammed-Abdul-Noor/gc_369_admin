@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../widgets/changePassword.dart';
 import '../widgets/userApp.dart';
 import '../pages/editUser/editUser.dart';
-import '../pages/editUser/userModel.dart';
+import '../model/userModel.dart';
 
 
 class sponsorlessUsersPage extends StatefulWidget {

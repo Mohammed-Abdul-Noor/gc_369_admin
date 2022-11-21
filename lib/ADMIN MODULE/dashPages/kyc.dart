@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../pages/editUser/editUser.dart';
-import '../pages/editUser/userModel.dart';
+import '../model/userModel.dart';
 
 
 

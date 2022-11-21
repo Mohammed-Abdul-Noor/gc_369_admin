@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../widgets/changePassword.dart';
 import '../editUser.dart';
 import '../uploadDoc.dart';
-import '../userModel.dart';
+import '../../../model/userModel.dart';
 String? currentUserId;
 class NewPassword extends StatefulWidget {
 

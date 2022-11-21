@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
-import 'package:gc_369/ADMIN%20MODULE/pages/editUser/userModel.dart';
+import 'package:gc_369/ADMIN%20MODULE/model/userModel.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -233,7 +233,7 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
             Row(
               children:  [
                 Text(
-                  'Club ${widget.sno} Users',
+                  'Seniority Level ${widget.sno} Users',
                   style:const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,

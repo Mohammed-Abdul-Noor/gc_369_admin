@@ -7,7 +7,7 @@ import '../responsiveness/responsive.dart';
 import '../widgets/largeScreen.dart';
 import '../widgets/smalScreen.dart';
 import '../widgets/top_nav.dart';
-import 'editUser/userModel.dart';
+import '../model/userModel.dart';
 Map<String, dynamic> currentPlan = {};
 var rcv_amt;
 var snd_amt;
