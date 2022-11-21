@@ -34,7 +34,7 @@ final itemsMain =[
    const DrawerItem(title:'Seniority Level 5',icon:Icons.account_tree_outlined),
    const DrawerItem(title:'Sponsor Less',icon:Icons.person_add_alt),
    const DrawerItem(title:'Proof Verification',icon:Icons.verified_user),
- //  const DrawerItem(title:'SendRecieveProof',icon:Icons.verified_user),
+   const DrawerItem(title:'SendRecieveProof',icon:Icons.verified_user),
 
   // const DrawerItem(title:'Withdraw Eligible',icon:Icons.currency_rupee),
   // const DrawerItem(title:'Transaction History',icon:Icons.history),

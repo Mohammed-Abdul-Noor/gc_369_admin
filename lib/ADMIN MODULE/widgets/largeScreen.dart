@@ -42,7 +42,7 @@ List<Widget> _screens =[
   SeniorityLevelT(sno: 5),
   sponsorlessUsersPage(),
   ProofVerification(),
-//  SendRecieveProof(),
+  SendRecieveProof(),
  // NewUsers(),
  // Changepasswords(),
 
