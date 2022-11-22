@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gc_369/ADMIN%20MODULE/widgets/changePassword.dart';
 import 'package:intl/intl.dart';
 
+import '../../main.dart';
 import '../pages/editUser/ProvideHelp.dart';
 import '../pages/editUser/genIDModel.dart';
 import '../pages/editUser/getHelp.dart';
@@ -556,6 +557,8 @@ getSponsor1(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   data[index].reference.update({'sponsorLevel': 1, 'verify': true});
   if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
       planMap[sndUsr.sno]['last'] == currentuser?.currentPlanLevel) {
+    int sno=currentuser?.sno??0;
+    updateAllUser(sno,sno+1,currentuser);
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt1.${sndUsr.sno}':
           FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
@@ -601,6 +604,8 @@ getSponsor2(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   data[index].reference.update({'sponsorLevel': 2, 'verify': true});
   if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
       planMap[sndUsr.sno]['last'] == currentuser?.currentPlanLevel) {
+    int sno=currentuser?.sno??0;
+    updateAllUser(sno,sno+1,currentuser);
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt2.${sndUsr.sno}':
           FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
@@ -646,6 +651,8 @@ getSponsor3(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   data[index].reference.update({'sponsorLevel': 3, 'verify': true});
   if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
       planMap[sndUsr.sno]['last'] == currentuser?.currentPlanLevel) {
+    int sno=currentuser?.sno??0;
+    updateAllUser(sno,sno+1,currentuser);
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt3.${sndUsr.sno}':
           FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),

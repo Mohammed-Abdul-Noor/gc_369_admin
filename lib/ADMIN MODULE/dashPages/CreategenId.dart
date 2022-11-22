@@ -234,8 +234,8 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
       planMap = event.data()!['plans'];
     }
   }
-  transaction = planMap[sendUsermodel?.sno.toString()][sendUsermodel?.currentPlanLevel.toString()];
-  nextTransaction = planMap[sendUsermodel?.sno.toString()]['${(sendUsermodel?.currentPlanLevel??0)+1}']??{};
+  transaction = planMap[sendUsermodel.sno.toString()][sendUsermodel.currentPlanLevel.toString()];
+  nextTransaction = planMap[sendUsermodel.sno.toString()]['${(sendUsermodel.currentPlanLevel??0)+1}']??{};
   if (transaction['amt'] == (int.tryParse(data[index]
   ['amount']
       .toString()) ??
@@ -260,7 +260,7 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
 }
 getGenId(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,UserModel sndUsr,Map<String,dynamic> nextTransaction){
   createGenId(sndUsr);
-  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno.toString()]['last']==sndUsr?.currentPlanLevel) {
+  if(transaction['cnt']==sndUsr.currentCount!+1 && planMap[sndUsr.sno.toString()]['last']==sndUsr.currentPlanLevel) {
     FirebaseFirestore.instance
         .collection('Users')
         .doc(sndUsr.uid)
@@ -403,7 +403,7 @@ createGenId(UserModel sndUsr) async {
       receiveCount: 0,
       referral: [],
       sendCount: 0,
-      search: setSearchParam(userid+''+sndUsr.name!),
+      search: setSearchParam(userid+' '+sndUsr.name!),
       sendhelp: 0,
       sno: 1,
       spnsr_Id: sndUsr.spnsr_Id,
@@ -476,7 +476,7 @@ createGenId(UserModel sndUsr) async {
       receiveCount: 0,
       referral: [],
       sendCount: 0,
-      search: setSearchParam(userid+''+sndUsr.name!),
+      search: setSearchParam(userid+' '+sndUsr.name!),
       sendhelp: 0,
       sno: 1,
       spnsr_Id: sndUsr.spnsrId2,
@@ -549,7 +549,7 @@ createGenId(UserModel sndUsr) async {
       receiveCount: 0,
       referral: [],
       sendCount: 0,
-      search: setSearchParam(userid+''+sndUsr.name!),
+      search: setSearchParam(userid+' '+sndUsr.name!),
       sendhelp: 0,
       sno: 1,
       spnsr_Id: sndUsr.spnsrId3,

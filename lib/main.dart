@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'ADMIN MODULE/model/userModel.dart';
 import 'ADMIN MODULE/navigation/navigationProvider.dart';
 import 'ADMIN MODULE/routing/loginpage.dart';
 
@@ -46,4 +48,36 @@ class _MyAppState extends State<MyApp> {
           home: Loginpage(),
         ),
       );
+}
+
+updateAllUser(int currentSno,int nextSno,UserModel? user){
+  FirebaseFirestore.instance.collection('UsersData').doc(currentSno.toString()).update(
+      {
+        'users': FieldValue.arrayRemove([{
+          'name': user?.name,
+          'uid': user?.uid,
+          'sno': currentSno,
+          'currentPlanLevel': user?.currentPlanLevel,
+          'currentCount': user?.currentCount,
+          'joinDate': user?.joinDate,
+          'index': user?.index,
+
+
+        }
+        ])
+      });
+  FirebaseFirestore.instance.collection('UsersData').doc(nextSno.toString()).update({
+    'users': FieldValue.arrayUnion([{
+      'name': currentuser?.name,
+      'uid': currentuser?.uid,
+      'sno': nextSno,
+      'currentPlanLevel': 0,
+      'currentCount': 0,
+      'joinDate': currentuser?.joinDate,
+      'index': currentuser?.index,
+
+
+    }
+    ])
+  });
 }
