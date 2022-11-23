@@ -246,7 +246,7 @@ class _RegistrationReportState extends State<RegistrationReport> {
                       }):
                   StreamBuilder<QuerySnapshot>(
                       stream:  FirebaseFirestore.instance
-                          .collection('registration').where('search',arrayContains: search!.text.toUpperCase())
+                          .collection('registration').where('mobNo',arrayContains: search!.text.toUpperCase())
                           .snapshots(),
                       builder: (context, snapshot) {
                         List<DocumentSnapshot> data = snapshot.data!.docs;

@@ -178,7 +178,8 @@ class _UserVerificationState extends State<UserVerification> {
                                             registration.data()['mobNo'])),
                                         DataCell(SelectableText(
                                             registration.data()['whatsNo'])),
-                                        DataCell(CachedNetworkImage(
+                                        DataCell(registration.data()['walletReg']?SelectableText(
+                                      'wallet transfer by\n${registration.data()['spendId']}'):CachedNetworkImage(
                                           imageUrl:
                                               registration.data()['fProof'],
                                           width: currentWidth < 700

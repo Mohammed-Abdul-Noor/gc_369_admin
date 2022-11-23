@@ -180,7 +180,7 @@ class _WalletRegistrationState extends State<WalletRegistration> {
                                             walletRegistration.data()['whatsNo'])),
                                         DataCell(CachedNetworkImage(
                                           imageUrl:
-                                          walletRegistration.data()['fProof'],
+                                           walletRegistration.data()['fProof'],
                                           width: currentWidth < 700
                                               ? w * 0.4
                                               : w * 0.2,
