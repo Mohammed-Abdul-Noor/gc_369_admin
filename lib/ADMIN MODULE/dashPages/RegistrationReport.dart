@@ -9,18 +9,14 @@ import '../pages/layout.dart';
 import '../widgets/changePassword.dart';
 import '../widgets/userApp.dart';
 
-class SendReceiveProof extends StatefulWidget {
-  const SendReceiveProof({Key? key}) : super(key: key);
-
+class RegistrationReport extends StatefulWidget {
+  const RegistrationReport({Key? key}) : super(key: key);
 
   @override
-  State<SendReceiveProof> createState() => _SendReceiveProofState();
+  State<RegistrationReport> createState() => _RegistrationReportState();
 }
 
-
-class _SendReceiveProofState extends State<SendReceiveProof> {
- // TextEditingController? search;
-
+class _RegistrationReportState extends State<RegistrationReport> {
 
   Stream<QuerySnapshot<Map<String,dynamic>>>? userStream;
   DocumentSnapshot? lastDoc;
@@ -32,9 +28,9 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
     // usersListener(currentUserId);
     _controller1=ScrollController();
     userStream =  FirebaseFirestore.instance
-        .collection('proof')
-         .limit(25).snapshots();
-  //  TextEditingController search =TextEditingController();
+        .collection('registration')
+        .limit(25).snapshots();
+    //  TextEditingController search =TextEditingController();
     super.initState();
 
   }
@@ -45,13 +41,13 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
       ind=0;
       pageIndex=0;
       userStream =  FirebaseFirestore.instance
-          .collection('proof')
+          .collection('registration')
           .limit(25).snapshots();
     } else {
       ind+=25;
       userStream = FirebaseFirestore.instance
-          .collection('proof')
-         // .orderBy('index')
+          .collection('registration')
+      // .orderBy('index')
           .startAfterDocument(lastDoc!)
           .limit(25)
           .snapshots();
@@ -67,22 +63,22 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
       ind=0;
 
       userStream =  FirebaseFirestore.instance
-          .collection('proof')
+          .collection('registration')
           .limit(25).snapshots();
     } else {
       ind-=25;
 
       userStream =  FirebaseFirestore.instance
-          .collection('proof')
+          .collection('registration')
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
           .limit(25)
           .snapshots();
     }
     setState(() {});
   }
+
   ScrollController? _controller1;
   TextEditingController search =TextEditingController();
-
   bool disable = false;
   Map<int, DocumentSnapshot> lastDocuments = {};
   @override
@@ -98,7 +94,7 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Transactions',
+                'Registration Report',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -174,20 +170,95 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
                   scrollDirection: Axis.horizontal,
                   child:
                   search!.text==''?
-                  StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
+                  StreamBuilder<QuerySnapshot>(
                       stream: userStream,
                       builder: (context, snapshot) {
                         List<DocumentSnapshot> data = snapshot.data!.docs;
-                        lastDoc = snapshot.data!.docs[data.length - 1];
+                        lastDoc=snapshot.data!.docs[data.length - 1];
+                        firstDoc=snapshot.data!.docs[0];
                         lastDocuments[pageIndex] = lastDoc!;
-                        firstDoc = snapshot.data!.docs[0];
                         if (!snapshot.hasData) {
                           return CircularProgressIndicator();
                         } else if (snapshot.hasData &&
                             snapshot.data!.docs.isEmpty) {
                           return Text("Empty");
                         } else {
+                          return Column(
+                            children: [
+                              DataTable(
+                                  dataRowHeight: h * 0.1,
+                                  border: TableBorder.all(
+                                      color: Colors.black.withOpacity(0.1)),
+                                  dataRowColor:
+                                  MaterialStateProperty.resolveWith(
+                                          (Set states) {
+                                        if (states
+                                            .contains(MaterialState.selected)) {
+                                          return Colors.grey;
+                                        }
+                                        return Colors
+                                            .white; // Use the default value.
+                                      }),
+                                  checkboxHorizontalMargin: Checkbox.width,
+                                  columnSpacing: 50,
+                                  dividerThickness: 3,
+                                  showCheckboxColumn: true,
+                                  horizontalMargin: 50,
+                                  //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
 
+                                  columns: [
+                                    DataColumn(
+                                        numeric: true,
+                                        onSort: (columnIndex, ascending) =>
+                                        const Text(''),
+                                        label: const Text('SI.No')),
+                                    const DataColumn(label: Text('Name')),
+                                    const DataColumn(label: Text('Password')),
+                                   const DataColumn(label: Text('UserID')),
+                                   const DataColumn(label: Text('Join Date')),
+                                   const DataColumn(label: Text('Mobile Number')),
+                                   // const DataColumn(label: Text('Sponsor I')),
+                                   // const DataColumn(label: Text('Sponsor II')),
+                                   // const DataColumn(label: Text('Sponsor III')),
+                                  ],
+                                  rows: List.generate(data.length, (index) {
+                                    DocumentSnapshot registration = data[index];
+
+                                    return DataRow(cells: [
+                                      DataCell(Text((ind == 0 ? index + 1 : ind + index + 1).toString())),
+                                      DataCell(SelectableText(registration['name'])),
+                                      DataCell(SelectableText(registration['password'])),
+                                     DataCell(SelectableText(
+                                         registration['verify']==true?
+                                         registration['userId']??''
+                                             :''
+                                     )),
+                                    DataCell(Text("${DateFormat('dd-MMM-yyyy').format(registration['joinDate'].toDate())??''}")),
+                                     DataCell(SelectableText(registration['mobNo']??'')),
+                                     // DataCell(Text(registration['spnsr_Id']??'')),
+                                     // DataCell(Text(registration['spnsrId2']??'')),
+                                     // DataCell(Text(registration['spnsrId3']??'')),
+                                    ]);
+                                  })),
+                            ],
+                          );
+                        }
+                      }):
+                  StreamBuilder<QuerySnapshot>(
+                      stream:  FirebaseFirestore.instance
+                          .collection('registration').where('search',arrayContains: search!.text.toUpperCase())
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        List<DocumentSnapshot> data = snapshot.data!.docs;
+                        lastDoc=snapshot.data!.docs[data.length - 1];
+                        firstDoc=snapshot.data!.docs[0];
+                        lastDocuments[pageIndex] = lastDoc!;
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasData &&
+                            snapshot.data!.docs.isEmpty) {
+                          return Text("Empty");
+                        } else {
                           return Column(
                             children: [
                               DataTable(
@@ -217,234 +288,55 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
                                         onSort: (columnIndex, ascending) =>
                                         const Text(''),
                                         label: const Text('SI.No')),
-                                    const DataColumn(label: Text('Sender ID')),
-                                    const DataColumn(label: Text('Receiver ID')),
-                                    const DataColumn(label: Text('Sender Level')),
-                                    const DataColumn(label: Text('Send Date')),
-                                    const DataColumn(label: Text('Proof')),
-                                    const DataColumn(
-                                        label: Text('Payment Method')),
-                                    const DataColumn(label: Text('Amount')),
-                                    const DataColumn(label: Text('Status')),
-                                    const DataColumn(label: Text('Remove')),
+                                    const DataColumn(label: Text('Name')),
+                                    const DataColumn(label: Text('Password')),
+                                   const DataColumn(label: Text('UserID')),
+                                   const DataColumn(label: Text('Join Date')),
+                                   const DataColumn(label: Text('Mobile Number')),
+                                   // const DataColumn(label: Text('Sponsor I')),
+                                   // const DataColumn(label: Text('Sponsor II')),
+                                   // const DataColumn(label: Text('Sponsor III')),
                                   ],
                                   rows: List.generate(data.length, (index) {
-                                    DocumentSnapshot proof = data[index];
+                                    DocumentSnapshot registration = data[index];
 
                                     return DataRow(cells: [
-                                      DataCell(Text(
-                                          (ind == 0 ? index + 1 : ind + index + 1)
-                                              .toString())),
-                                      DataCell(SelectableText(proof['senderId'])),
-                                      DataCell(SelectableText(proof['receiverId'])),
-                                      DataCell(SelectableText(proof['senderlevel'].toString())),
-                                      DataCell(Text("${DateFormat('dd-MMM-yyyy').format(proof['sendTime'].toDate())}")),
-                                      DataCell(CachedNetworkImage(
-                                        imageUrl: proof['file'],
-                                        width: currentWidth < 700
-                                            ? w * 0.4
-                                            : w * 0.2,
-                                        fit: BoxFit.fitHeight,
-                                      )),
-                                      DataCell(Text(proof['paymentM'])),
-                                      DataCell(Text(proof['amount'])),
-                                      DataCell(Container(
-                                          height: 30,
-                                          width: 60,
-                                          decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius:
-                                              BorderRadius.circular(3),
-                                              border: Border.all(
-                                                  color: Colors.black
-                                                      .withOpacity(0.3))),
-                                          alignment: Alignment.center,
-                                          child: const Text('View'))),
-                                      DataCell(Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                              height: 30,
-                                              width: 90,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.yellow,
-                                                  borderRadius:
-                                                  BorderRadius.circular(3),
-                                                  border: Border.all(
-                                                      color: Colors.black
-                                                          .withOpacity(0.3))),
-                                              alignment: Alignment.center,
-                                              child: InkWell(
-                                                  onTap: () async {
-                                                    if (!disable) {
-                                                      disable == true;
-                                                      await getHelp(
-                                                          data,
-                                                          index,
-                                                          context,
-                                                          proof[
-                                                          'senderId']);
-                                                      disable = false;
-                                                    }
-                                                  },
-                                                  child: Text('verify'))),
-                                          SizedBox(height: 10),
-                                          Container()
-                                        ],
-                                      )),
+                                      DataCell(Text('${pageIndex + index + 1}')),
+                                      DataCell(SelectableText(registration['name'])),
+                                      DataCell(SelectableText(registration['password'])),
+                                     DataCell(SelectableText(
+                                         registration['verify']==true?
+                                         registration['userId']??''
+                                             :''
+                                     )),
+                                    DataCell(Text("${DateFormat('dd-MMM-yyyy').format(registration['joinDate'].toDate())??''}")),
+                                     DataCell(SelectableText(registration['mobNo']??'')),
+                                     // DataCell(Text(registration['spnsr_Id']??'')),
+                                     // DataCell(Text(registration['spnsrId2']??'')),
+                                     // DataCell(Text(registration['spnsrId3']??'')),
                                     ]);
                                   })),
                             ],
                           );
                         }
                       })
-                     :
-                  StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-                      stream: FirebaseFirestore.instance
-                          .collection('proof').where('search',arrayContains: search!.text.toUpperCase()).limit(25).snapshots(),
-                      builder: (context, snapshot) {
-                        List<DocumentSnapshot> data = snapshot.data!.docs;
-                        lastDoc = snapshot.data!.docs[data.length - 1];
-                        lastDocuments[pageIndex] = lastDoc!;
-                        firstDoc = snapshot.data!.docs[0];
-                         // List<DocumentSnapshot> data = snapshot.data!.docs;
-                          return Column(
-                            children: [
-                              DataTable(
-                                  dataRowHeight: h * 0.5,
-                                  border: TableBorder.all(
-                                      color: Colors.black.withOpacity(0.1)),
-                                  dataRowColor:
-                                  MaterialStateProperty.resolveWith(
-                                          (Set states) {
-                                        if (states
-                                            .contains(MaterialState.selected)) {
-                                          return Colors.grey;
-                                        }
-                                        return Colors
-                                            .white; // Use the default value.
-                                      }),
-                                  checkboxHorizontalMargin: Checkbox.width,
-                                  columnSpacing: 50,
-                                  dividerThickness: 3,
-                                  showCheckboxColumn: true,
-                                  horizontalMargin: 50,
-                                  //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-
-                                  columns: [
-                                    DataColumn(
-                                        numeric: true,
-                                        onSort: (columnIndex, ascending) =>
-                                        const Text(''),
-                                        label: const Text('SI.No')),
-                                    const DataColumn(label: Text('Sender ID')),
-                                    const DataColumn(label: Text('Receiver ID')),
-                                    const DataColumn(label: Text('Sender Level')),
-                                    const DataColumn(label: Text('Send Date')),
-                                    const DataColumn(label: Text('Proof')),
-                                    const DataColumn(
-                                        label: Text('Payment Method')),
-                                    const DataColumn(label: Text('Amount')),
-                                    const DataColumn(label: Text('Status')),
-                                    const DataColumn(label: Text('Remove')),
-                                  ],
-                                  rows: List.generate(data.length, (index) {
-                                    DocumentSnapshot proof = data[index];
-
-                                    return DataRow(cells: [
-                                      DataCell(Text('${pageIndex + index + 1}')),
-                                      DataCell(SelectableText(proof['senderId'])),
-                                      DataCell(SelectableText(proof['receiverId'])),
-                                      DataCell(SelectableText(proof['senderlevel'].toString())),
-                                      DataCell(Text("${DateFormat('dd-MMM-yyyy').format(proof['sendTime'].toDate())}")),
-                                      DataCell(CachedNetworkImage(
-                                        imageUrl: proof['file'],
-                                        width: currentWidth < 700
-                                            ? w * 0.4
-                                            : w * 0.2,
-                                        fit: BoxFit.fitHeight,
-                                      )),
-                                      DataCell(Text(proof['paymentM'])),
-                                      DataCell(Text(proof['amount'])),
-                                      DataCell(Container(
-                                          height: 30,
-                                          width: 60,
-                                          decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius:
-                                              BorderRadius.circular(3),
-                                              border: Border.all(
-                                                  color: Colors.black
-                                                      .withOpacity(0.3))),
-                                          alignment: Alignment.center,
-                                          child: const Text('View'))),
-                                      DataCell(Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                              height: 30,
-                                              width: 90,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.yellow,
-                                                  borderRadius:
-                                                  BorderRadius.circular(3),
-                                                  border: Border.all(
-                                                      color: Colors.black
-                                                          .withOpacity(0.3))),
-                                              alignment: Alignment.center,
-                                              child: InkWell(
-                                                  onTap: () async {
-                                                    if (!disable) {
-                                                      disable == true;
-                                                      await getHelp(
-                                                          data,
-                                                          index,
-                                                          context,
-                                                          proof[
-                                                          'senderId']);
-                                                      disable = false;
-                                                    }
-                                                  },
-                                                  child: Text('verify'))),
-                                          SizedBox(height: 10),
-                                          Container()
-                                        ],
-                                      )),
-                                    ]);
-                                  })),
-                            ],
-                          );
-
-                      })
                 ),
               ),
               Row(
                 children: [
-                  pageIndex == 0
-                      ? Container()
-                      : ElevatedButton(
-                      onPressed: () {
-                        prev();
-                      },
-                      child: Text('Previous')),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  lastDoc == null && pageIndex != 0
-                      ? Container()
-                      : ElevatedButton(
-                      onPressed: () {
+                  pageIndex == 0 ? Container():ElevatedButton(onPressed: (){
+                    prev();
+                  }, child: Text('previous')),
+                  SizedBox(width: 30),
+                  lastDoc == null && pageIndex !=0
+                  ?
+                      Container():
+                      ElevatedButton(onPressed: (){
                         next();
-                      },
-                      child: Text('Next'))
+                      }, child: Text('Next'))
+
                 ],
-              ),
+              )
             ],
           ),
         ]),

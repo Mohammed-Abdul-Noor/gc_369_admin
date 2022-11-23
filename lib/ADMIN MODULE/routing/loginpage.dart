@@ -146,7 +146,7 @@ var loginkey = GlobalKey();
                     },
                   )),
               SizedBox(height: 10),
-              Center(child: Text('Version 1.0.9'))
+              Center(child: Text('Version 1.1.1'))
             ],
           )),
     );

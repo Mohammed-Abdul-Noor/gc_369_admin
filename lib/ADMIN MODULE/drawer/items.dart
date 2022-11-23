@@ -17,6 +17,7 @@ final itemsMain =[
    const DrawerItem(title:'Club Amount',icon:Icons.announcement_outlined),
    const DrawerItem(title:'Change Password',icon:Icons.password),
    const DrawerItem(title:'User Verification',icon:Icons.password),
+   const DrawerItem(title:'Wallet Registration',icon:Icons.password),
    const DrawerItem(title:'Gen ID Verification',icon:Icons.password),
    const DrawerItem(title:'TotalGenID',icon:Icons.password),
    const DrawerItem(title:'Create Gen ID',icon:Icons.password),
@@ -34,7 +35,9 @@ final itemsMain =[
    const DrawerItem(title:'Seniority Level 5',icon:Icons.account_tree_outlined),
    const DrawerItem(title:'Sponsor Less',icon:Icons.person_add_alt),
    const DrawerItem(title:'Proof Verification',icon:Icons.verified_user),
-   const DrawerItem(title:'SendRecieveProof',icon:Icons.verified_user),
+   const DrawerItem(title:'Transaction Report',icon:Icons.verified_user),
+   const DrawerItem(title:'Registration Report',icon:Icons.verified_user),
+   const DrawerItem(title:'User Report',icon:Icons.verified_user),
 
   // const DrawerItem(title:'Withdraw Eligible',icon:Icons.currency_rupee),
   // const DrawerItem(title:'Transaction History',icon:Icons.history),

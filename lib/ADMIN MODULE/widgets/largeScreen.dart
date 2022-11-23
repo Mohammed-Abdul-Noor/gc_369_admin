@@ -5,8 +5,11 @@ import 'package:gc_369/ADMIN%20MODULE/pages/editUser/password/passwordTable.dart
 
 import '../../main.dart';
 import '../Company/create_genid.dart';
+import '../dashPages/RegistrationReport.dart';
 import '../dashPages/SendRecieveProof.dart';
 import '../dashPages/TotalGenID.dart';
+import '../dashPages/WalletRegistration.dart';
+import '../dashPages/four.dart';
 import '../dashPages/geniDS.dart';
 import '../dashPages/proof_verification.dart';
 import '../dashPages/seniorityLevel/sLevel.dart';
@@ -25,6 +28,7 @@ List<Widget> _screens =[
   ClubAmount(),
   PasswordTable(),
   UserVerification(),
+  WalletRegistration(),
   GenIDS(),
   TotalGenID(),
   CreateGenID(),
@@ -42,7 +46,10 @@ List<Widget> _screens =[
   SeniorityLevelT(sno: 5),
   sponsorlessUsersPage(),
   ProofVerification(),
-  SendRecieveProof(),
+  SendReceiveProof(),
+  RegistrationReport(),
+  SendReceiveReport(),
+
  // NewUsers(),
  // Changepasswords(),
 
