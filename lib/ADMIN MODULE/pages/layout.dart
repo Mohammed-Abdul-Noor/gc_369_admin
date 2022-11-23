@@ -54,6 +54,44 @@ class SiteLayout extends StatefulWidget {
 
 class _SiteLayoutState extends State<SiteLayout> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  // addFieldtoAlldoc() {
+  //
+  //   FirebaseFirestore.instance
+  //       .collection('proof')
+  //       .get()
+  //       .then((event) {
+  //     for (DocumentSnapshot doc in event.docs) {
+  //       List sr =setSearchParam(doc['senderId']+" "+doc['receiverId']);
+  //
+  //       FirebaseFirestore.instance.collection('proof').doc(doc.id).update({
+  //         'search': sr,
+  //       }).whenComplete(() => 'updated');
+  //
+  //     }
+  //   });
+  // }
+  // addFieldtoAlldoc() {
+  //   FirebaseFirestore.instance.collection('registration').get().then(
+  //         (value) => value.docs.forEach(
+  //           (element) async {
+  //         Map<String, dynamic> d = element.data();
+  //         if (d['userId'] == null) {
+  //
+  //           await FirebaseFirestore.instance
+  //               .collection('registration')
+  //               .doc(element.id)
+  //               .update({
+  //             'userId': d['userId'] ?? "",
+  //           }).whenComplete(() {
+  //             print('Field Updated: ${element.id}');
+  //           });
+  //         }
+  //       },
+  //     ),
+  //   );
+  //   print('55555555555555555555555555');
+  // }
+
   getCurrentPlan() async {
     print('33333333333333333333333333333');
     DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
@@ -103,6 +141,7 @@ class _SiteLayoutState extends State<SiteLayout> {
   @override
   void initState() {
     // TODO: implement initState
+    //addFieldtoAlldoc();
 
 
 

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../main.dart';
 import '../model/rejectModel.dart';
 import '../model/userModel.dart';
 import '../pages/layout.dart';
@@ -257,7 +258,7 @@ getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
     }
   }
   transaction =
-      planMap['${sendUsermodel?.sno}']['${sendUsermodel?.currentPlanLevel}'];
+      planMap['${sendUsermodel.sno}']['${sendUsermodel.currentPlanLevel}'];
   if (transaction['amt'] ==
       (int.tryParse(data[index]['amount'].toString()) ?? 0)) {
     if (transaction['type'] == 3) {
@@ -278,6 +279,8 @@ getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
     int index, UserModel sndUsr) {
   if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
       planMap['${sndUsr.sno}']['last'] == currentuser?.currentPlanLevel) {
+    int sno=currentuser?.sno??0;
+    updateAllUser(sno,sno+1,currentuser);
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'clubAmt.${sndUsr.sno}':
           FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),

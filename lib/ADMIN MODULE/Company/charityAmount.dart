@@ -241,12 +241,12 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
       plans = event.data()!['plan'];
       planMap = event.data()!['plans'];
     }
-    print(sendUsermodel?.sno);
-    print([sendUsermodel?.currentPlanLevel]);
-    print(planMap[sendUsermodel?.sno.toString()]);
-    print(planMap[sendUsermodel?.sno.toString()][sendUsermodel?.currentPlanLevel.toString()]);
+    print(sendUsermodel.sno);
+    print([sendUsermodel.currentPlanLevel]);
+    print(planMap[sendUsermodel.sno.toString()]);
+    print(planMap[sendUsermodel.sno.toString()][sendUsermodel.currentPlanLevel.toString()]);
   }
-  transaction = planMap[sendUsermodel?.sno.toString()][sendUsermodel?.currentPlanLevel.toString()];
+  transaction = planMap[sendUsermodel.sno.toString()][sendUsermodel.currentPlanLevel.toString()];
   if (transaction['amt'] == (int.tryParse(data[index]
   ['amount']
       .toString()) ??
@@ -254,10 +254,6 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
     if (transaction['type'] == 4) {
       getCharity(transaction, data, index, sendUsermodel);
     }
-
-
-
-
     data[index].reference.update({
       'verify': true
     }).then((value) {
