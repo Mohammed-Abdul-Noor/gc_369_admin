@@ -485,7 +485,7 @@ getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
       getClub(transaction, data, index, sendUsermodel);
     }
 
-    data[index].reference.update({'verify': true}).then((value) {
+    data[index].reference.update({'verify': true,'acceptedBy':'admin'}).then((value) {
       showUploadMessage("Successfuly", context);
 
       // Navigator.pop(context);
