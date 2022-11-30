@@ -174,137 +174,137 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child:
-                  search!.text==''?
+                  // search!.text==''?
+                  // StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
+                  //     stream: userStream,
+                  //     builder: (context, snapshot) {
+                  //       List<DocumentSnapshot> data = snapshot.data!.docs;
+                  //       lastDoc = snapshot.data!.docs[data.length - 1];
+                  //       lastDocuments[pageIndex] = lastDoc!;
+                  //       firstDoc = snapshot.data!.docs[0];
+                  //       if (!snapshot.hasData) {
+                  //         return CircularProgressIndicator();
+                  //       } else if (snapshot.hasData &&
+                  //           snapshot.data!.docs.isEmpty) {
+                  //         return Text("Empty");
+                  //       } else {
+                  //
+                  //         return Column(
+                  //           children: [
+                  //             DataTable(
+                  //                 dataRowHeight: h * 0.5,
+                  //                 border: TableBorder.all(
+                  //                     color: Colors.black.withOpacity(0.1)),
+                  //                 dataRowColor:
+                  //                 MaterialStateProperty.resolveWith(
+                  //                         (Set states) {
+                  //                       if (states
+                  //                           .contains(MaterialState.selected)) {
+                  //                         return Colors.grey;
+                  //                       }
+                  //                       return Colors
+                  //                           .white; // Use the default value.
+                  //                     }),
+                  //                 checkboxHorizontalMargin: Checkbox.width,
+                  //                 columnSpacing: 50,
+                  //                 dividerThickness: 3,
+                  //                 showCheckboxColumn: true,
+                  //                 horizontalMargin: 50,
+                  //                 //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                  //
+                  //                 columns: [
+                  //                   DataColumn(
+                  //                       numeric: true,
+                  //                       onSort: (columnIndex, ascending) =>
+                  //                       const Text(''),
+                  //                       label: const Text('SI.No')),
+                  //                   const DataColumn(label: Text('Sender ID')),
+                  //                   const DataColumn(label: Text('Receiver ID')),
+                  //                   const DataColumn(label: Text('Sender Level')),
+                  //                   const DataColumn(label: Text('Send Date')),
+                  //                   const DataColumn(label: Text('Proof')),
+                  //                   const DataColumn(
+                  //                       label: Text('Payment Method')),
+                  //                   const DataColumn(label: Text('Amount')),
+                  //                   const DataColumn(label: Text('Status')),
+                  //                   // const DataColumn(label: Text('Remove')),
+                  //                 ],
+                  //                 rows: List.generate(data.length, (index) {
+                  //                   DocumentSnapshot proof = data[index];
+                  //
+                  //                   return DataRow(cells: [
+                  //                     DataCell(Text(
+                  //                         (ind == 0 ? index + 1 : ind + index + 1)
+                  //                             .toString())),
+                  //                     DataCell(SelectableText(proof['senderId'])),
+                  //                     DataCell(SelectableText(proof['receiverId'])),
+                  //                     DataCell(SelectableText(proof['senderlevel'].toString())),
+                  //                     DataCell(Text("${DateFormat('dd-MMM-yyyy').format(proof['sendTime'].toDate())}")),
+                  //                     DataCell(CachedNetworkImage(
+                  //                       imageUrl: proof['file'],
+                  //                       width: currentWidth < 700
+                  //                           ? w * 0.4
+                  //                           : w * 0.2,
+                  //                       fit: BoxFit.fitHeight,
+                  //                     )),
+                  //                     DataCell(Text(proof['paymentM'])),
+                  //                     DataCell(Text(proof['amount'])),
+                  //                     DataCell(Container(
+                  //                         height: 30,
+                  //                         width: 60,
+                  //                         decoration: BoxDecoration(
+                  //                             color: Colors.red,
+                  //                             borderRadius:
+                  //                             BorderRadius.circular(3),
+                  //                             border: Border.all(
+                  //                                 color: Colors.black
+                  //                                     .withOpacity(0.3))),
+                  //                         alignment: Alignment.center,
+                  //                         child: const Text('View'))),
+                  //                     // DataCell(Column(
+                  //                     //   crossAxisAlignment:
+                  //                     //   CrossAxisAlignment.center,
+                  //                     //   mainAxisAlignment:
+                  //                     //   MainAxisAlignment.center,
+                  //                     //   children: [
+                  //                     //     Container(
+                  //                     //         height: 30,
+                  //                     //         width: 90,
+                  //                     //         decoration: BoxDecoration(
+                  //                     //             color: Colors.yellow,
+                  //                     //             borderRadius:
+                  //                     //             BorderRadius.circular(3),
+                  //                     //             border: Border.all(
+                  //                     //                 color: Colors.black
+                  //                     //                     .withOpacity(0.3))),
+                  //                     //         alignment: Alignment.center,
+                  //                     //         child: InkWell(
+                  //                     //             onTap: () async {
+                  //                     //               if (!disable) {
+                  //                     //                 disable == true;
+                  //                     //                 await getHelp(
+                  //                     //                     data,
+                  //                     //                     index,
+                  //                     //                     context,
+                  //                     //                     proof[
+                  //                     //                     'senderId']);
+                  //                     //                 disable = false;
+                  //                     //               }
+                  //                     //             },
+                  //                     //             child: Text('verify'))),
+                  //                     //     SizedBox(height: 10),
+                  //                     //     Container()
+                  //                     //   ],
+                  //                     // )),
+                  //                   ]);
+                  //                 })),
+                  //           ],
+                  //         );
+                  //       }
+                  //     })
+                  //    :
                   StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-                      stream: userStream,
-                      builder: (context, snapshot) {
-                        List<DocumentSnapshot> data = snapshot.data!.docs;
-                        lastDoc = snapshot.data!.docs[data.length - 1];
-                        lastDocuments[pageIndex] = lastDoc!;
-                        firstDoc = snapshot.data!.docs[0];
-                        if (!snapshot.hasData) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.hasData &&
-                            snapshot.data!.docs.isEmpty) {
-                          return Text("Empty");
-                        } else {
-
-                          return Column(
-                            children: [
-                              DataTable(
-                                  dataRowHeight: h * 0.5,
-                                  border: TableBorder.all(
-                                      color: Colors.black.withOpacity(0.1)),
-                                  dataRowColor:
-                                  MaterialStateProperty.resolveWith(
-                                          (Set states) {
-                                        if (states
-                                            .contains(MaterialState.selected)) {
-                                          return Colors.grey;
-                                        }
-                                        return Colors
-                                            .white; // Use the default value.
-                                      }),
-                                  checkboxHorizontalMargin: Checkbox.width,
-                                  columnSpacing: 50,
-                                  dividerThickness: 3,
-                                  showCheckboxColumn: true,
-                                  horizontalMargin: 50,
-                                  //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-
-                                  columns: [
-                                    DataColumn(
-                                        numeric: true,
-                                        onSort: (columnIndex, ascending) =>
-                                        const Text(''),
-                                        label: const Text('SI.No')),
-                                    const DataColumn(label: Text('Sender ID')),
-                                    const DataColumn(label: Text('Receiver ID')),
-                                    const DataColumn(label: Text('Sender Level')),
-                                    const DataColumn(label: Text('Send Date')),
-                                    const DataColumn(label: Text('Proof')),
-                                    const DataColumn(
-                                        label: Text('Payment Method')),
-                                    const DataColumn(label: Text('Amount')),
-                                    const DataColumn(label: Text('Status')),
-                                    const DataColumn(label: Text('Remove')),
-                                  ],
-                                  rows: List.generate(data.length, (index) {
-                                    DocumentSnapshot proof = data[index];
-
-                                    return DataRow(cells: [
-                                      DataCell(Text(
-                                          (ind == 0 ? index + 1 : ind + index + 1)
-                                              .toString())),
-                                      DataCell(SelectableText(proof['senderId'])),
-                                      DataCell(SelectableText(proof['receiverId'])),
-                                      DataCell(SelectableText(proof['senderlevel'].toString())),
-                                      DataCell(Text("${DateFormat('dd-MMM-yyyy').format(proof['sendTime'].toDate())}")),
-                                      DataCell(CachedNetworkImage(
-                                        imageUrl: proof['file'],
-                                        width: currentWidth < 700
-                                            ? w * 0.4
-                                            : w * 0.2,
-                                        fit: BoxFit.fitHeight,
-                                      )),
-                                      DataCell(Text(proof['paymentM'])),
-                                      DataCell(Text(proof['amount'])),
-                                      DataCell(Container(
-                                          height: 30,
-                                          width: 60,
-                                          decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius:
-                                              BorderRadius.circular(3),
-                                              border: Border.all(
-                                                  color: Colors.black
-                                                      .withOpacity(0.3))),
-                                          alignment: Alignment.center,
-                                          child: const Text('View'))),
-                                      DataCell(Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                              height: 30,
-                                              width: 90,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.yellow,
-                                                  borderRadius:
-                                                  BorderRadius.circular(3),
-                                                  border: Border.all(
-                                                      color: Colors.black
-                                                          .withOpacity(0.3))),
-                                              alignment: Alignment.center,
-                                              child: InkWell(
-                                                  onTap: () async {
-                                                    if (!disable) {
-                                                      disable == true;
-                                                      await getHelp(
-                                                          data,
-                                                          index,
-                                                          context,
-                                                          proof[
-                                                          'senderId']);
-                                                      disable = false;
-                                                    }
-                                                  },
-                                                  child: Text('verify'))),
-                                          SizedBox(height: 10),
-                                          Container()
-                                        ],
-                                      )),
-                                    ]);
-                                  })),
-                            ],
-                          );
-                        }
-                      })
-                     :
-                  StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-                      stream: FirebaseFirestore.instance
+                      stream:search!.text==''?userStream: FirebaseFirestore.instance
                           .collection('proof').where('search',arrayContains: search!.text.toUpperCase()).limit(25).snapshots(),
                       builder: (context, snapshot) {
                         List<DocumentSnapshot> data = snapshot.data!.docs;
@@ -350,7 +350,7 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
                                         label: Text('Payment Method')),
                                     const DataColumn(label: Text('Amount')),
                                     const DataColumn(label: Text('Status')),
-                                    const DataColumn(label: Text('Remove')),
+                                    // const DataColumn(label: Text('Remove')),
                                   ],
                                   rows: List.generate(data.length, (index) {
                                     DocumentSnapshot proof = data[index];
@@ -382,41 +382,41 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
                                                       .withOpacity(0.3))),
                                           alignment: Alignment.center,
                                           child: const Text('View'))),
-                                      DataCell(Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                              height: 30,
-                                              width: 90,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.yellow,
-                                                  borderRadius:
-                                                  BorderRadius.circular(3),
-                                                  border: Border.all(
-                                                      color: Colors.black
-                                                          .withOpacity(0.3))),
-                                              alignment: Alignment.center,
-                                              child: InkWell(
-                                                  onTap: () async {
-                                                    if (!disable) {
-                                                      disable == true;
-                                                      await getHelp(
-                                                          data,
-                                                          index,
-                                                          context,
-                                                          proof[
-                                                          'senderId']);
-                                                      disable = false;
-                                                    }
-                                                  },
-                                                  child: Text('verify'))),
-                                          SizedBox(height: 10),
-                                          Container()
-                                        ],
-                                      )),
+                                      // DataCell(Column(
+                                      //   crossAxisAlignment:
+                                      //   CrossAxisAlignment.center,
+                                      //   mainAxisAlignment:
+                                      //   MainAxisAlignment.center,
+                                      //   children: [
+                                      //     Container(
+                                      //         height: 30,
+                                      //         width: 90,
+                                      //         decoration: BoxDecoration(
+                                      //             color: Colors.yellow,
+                                      //             borderRadius:
+                                      //             BorderRadius.circular(3),
+                                      //             border: Border.all(
+                                      //                 color: Colors.black
+                                      //                     .withOpacity(0.3))),
+                                      //         alignment: Alignment.center,
+                                      //         child: InkWell(
+                                      //             onTap: () async {
+                                      //               if (!disable) {
+                                      //                 disable == true;
+                                      //                 await getHelp(
+                                      //                     data,
+                                      //                     index,
+                                      //                     context,
+                                      //                     proof[
+                                      //                     'senderId']);
+                                      //                 disable = false;
+                                      //               }
+                                      //             },
+                                      //             child: Text('verify'))),
+                                      //     SizedBox(height: 10),
+                                      //     Container()
+                                      //   ],
+                                      // )),
                                     ]);
                                   })),
                             ],
@@ -454,91 +454,45 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
   }
 }
 
-getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
-    String id) async {
-  DocumentSnapshot<Map<String, dynamic>> sendUser =
-  await FirebaseFirestore.instance.collection('Users').doc(id).get();
-  int totalAmount =
-      int.tryParse(sendUser.get('provideHelpUsers')['Amount'].toString()) ?? 0;
-  int paidAmount =
-      int.tryParse(sendUser.get('provideHelpUsers')['paidAmount'].toString()) ??
-          0;
-  UserModel sendUsermodel = UserModel.fromJson(sendUser.data()!);
+// getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
+//     String id) async {
+//   DocumentSnapshot<Map<String, dynamic>> sendUser =
+//   await FirebaseFirestore.instance.collection('Users').doc(id).get();
+//   int totalAmount =
+//       int.tryParse(sendUser.get('provideHelpUsers')['Amount'].toString()) ?? 0;
+//   int paidAmount =
+//       int.tryParse(sendUser.get('provideHelpUsers')['paidAmount'].toString()) ??
+//           0;
+//   UserModel sendUsermodel = UserModel.fromJson(sendUser.data()!);
+//
+//   Map<String, dynamic> transaction = {};
+//   if (planMap.keys.length < 2) {
+//     DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
+//         .instance
+//         .collection('settings')
+//         .doc('settings')
+//         .get();
+//     if (event.exists) {
+//       plans = event.data()!['plan'];
+//       planMap = event.data()!['plans'];
+//     }
+//   }
+//   transaction =
+//   planMap['${sendUsermodel.sno}']['${sendUsermodel.currentPlanLevel}'];
+//   if (transaction['amt'] ==
+//       (int.tryParse(data[index]['amount'].toString()) ?? 0)) {
+//     if (transaction['type'] == 3) {
+//       getClub(transaction, data, index, sendUsermodel);
+//     }
+//
+//     data[index].reference.update({'verify': true,'acceptedBy':'admin'}).then((value) {
+//       showUploadMessage("Successfuly", context);
+//
+//       // Navigator.pop(context);
+//     });
+//   } else {
+//     showUploadMessage("Incorrect Amount Send", context);
+//   }
+// }
 
-  Map<String, dynamic> transaction = {};
-  if (planMap.keys.length < 2) {
-    DocumentSnapshot<Map<String, dynamic>> event = await FirebaseFirestore
-        .instance
-        .collection('settings')
-        .doc('settings')
-        .get();
-    if (event.exists) {
-      plans = event.data()!['plan'];
-      planMap = event.data()!['plans'];
-    }
-  }
-  transaction =
-  planMap['${sendUsermodel.sno}']['${sendUsermodel.currentPlanLevel}'];
-  if (transaction['amt'] ==
-      (int.tryParse(data[index]['amount'].toString()) ?? 0)) {
-    if (transaction['type'] == 3) {
-      getClub(transaction, data, index, sendUsermodel);
-    }
 
-    data[index].reference.update({'verify': true,'acceptedBy':'admin'}).then((value) {
-      showUploadMessage("Successfuly", context);
-
-      // Navigator.pop(context);
-    });
-  } else {
-    showUploadMessage("Incorrect Amount Send", context);
-  }
-}
-
-getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
-    int index, UserModel sndUsr) {
-  if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
-      planMap['${sndUsr.sno}']['last'] == currentuser?.currentPlanLevel) {
-    int sno=currentuser?.sno??0;
-    updateAllUser(sno,sno+1,currentuser);
-
-    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
-      'clubAmt.${sndUsr.sno}':
-      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
-      'provideHelpUsers': {
-        'Id': "",
-        'Amount': 0,
-        "paidAmount": 0,
-      },
-      'sno': FieldValue.increment(1),
-      'eligible': true,
-      'currentPlanLevel': 0,
-      'currentCount': 0,
-      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
-    });
-  } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
-    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
-      'clubAmt.${sndUsr.sno}':
-      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
-      'provideHelpUsers': {
-        'Id': "",
-        'Amount': 0,
-        "paidAmount": 0,
-      },
-      'eligible': !transaction['sent'],
-      'currentPlanLevel': FieldValue.increment(1),
-      'currentCount': 0,
-    });
-  } else {
-    FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
-      'clubAmt.${sndUsr.sno}':
-      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
-      'provideHelpUsers': {
-        'Id': "",
-        'Amount': 0,
-        "paidAmount": 0,
-      },
-      'currentCount': FieldValue.increment(1),
-    });
-  }
-}
