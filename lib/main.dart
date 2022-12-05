@@ -8,7 +8,7 @@ import 'ADMIN MODULE/navigation/navigationProvider.dart';
 import 'ADMIN MODULE/routing/loginpage.dart';
 
 int test = 0;
-
+QuerySnapshot<Map<String, dynamic>>? allUsers;
 void main() async {
   if (kIsWeb) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -50,34 +50,37 @@ class _MyAppState extends State<MyApp> {
       );
 }
 
-updateAllUser(int currentSno,int nextSno,UserModel? user){
-  FirebaseFirestore.instance.collection('UsersData').doc(currentSno.toString()).update(
+updateAllUser(int currentSno, int nextSno, UserModel? user) {
+  FirebaseFirestore.instance
+      .collection('UsersData')
+      .doc(currentSno.toString())
+      .update({
+    'users': FieldValue.arrayRemove([
       {
-        'users': FieldValue.arrayRemove([{
-          'name': user?.name,
-          'uid': user?.uid,
-          'sno': currentSno,
-          'currentPlanLevel': user?.currentPlanLevel,
-          'currentCount': user?.currentCount,
-          'joinDate': user?.joinDate,
-          'index': user?.index,
-
-
-        }
-        ])
-      });
-  FirebaseFirestore.instance.collection('UsersData').doc(nextSno.toString()).update({
-    'users': FieldValue.arrayUnion([{
-      'name': currentuser?.name,
-      'uid': currentuser?.uid,
-      'sno': nextSno,
-      'currentPlanLevel': 0,
-      'currentCount': 0,
-      'joinDate': currentuser?.joinDate,
-      'index': currentuser?.index,
-
-
-    }
+        'name': user?.name,
+        'uid': user?.uid,
+        'sno': currentSno,
+        'currentPlanLevel': user?.currentPlanLevel,
+        'currentCount': user?.currentCount,
+        'joinDate': user?.joinDate,
+        'index': user?.index,
+      }
+    ])
+  });
+  FirebaseFirestore.instance
+      .collection('UsersData')
+      .doc(nextSno.toString())
+      .update({
+    'users': FieldValue.arrayUnion([
+      {
+        'name': currentuser?.name,
+        'uid': currentuser?.uid,
+        'sno': nextSno,
+        'currentPlanLevel': 0,
+        'currentCount': 0,
+        'joinDate': currentuser?.joinDate,
+        'index': currentuser?.index,
+      }
     ])
   });
 }

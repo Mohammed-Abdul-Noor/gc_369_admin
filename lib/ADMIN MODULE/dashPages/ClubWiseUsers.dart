@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
@@ -5,17 +8,18 @@ import 'package:gc_369/ADMIN%20MODULE/model/userModel.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../pages/editUser/editUser.dart';
+import '../pages/editUser/editUser.dart';
 
-class SeniorityLevelT extends StatefulWidget {
+class ClubWiseUsers extends StatefulWidget {
   final int sno;
-  const SeniorityLevelT({Key? key, required this.sno}) : super(key: key);
+  const ClubWiseUsers({Key? key, required this.sno}) : super(key: key);
 
   @override
-  State<SeniorityLevelT> createState() => _SeniorityLevelTState();
+  State<ClubWiseUsers> createState() => _ClubWiseUsersState();
 }
 
-class _SeniorityLevelTState extends State<SeniorityLevelT> {
+class _ClubWiseUsersState extends State<ClubWiseUsers> {
+  final DataTableSource _tableData = TableData();
   Future<void>? _launched;
 
   _launchURLBrowser() async {
@@ -212,93 +216,76 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
     "FZ",
   ];
   bool called = false;
-  // getPurchases(QuerySnapshot<Map<String,dynamic>> data)async{
-  //
-  //   int i=1;
-  //   var excel = Excel.createExcel();
-  //   // var excel = Excel.createExcel();
-  //   Sheet sheetObject = excel['expense'];
-  //   CellStyle cellStyle = CellStyle(
-  //       backgroundColorHex: "#1AFF1A",
-  //       fontFamily: getFontFamily(FontFamily.Calibri));
-  //   if(data.docs.length>0){
-  //     var cell = sheetObject
-  //         .cell(CellIndex.indexByString("A1"));
-  //     cell.value =
-  //     'SL NO'; // dynamic values support provided;
-  //     cell.cellStyle = cellStyle;
-  //     Map<String,dynamic> dt =data.docs[0].data();
-  //     print(dt.keys.toList().length);
-  //     print(dt.keys.toList());
-  //     int k=0;
-  //     for(int n=0;n<dt.keys.toList().length;n++){
-  //
-  //         var cell = sheetObject
-  //             .cell(CellIndex.indexByString("${columns[k+1]}1"));
-  //         cell.value =
-  //         dt.keys.toList()[n]; // dynamic values support provided;
-  //         cell.cellStyle = cellStyle;
-  //         k++;
-  //
-  //     }
-  //   }
-  //
-  //
-  //   for(DocumentSnapshot<Map<String,dynamic>> doc in data.docs){
-  //     // address=doc.get('shippingAddress');
-  //     int l=0;
-  //     var cell = sheetObject
-  //         .cell(CellIndex.indexByString("A${i+1}"));
-  //     cell.value =
-  //         i.toString(); // dynamic values support provided;
-  //     cell.cellStyle = cellStyle;
-  //     // double amt=0;
-  //     // double commission=0;
-  //     // String shopsId='';
-  //     Map<String,dynamic> dt =data.docs[0].data();
-  //     Map<String,dynamic> dta =doc.data()!;
-  //     print("hereeee");
-  //     for(int n=0;n<dt.keys.toList().length;n++){
-  //
-  //         var cell = sheetObject
-  //             .cell(CellIndex.indexByString("${columns[l + 1]}${i + 1}"));
-  //
-  //         // if (dta[dt.keys.toList()[n]].runtimeType.toString() == "Timestamp") {
-  //         if (dt.keys.toList()[n]=="date") {
-  //           cell.value =
-  //               dta[dt.keys.toList()[n]].toDate().toString(); //
-  //           cell.cellStyle = cellStyle;
-  //         }
-  //         else {
-  //           cell.value =
-  //               dta[dt.keys.toList()[n]].toString();
-  //           cell.cellStyle = cellStyle;
-  //         }
-  //         l++;
-  //
-  //       //    dynamic values support provided;
-  //
-  //     }
-  //
-  //
-  //
-  //
-  //
-  //     i++;
-  //   }
-  //
-  //   excel.setDefaultSheet('expense');
-  //   var fileBytes = excel.encode();
-  //   File file;
-  //
-  //   final content = base64Encode(fileBytes!);
-  //   final anchor = AnchorElement(
-  //       href: "data:application/octet-stream;charset=utf-16le;base64,$content")
-  //     ..setAttribute("download", "369 club ${widget.sno} users.xlsx")
-  //     ..click();
-  //
-  //
-  // }
+  QuerySnapshot<Map<String, dynamic>>? testData;
+  getPurchases(QuerySnapshot<Map<String, dynamic>> data) async {
+    int i = 1;
+    var excel = Excel.createExcel();
+    // var excel = Excel.createExcel();
+    Sheet sheetObject = excel['expense'];
+    CellStyle cellStyle = CellStyle(
+        backgroundColorHex: "#1AFF1A",
+        fontFamily: getFontFamily(FontFamily.Calibri));
+    if (data.docs.length > 0) {
+      var cell = sheetObject.cell(CellIndex.indexByString("A1"));
+      cell.value = 'SL NO'; // dynamic values support provided;
+      cell.cellStyle = cellStyle;
+      Map<String, dynamic> dt = data.docs[0].data();
+      print(dt.keys.toList().length);
+      print(dt.keys.toList());
+      int k = 0;
+      for (int n = 0; n < dt.keys.toList().length; n++) {
+        var cell =
+            sheetObject.cell(CellIndex.indexByString("${columns[k + 1]}1"));
+        cell.value = dt.keys.toList()[n]; // dynamic values support provided;
+        cell.cellStyle = cellStyle;
+        k++;
+      }
+    }
+
+    for (DocumentSnapshot<Map<String, dynamic>> doc in data.docs) {
+      // address=doc.get('shippingAddress');
+      int l = 0;
+      var cell = sheetObject.cell(CellIndex.indexByString("A${i + 1}"));
+      cell.value = i.toString(); // dynamic values support provided;
+      cell.cellStyle = cellStyle;
+      // double amt=0;
+      // double commission=0;
+      // String shopsId='';
+      Map<String, dynamic> dt = data.docs[0].data();
+      Map<String, dynamic> dta = doc.data()!;
+      print("hereeee");
+      for (int n = 0; n < dt.keys.toList().length; n++) {
+        var cell = sheetObject
+            .cell(CellIndex.indexByString("${columns[l + 1]}${i + 1}"));
+
+        // if (dta[dt.keys.toList()[n]].runtimeType.toString() == "Timestamp") {
+        if (dt.keys.toList()[n] == "date") {
+          cell.value = dta[dt.keys.toList()[n]].toDate().toString(); //
+          cell.cellStyle = cellStyle;
+        } else {
+          cell.value = dta[dt.keys.toList()[n]].toString();
+          cell.cellStyle = cellStyle;
+        }
+        l++;
+
+        //    dynamic values support provided;
+
+      }
+
+      i++;
+    }
+
+    excel.setDefaultSheet('expense');
+    var fileBytes = excel.encode();
+    File file;
+
+    final content = base64Encode(fileBytes!);
+    final anchor = AnchorElement(
+        href: "data:application/octet-stream;charset=utf-16le;base64,$content")
+      ..setAttribute("download", "369 club ${widget.sno} users.xlsx")
+      ..click();
+  }
+
   TextEditingController? search;
   // Stream ?userStream;
 
@@ -324,9 +311,8 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
     userStream = FirebaseFirestore.instance
         .collection('Users')
         .where('sno', isEqualTo: widget.sno)
-        .where('eligible', isEqualTo: true)
         .orderBy('index')
-        .limit(50)
+        // .limit(100)
         .snapshots();
     search = TextEditingController();
     super.initState();
@@ -340,19 +326,17 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
       userStream = FirebaseFirestore.instance
           .collection('Users')
           .where('sno', isEqualTo: widget.sno)
-          .where('eligible', isEqualTo: true)
           .orderBy('index')
-          .limit(50)
+          // .limit(100)
           .snapshots();
     } else {
-      ind += 50;
+      ind += 100;
       userStream = FirebaseFirestore.instance
           .collection('Users')
           .where('sno', isEqualTo: widget.sno)
-          .where('eligible', isEqualTo: true)
           .orderBy('index')
           .startAfterDocument(lastDoc!)
-          .limit(50)
+          // .limit(100)
           .snapshots();
     }
 
@@ -370,20 +354,18 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
       userStream = FirebaseFirestore.instance
           .collection('Users')
           .where('sno', isEqualTo: widget.sno)
-          .where('eligible', isEqualTo: true)
           .orderBy('index')
-          .limit(50)
+          // .limit(100)
           .snapshots();
     } else {
-      ind -= 50;
+      ind -= 100;
 
       userStream = FirebaseFirestore.instance
           .collection('Users')
           .where('sno', isEqualTo: widget.sno)
-          .where('eligible', isEqualTo: true)
           .orderBy('index')
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
-          .limit(50)
+          // .limit(100)
           .snapshots();
     }
     setState(() {});
@@ -411,7 +393,7 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
         Row(
           children: [
             Text(
-              'Seniority Level ${widget.sno} Users',
+              'Club ${widget.sno} Users',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
@@ -445,15 +427,20 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          border:
-                              Border.all(color: Colors.black.withOpacity(0.3))),
-                      alignment: Alignment.center,
-                      height: 20,
-                      width: 50,
-                      child: const Text('Excel'),
+                    InkWell(
+                      onTap: () {
+                        getPurchases(testData!);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            border: Border.all(
+                                color: Colors.black.withOpacity(0.3))),
+                        alignment: Alignment.center,
+                        height: 20,
+                        width: 50,
+                        child: const Text('Excel'),
+                      ),
                     ),
                     const SizedBox(width: 10),
 
@@ -510,7 +497,7 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
                           .collection('Users')
                           .where('search',
                               arrayContains: search!.text.toUpperCase())
-                          .limit(10)
+                          // .limit(100)
                           .snapshots(),
                   // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                   //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
@@ -525,28 +512,15 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
                         child: Text("No Users found!!!"),
                       );
                     }
-                    // if(called==false){
-                    //   called=true;
-                    //   // getPurchases(snapshot.data!);
-                    // }
                     var data = snapshot.data!.docs;
+                    testData = snapshot.data!;
                     print(snapshot.error);
                     lastDoc = snapshot.data!.docs[data.length - 1];
                     lastDocuments[pageIndex] = lastDoc!;
                     firstDoc = snapshot.data!.docs[0];
                     return DataTable(
-                      border:
-                          TableBorder.all(color: Colors.black.withOpacity(0.1)),
-                      dataRowColor:
-                          MaterialStateProperty.resolveWith((Set states) {
-                        if (states.contains(MaterialState.selected)) {
-                          return Colors.grey;
-                        }
-                        return Colors.white; // Use the default value.
-                      }),
                       checkboxHorizontalMargin: Checkbox.width,
                       columnSpacing: 50,
-                      dividerThickness: 3,
                       showCheckboxColumn: true,
                       horizontalMargin: 50,
                       columns: const [
@@ -642,4 +616,24 @@ class _SeniorityLevelTState extends State<SeniorityLevelT> {
       ]),
     ));
   }
+}
+
+class TableData extends DataTableSource {
+  @override
+  DataRow? getRow(int index) {
+    // TODO: implement getRow
+    throw UnimplementedError();
+  }
+
+  @override
+  // TODO: implement isRowCountApproximate
+  bool get isRowCountApproximate => throw UnimplementedError();
+
+  @override
+  // TODO: implement rowCount
+  int get rowCount => throw UnimplementedError();
+
+  @override
+  // TODO: implement selectedRowCount
+  int get selectedRowCount => throw UnimplementedError();
 }

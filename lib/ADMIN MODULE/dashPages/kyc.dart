@@ -202,9 +202,10 @@ class _KycPageState extends State<KycPage> {
                 child: SingleChildScrollView(
                   controller:_controller1 ,
                   scrollDirection: Axis.horizontal,
-                  child: search!.text==''?
+                  child:
                   StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-                      stream:kycStream,
+                      stream:search!.text==''?kycStream:FirebaseFirestore.instance.collection('Users')
+                      .where('search',arrayContains: search!.text.toUpperCase()).limit(10).snapshots(),
                       // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                       //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                       builder: (context, snapshot) {
@@ -285,89 +286,7 @@ class _KycPageState extends State<KycPage> {
                             ]);
                           }),
                         );
-                      }):
-                  StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-                      stream:FirebaseFirestore.instance.collection('Users')
-                          .where('search',arrayContains: search!.text.toUpperCase()).limit(10).snapshots(),
-                      // search?.text!=""?FirebaseFirestore.instance.collection('Users')
-                      //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
-                      builder: (context, snapshot) {
-                        var data = snapshot.data!.docs;
-                        lastDoc = snapshot.data!.docs[data.length - 1];
-                        lastDocuments[pageIndex] = lastDoc!;
-                        firstDoc = snapshot.data!.docs[0];
-                        return DataTable(
-                          border: TableBorder.all(
-                              color: Colors.black.withOpacity(0.1)),
-                          dataRowColor:
-                          MaterialStateProperty.resolveWith((Set states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return Colors.grey;
-                            }
-                            return Colors.white; // Use the default value.
-                          }),
-                          checkboxHorizontalMargin: Checkbox.width,
-                          columnSpacing: 50,
-                          dividerThickness: 3,
-                          showCheckboxColumn: true,
-                          horizontalMargin: 50,
-                          columns: const [
-                            DataColumn(numeric: true, label: Text('SI.No')),
-                            DataColumn(
-                              label: Text('User ID'),
-                            ),
-                            DataColumn(label: Text('Name')),
-                            DataColumn(label: Text('Mobile')),
-                            // DataColumn(label: Expanded(child: Text('Join Date'))),
-                            DataColumn(label: Text('Status')),
-                            DataColumn(label: Text('User Panel')),
-                            DataColumn(label: Text('View')),
-                          ],
-                          rows: List.generate(data.length, (index) {
-                            var user = data[index];
-                            return DataRow(cells: [
-                              DataCell(Text('${pageIndex+index+1}')),
-                              DataCell(SelectableText(user['uid'])),
-                              DataCell(Text(user['name'])),
-                              DataCell(SelectableText(user['mobno'])),
-                              // DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
-                              DataCell(
-                                  Text(user['status'] ? 'Active' : 'Not Active')),
-                              DataCell(
-                                Container(
-                                    height: 30,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(3),
-                                        border: Border.all(
-                                            color:
-                                            Colors.black.withOpacity(0.3))),
-                                    alignment: Alignment.center,
-                                    child: const Text('Goto Panel')),
-                              ),
-                              DataCell(Container(
-                                  height: 30,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      color: Colors.yellow,
-                                      borderRadius: BorderRadius.circular(3),
-                                      border: Border.all(
-                                          color: Colors.black.withOpacity(0.3))),
-                                  alignment: Alignment.center,
-                                  child: InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-
-                                            MaterialPageRoute(
-                                              builder: (context) =>  EditUser(user:UserModel.fromJson(user.data())),
-                                            ));},
-                                      child: const Text('Edit')))),
-                            ]);
-                          }),
-                        );
-                      }),
+                      })
                 ),
               ),
               Row(

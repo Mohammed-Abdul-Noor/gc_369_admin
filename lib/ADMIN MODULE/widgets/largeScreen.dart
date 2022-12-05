@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/charityAmount.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/clubAmount.dart';
+import 'package:gc_369/ADMIN%20MODULE/dashPages/DistrictWise.dart';
 import 'package:gc_369/ADMIN%20MODULE/pages/editUser/password/passwordTable.dart';
 
 import '../../main.dart';
@@ -9,6 +10,7 @@ import '../dashPages/RegistrationReport.dart';
 import '../dashPages/SendRecieveProof.dart';
 import '../dashPages/TotalGenID.dart';
 import '../dashPages/WalletRegistration.dart';
+import '../dashPages/downloadtotalusers.dart';
 import '../dashPages/four.dart';
 import '../dashPages/geniDS.dart';
 import '../dashPages/proof_verification.dart';
@@ -20,53 +22,67 @@ import '../dashPages/userVerification.dart';
 import '../dashPages/club_users.dart';
 import '../dashPages/kyc.dart';
 import '../dashPages/toatalUsers.dart';
-List<Widget> _screens =[
-   DashboardPage(),
-   TotalUsersPage(),
-   KycPage(),
-  CharityAmountPage(),
-  ClubAmount(),
-  PasswordTable(),
-  UserVerification(),
-  WalletRegistration(),
-  GenIDS(),
-  TotalGenID(),
-  CreateGenID(),
-  ClubUsers(sno: 0,),
-  ClubUsers(sno: 1,),
-  ClubUsers(sno: 2,),
-  ClubUsers(sno: 3,),
-  ClubUsers(sno: 4,),
-  ClubUsers(sno: 5,),
-  SeniorityLevelT(sno: 0),
-  SeniorityLevelT(sno: 1),
-  SeniorityLevelT(sno: 2),
-  SeniorityLevelT(sno: 3),
-  SeniorityLevelT(sno: 4),
-  SeniorityLevelT(sno: 5),
-  sponsorlessUsersPage(),
-  ProofVerification(),
-  SendReceiveProof(),
-  RegistrationReport(),
-  SendReceiveReport(),
 
- // NewUsers(),
- // Changepasswords(),
+List<Widget> _screens = [
+  const DashboardPage(),
+  const DownTotalUsers(),
+  const TotalUsersPage(),
+  const KycPage(),
+  const CharityAmountPage(),
+  const ClubAmount(),
+  const PasswordTable(),
+  const UserVerification(),
+  const WalletRegistration(),
+  const GenIDS(),
+  const TotalGenID(),
+  const CreateGenID(),
+  const ClubUsers(
+    sno: 0,
+  ),
+  const ClubUsers(
+    sno: 1,
+  ),
+  const ClubUsers(
+    sno: 2,
+  ),
+  const ClubUsers(
+    sno: 3,
+  ),
+  const ClubUsers(
+    sno: 4,
+  ),
+  const ClubUsers(
+    sno: 5,
+  ),
+  const SeniorityLevelT(sno: 0),
+  const SeniorityLevelT(sno: 1),
+  const SeniorityLevelT(sno: 2),
+  const SeniorityLevelT(sno: 3),
+  const SeniorityLevelT(sno: 4),
+  const SeniorityLevelT(sno: 5),
+  const sponsorlessUsersPage(),
+  const ProofVerification(),
+  const SendReceiveProof(),
+  const DistrictWise(),
+  const RegistrationReport(),
+  const SendReceiveReport(),
 
+  // NewUsers(),
+  // Changepasswords(),
 
-   // RebirthGenIdPage(),
-   // RejectIdPage(),
-   // ClubsPage(),
+  // RebirthGenIdPage(),
+  // RejectIdPage(),
+  // ClubsPage(),
 
-   // WithdrawEligiblePage(),
-   // TransactionHistoryPage(),
-   // InboxMessagePage(),
-   // SendMessagePage(),
-   // PlanReportPage(),
-   // UserReportPage(),
-   // AccountReportPage(),
-   // WebInfoPage(),
-   // ChangePasswordPage()
+  // WithdrawEligiblePage(),
+  // TransactionHistoryPage(),
+  // InboxMessagePage(),
+  // SendMessagePage(),
+  // PlanReportPage(),
+  // UserReportPage(),
+  // AccountReportPage(),
+  // WebInfoPage(),
+  // ChangePasswordPage()
 ];
 
 class LargeScreen extends StatefulWidget {
@@ -81,28 +97,27 @@ class _LargeScreenState extends State<LargeScreen> {
   int _selectedIndex = 0;
   @override
   void initState() {
-    _selectedIndex=widget.index;
+    _selectedIndex = widget.index;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    var w =MediaQuery.of(context).size.width;
+    var w = MediaQuery.of(context).size.width;
     //  final provider = Provider.of<NavigationProvider>(context);
     //final isCollapsed = provider.isCollapsed;
-    _selectedIndex=test;
-   // print(_selectedIndex);
+    _selectedIndex = test;
+    // print(_selectedIndex);
     //print('_selectedIndex');
     return Row(
       children: [
         const SizedBox(
-         // width: 230,
+          // width: 230,
           child: NavigationDrawerWidget(),
         ),
         Expanded(
           flex: 5,
-          child: Scaffold(
-            body: _screens[_selectedIndex]
-          ),
+          child: Scaffold(body: _screens[_selectedIndex]),
         )
       ],
     );

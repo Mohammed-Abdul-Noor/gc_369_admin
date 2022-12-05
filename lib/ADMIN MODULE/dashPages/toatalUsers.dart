@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gc_369/ADMIN%20MODULE/dashPages/downloadtotalusers.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -166,15 +167,18 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                   const SizedBox(height: 10),
                   Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            border: Border.all(
-                                color: Colors.black.withOpacity(0.3))),
-                        alignment: Alignment.center,
-                        height: 20,
-                        width: 50,
-                        child: const Text('Excel'),
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              border: Border.all(
+                                  color: Colors.black.withOpacity(0.3))),
+                          alignment: Alignment.center,
+                          height: 20,
+                          width: 75,
+                          child: const Text('Download'),
+                        ),
                       ),
                       const SizedBox(width: 10),
                       // Text((pageIndex+1).toString()),
@@ -215,213 +219,110 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
             controller: _controller1,
             scrollbarOrientation: ScrollbarOrientation.top,
             child: SingleChildScrollView(
-              controller: _controller1,
-              scrollDirection: Axis.horizontal,
-              child: search!.text == ''
-                  ? StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                      stream: userStream,
-                      // search?.text!=""?FirebaseFirestore.instance.collection('Users')
-                      //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
-                      builder: (context, snapshot) {
-                        var data = snapshot.data!.docs;
+                controller: _controller1,
+                scrollDirection: Axis.horizontal,
+                child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: search!.text == ''
+                        ? userStream
+                        : FirebaseFirestore.instance
+                            .collection('Users')
+                            .where('search',
+                                arrayContains: search!.text.toUpperCase())
+                            .limit(10)
+                            .snapshots(),
+                    // search?.text!=""?FirebaseFirestore.instance.collection('Users')
+                    //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
+                    builder: (context, snapshot) {
+                      var data = snapshot.data!.docs;
 
-                        lastDoc = snapshot.data!.docs[data.length - 1];
-                        lastDocuments[pageIndex] = lastDoc!;
-                        firstDoc = snapshot.data!.docs[0];
-                        return DataTable(
-                          border: TableBorder.all(
-                              color: Colors.black.withOpacity(0.1)),
-                          dataRowColor:
-                              MaterialStateProperty.resolveWith((Set states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return Colors.grey;
-                            }
-                            return Colors.white; // Use the default value.
-                          }),
-                          checkboxHorizontalMargin: Checkbox.width,
-                          columnSpacing: 50,
-                          dividerThickness: 3,
-                          showCheckboxColumn: true,
-                          horizontalMargin: 50,
-                          columns: const [
-                            DataColumn(numeric: true, label: Text('SI.No')),
-                            DataColumn(
-                              label: Text('User ID'),
-                            ),
-                            DataColumn(
-                              label: Text('Password'),
-                            ),
-                            DataColumn(label: Text('Name')),
-                            DataColumn(label: Text('Mobile')),
-                            DataColumn(
-                                label: Expanded(child: Text('Join Date'))),
-                            DataColumn(label: Text('Status')),
-                            DataColumn(label: Text('User Panel')),
-                            DataColumn(label: Text('View')),
-                          ],
-                          rows: List.generate(data.length, (index) {
-                            var user = data[index];
-                            return DataRow(cells: [
-                              DataCell(Text(
-                                  (ind == 0 ? index + 1 : ind + index + 1)
-                                      .toString())),
-                              DataCell(SelectableText(user['uid'])),
-                              DataCell(SelectableText(user['password'])),
-                              DataCell(Text(user['name'])),
-                              DataCell(SelectableText(user['mobno'])),
-                              DataCell(Text(
-                                  "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
-                              //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
-                              DataCell(Text(
-                                  user['status'] ? 'Active' : 'Not Active')),
-                              DataCell(Container(
+                      lastDoc = snapshot.data!.docs[data.length - 1];
+                      lastDocuments[pageIndex] = lastDoc!;
+                      firstDoc = snapshot.data!.docs[0];
+                      return DataTable(
+                        border: TableBorder.all(
+                            color: Colors.black.withOpacity(0.1)),
+                        dataRowColor:
+                            MaterialStateProperty.resolveWith((Set states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return Colors.grey;
+                          }
+                          return Colors.white; // Use the default value.
+                        }),
+                        checkboxHorizontalMargin: Checkbox.width,
+                        columnSpacing: 50,
+                        dividerThickness: 3,
+                        showCheckboxColumn: true,
+                        horizontalMargin: 50,
+                        columns: const [
+                          DataColumn(numeric: true, label: Text('SI.No')),
+                          DataColumn(
+                            label: Text('User ID'),
+                          ),
+                          DataColumn(
+                            label: Text('Password'),
+                          ),
+                          DataColumn(label: Text('Name')),
+                          DataColumn(label: Text('Mobile')),
+                          DataColumn(label: Expanded(child: Text('Join Date'))),
+                          DataColumn(label: Text('Status')),
+                          DataColumn(label: Text('User Panel')),
+                          DataColumn(label: Text('View')),
+                        ],
+                        rows: List.generate(data.length, (index) {
+                          var user = data[index];
+                          return DataRow(cells: [
+                            DataCell(Text(
+                                (ind == 0 ? index + 1 : ind + index + 1)
+                                    .toString())),
+                            DataCell(SelectableText(user['uid'])),
+                            DataCell(SelectableText(user['password'])),
+                            DataCell(Text(user['name'])),
+                            DataCell(SelectableText(user['mobno'])),
+                            DataCell(Text(
+                                "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
+                            //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
+                            DataCell(
+                                Text(user['status'] ? 'Active' : 'Not Active')),
+                            DataCell(Container(
+                              height: 30,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(3),
+                                  border: Border.all(
+                                      color: Colors.black.withOpacity(0.3))),
+                              alignment: Alignment.center,
+                              child: InkWell(
+                                onTap: () {
+                                  _launchURLBrowser(user['uid']);
+                                },
+                                child: const Text('Goto Panel'),
+                              ),
+                            )),
+                            DataCell(Container(
                                 height: 30,
                                 width: 90,
                                 decoration: BoxDecoration(
-                                    color: Colors.red,
+                                    color: Colors.yellow,
                                     borderRadius: BorderRadius.circular(3),
                                     border: Border.all(
                                         color: Colors.black.withOpacity(0.3))),
                                 alignment: Alignment.center,
                                 child: InkWell(
-                                  onTap: () {
-                                    _launchURLBrowser(user['uid']);
-                                  },
-                                  child: const Text('Goto Panel'),
-                                ),
-                              )),
-                              DataCell(Container(
-                                  height: 30,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      color: Colors.yellow,
-                                      borderRadius: BorderRadius.circular(3),
-                                      border: Border.all(
-                                          color:
-                                              Colors.black.withOpacity(0.3))),
-                                  alignment: Alignment.center,
-                                  child: InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => EditUser(
-                                                  user: UserModel.fromJson(
-                                                      user.data())),
-                                            ));
-                                      },
-                                      child: const Text('Edit')))),
-                            ]);
-                          }),
-                        );
-                      })
-                  : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                      stream: FirebaseFirestore.instance
-                          .collection('Users')
-                          .where('search',
-                              arrayContains: search!.text.toUpperCase())
-                          .limit(10)
-                          .snapshots(),
-                      // search?.text!=""?FirebaseFirestore.instance.collection('Users')
-                      //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
-                      builder: (context, snapshot) {
-                        var data = snapshot.data!.docs;
-
-                        lastDoc = snapshot.data!.docs[data.length - 1];
-                        lastDocuments[pageIndex] = lastDoc!;
-                        firstDoc = snapshot.data!.docs[0];
-                        return DataTable(
-                          border: TableBorder.all(
-                              color: Colors.black.withOpacity(0.1)),
-                          dataRowColor:
-                              MaterialStateProperty.resolveWith((Set states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return Colors.grey;
-                            }
-                            return Colors.white; // Use the default value.
-                          }),
-                          checkboxHorizontalMargin: Checkbox.width,
-                          columnSpacing: 50,
-                          dividerThickness: 3,
-                          showCheckboxColumn: true,
-                          horizontalMargin: 50,
-                          columns: const [
-                            DataColumn(numeric: true, label: Text('SI.No')),
-                            DataColumn(
-                              label: Text('User ID'),
-                            ),
-                            DataColumn(
-                              label: Text('Password'),
-                            ),
-                            DataColumn(label: Text('Name')),
-                            DataColumn(label: Text('Mobile')),
-                            DataColumn(
-                                label: Expanded(child: Text('Join Date'))),
-
-                            // DataColumn(label: Expanded(child: Text('Join Date'))),
-                            DataColumn(label: Text('Status')),
-                            DataColumn(label: Text('User Panel')),
-                            DataColumn(label: Text('View')),
-                          ],
-                          rows: List.generate(data.length, (index) {
-                            var user = data[index];
-                            return DataRow(cells: [
-                              DataCell(Text('${pageIndex + index + 1}')),
-                              DataCell(SelectableText(user['uid'])),
-                              DataCell(SelectableText(user['password'])),
-                              DataCell(Text(user['name'])),
-                              DataCell(SelectableText(user['mobno'])),
-                              DataCell(Text(
-                                  "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
-
-                              // DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
-                              DataCell(Text(
-                                  user['status'] ? 'Active' : 'Not Active')),
-                              DataCell(
-                                Container(
-                                    height: 30,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(3),
-                                        border: Border.all(
-                                            color:
-                                                Colors.black.withOpacity(0.3))),
-                                    alignment: Alignment.center,
-                                    child: InkWell(
-                                        onTap: () {
-                                          _launchURLBrowser(user['uid']);
-
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => UserApp(),));
-                                        },
-                                        child: const Text('Goto Panel'))),
-                              ),
-                              DataCell(Container(
-                                  height: 30,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      color: Colors.yellow,
-                                      borderRadius: BorderRadius.circular(3),
-                                      border: Border.all(
-                                          color:
-                                              Colors.black.withOpacity(0.3))),
-                                  alignment: Alignment.center,
-                                  child: InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => EditUser(
-                                                  user: UserModel.fromJson(
-                                                      user.data())),
-                                            ));
-                                      },
-                                      child: const Text('Edit')))),
-                            ]);
-                          }),
-                        );
-                      }),
-            ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => EditUser(
+                                                user: UserModel.fromJson(
+                                                    user.data())),
+                                          ));
+                                    },
+                                    child: const Text('Edit')))),
+                          ]);
+                        }),
+                      );
+                    })),
           ),
           Row(
             children: [

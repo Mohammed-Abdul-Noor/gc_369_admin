@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,29 +43,29 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                 weight: FontWeight.bold),
           ),
           SizedBox(width: 200),
-          Center(
-            child: ToggleSwitch(
-              minWidth: 130.0,
-              minHeight: 70.0,
-              initialLabelIndex: 0,
-              totalSwitches: 2,
-              activeBgColor: [Colors.green],
-              activeFgColor: Colors.white,
-              inactiveBgColor:Colors.red ,
-              inactiveFgColor: Colors.white,
-              labels: [
-                'Enable Register',
-                'Disable Register',
-              ],
-
-              onToggle: (index) {
-
-                FirebaseFirestore.instance.collection('settings').doc('settings').update({
-                  'registration':index==0?false:true,
-                });
-              },
-            ),
-          ),
+          // Center(
+          //   child: ToggleSwitch(
+          //     minWidth: 130.0,
+          //     minHeight: 70.0,
+          //     initialLabelIndex: 0,
+          //     totalSwitches: 2,
+          //     activeBgColor: [Colors.green],
+          //     activeFgColor: Colors.white,
+          //     inactiveBgColor:Colors.red ,
+          //     inactiveFgColor: Colors.white,
+          //     labels: [
+          //       'Enable Register',
+          //       'Disable Register',
+          //     ],
+          //
+          //     onToggle: (index) {
+          //
+          //       FirebaseFirestore.instance.collection('settings').doc('settings').update({
+          //         'registration':index==0?false:true,
+          //       });
+          //     },
+          //   ),
+          // ),
           Expanded(child: Container()),
           Container(
             decoration: BoxDecoration(
