@@ -179,15 +179,18 @@ class _UserVerificationState extends State<UserVerification> {
                                             registration.data()['mobNo'])),
                                         DataCell(SelectableText(
                                             registration.data()['whatsNo'])),
-                                        DataCell(registration.data()['walletReg']?SelectableText(
-                                      'wallet transfer by\n${registration.data()['spendId']}'):CachedNetworkImage(
-                                          imageUrl:
-                                              registration.data()['fProof'],
-                                          width: currentWidth < 700
-                                              ? w * 0.4
-                                              : w * 0.2,
-                                          fit: BoxFit.fitHeight,
-                                        )),
+                                        DataCell(registration
+                                                .data()['walletReg']
+                                            ? SelectableText(
+                                                'wallet transfer by\n${registration.data()['spendId']}')
+                                            : CachedNetworkImage(
+                                                imageUrl: registration
+                                                    .data()['fProof'],
+                                                width: currentWidth < 700
+                                                    ? w * 0.4
+                                                    : w * 0.2,
+                                                fit: BoxFit.fitHeight,
+                                              )),
                                         DataCell(CachedNetworkImage(
                                           imageUrl: registration.data()['file'],
                                           width: currentWidth < 700
@@ -235,6 +238,15 @@ class _UserVerificationState extends State<UserVerification> {
                                                     }
 
                                                     final userdata = UserModel(
+                                                      nomineeName:
+                                                          registration.data()[
+                                                              'nomineeName'],
+                                                      nomineeRelation:
+                                                          registration.data()[
+                                                              'nomineeRelation'],
+                                                      customerSupport:
+                                                          registration.data()[
+                                                              'customerSupport'],
                                                       address: registration
                                                           .data()['address'],
                                                       bproof: registration
@@ -534,8 +546,7 @@ class _UserVerificationState extends State<UserVerification> {
                                                   child: const Text('Reject')),
                                             ),
                                           ],
-                                        )
-                                        ),
+                                        )),
                                       ]);
                                     })),
                               ],
@@ -558,8 +569,8 @@ getSponsor1(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   data[index].reference.update({'sponsorLevel': 1, 'verify': true});
   if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
       planMap[sndUsr.sno]['last'] == currentuser?.currentPlanLevel) {
-    int sno=currentuser?.sno??0;
-    updateAllUser(sno,sno+1,currentuser);
+    int sno = currentuser?.sno ?? 0;
+    updateAllUser(sno, sno + 1, currentuser);
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt1.${sndUsr.sno}':
           FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
@@ -605,8 +616,8 @@ getSponsor2(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   data[index].reference.update({'sponsorLevel': 2, 'verify': true});
   if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
       planMap[sndUsr.sno]['last'] == currentuser?.currentPlanLevel) {
-    int sno=currentuser?.sno??0;
-    updateAllUser(sno,sno+1,currentuser);
+    int sno = currentuser?.sno ?? 0;
+    updateAllUser(sno, sno + 1, currentuser);
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt2.${sndUsr.sno}':
           FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
@@ -652,8 +663,8 @@ getSponsor3(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   data[index].reference.update({'sponsorLevel': 3, 'verify': true});
   if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
       planMap[sndUsr.sno]['last'] == currentuser?.currentPlanLevel) {
-    int sno=currentuser?.sno??0;
-    updateAllUser(sno,sno+1,currentuser);
+    int sno = currentuser?.sno ?? 0;
+    updateAllUser(sno, sno + 1, currentuser);
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'spnsrAmt3.${sndUsr.sno}':
           FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),

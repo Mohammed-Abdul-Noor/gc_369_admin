@@ -5,10 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:gc_369/main.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../model/userModel.dart';
-import '../pages/editUser/editUser.dart';
 
 class DownTotalUsers extends StatefulWidget {
   const DownTotalUsers({Key? key}) : super(key: key);
@@ -217,7 +214,7 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
   bool called = false;
 
   List<String> selectedFields = [
-    "uid", "joinDate", "name",
+    "uid", "name", "joinDate",
 
     //  "password",
 
@@ -240,11 +237,12 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
       // print(dt.keys.toList().length);
       // print(dt.keys.toList());
       int k = 0;
-      for (int n = 0; n < dt.keys.toList().length; n++) {
-        if (selectedFields.contains(dt.keys.toList()[n])) {
+      for (int n = 0; n < selectedFields.toList().length; n++) {
+        if (selectedFields.contains(selectedFields.toList()[n])) {
           var cell =
               sheetObject.cell(CellIndex.indexByString("${columns[k + 1]}1"));
-          cell.value = dt.keys.toList()[n]; // dynamic values support provided;
+          cell.value =
+              selectedFields.toList()[n]; // dynamic values support provided;
           cell.cellStyle = cellStyle;
           k++;
         }
@@ -262,17 +260,17 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
       Map<String, dynamic> dt = data.docs[0].data();
       Map<String, dynamic> dta = doc.data()!;
       print("hereeee");
-      for (int n = 0; n < dt.keys.toList().length; n++) {
-        if (selectedFields.contains(dt.keys.toList()[n])) {
+      for (int n = 0; n < selectedFields.toList().length; n++) {
+        if (selectedFields.contains(selectedFields.toList()[n])) {
           var cell = sheetObject
               .cell(CellIndex.indexByString("${columns[l + 1]}${i + 1}"));
 
           // if (dta[dt.keys.toList()[n]].runtimeType.toString() == "Timestamp") {
-          if (dt.keys.toList()[n] == "joinDate") {
-            cell.value = dta[dt.keys.toList()[n]].toDate().toString(); //
+          if (selectedFields.toList()[n] == "joinDate") {
+            cell.value = dta[selectedFields.toList()[n]].toDate().toString(); //
             cell.cellStyle = cellStyle;
           } else {
-            cell.value = dta[dt.keys.toList()[n]].toString();
+            cell.value = dta[selectedFields.toList()[n]].toString();
             cell.cellStyle = cellStyle;
           }
           l++;

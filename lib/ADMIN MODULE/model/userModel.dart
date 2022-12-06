@@ -69,88 +69,98 @@ class UserModel {
   Map<String, dynamic>? enteredDate;
   String? fproof;
   String? bproof;
+  String? nomineeName;
+  String? nomineeRelation;
+  bool? customerSupport;
   int? downline1;
   int? downline2;
   int? downline3;
   List? search;
   String? type;
-  int?currentPlanLevel;
-  int?currentCount;
+  int? currentPlanLevel;
+  int? currentCount;
 
-  UserModel(
-      {this.currentCount,
-        this.currentPlanLevel,
-        this.whatsNO,
-        this.panNo,
-        this.uid,
-        this.name,
-        this.joinDate,
-        this.mobno,
-        this.address,
-        this.email,
-        this.accno,
-        this.accholname,
-        this.ifscno,
-        this.bankname,
-        this.branch,
-        this.googlepayno,
-        this.phonepayno,
-        this.paytmno,
-        this.upiId,
-        this.sendhelp,
-        this.receivehelp,
-        this.levelincome,
-        this.directmember,
-        this.rebirthId,
-        this.status,
-        this.spnsr_Id,
-        this.sponsoremobile,
-        this.sponsorincome,
-        this.mystatus,
-        this.password,
-        this.receiveCount,
-        this.sendCount,
-        this.sno,
-        this.checkGenId,
-        this.eligible,
-        this.motherId,
-        this.referral,
-        this.wallet,
-        this.firstLevelJoinDate,
-        this.genId,
-        this.getHelpUsers,
-        this.provideHelpUsers,
-        this.provideCount,
-        this.getCount,
-        this.fproof,
-        this.bproof,
-        this.spnsrId2,
-        this.spnsrId3,
-        this.downline1,
-        this.downline2,
-        this.downline3,
-        this.search,
-        this.type,
-        this.charAmt,
-        this.clubAmt,
-        this.enteredDate,
-        this.upgradeAmt,
-        this.spnsrAmt1,
-        this.spnsrAmt2,
-        this.spnsrAmt3,
-        this.index,
-        this.mobcc,
-        this.whatsappcc,});
+  UserModel({
+    this.nomineeName,
+    this.nomineeRelation,
+    this.customerSupport,
+    this.currentCount,
+    this.currentPlanLevel,
+    this.whatsNO,
+    this.panNo,
+    this.uid,
+    this.name,
+    this.joinDate,
+    this.mobno,
+    this.address,
+    this.email,
+    this.accno,
+    this.accholname,
+    this.ifscno,
+    this.bankname,
+    this.branch,
+    this.googlepayno,
+    this.phonepayno,
+    this.paytmno,
+    this.upiId,
+    this.sendhelp,
+    this.receivehelp,
+    this.levelincome,
+    this.directmember,
+    this.rebirthId,
+    this.status,
+    this.spnsr_Id,
+    this.sponsoremobile,
+    this.sponsorincome,
+    this.mystatus,
+    this.password,
+    this.receiveCount,
+    this.sendCount,
+    this.sno,
+    this.checkGenId,
+    this.eligible,
+    this.motherId,
+    this.referral,
+    this.wallet,
+    this.firstLevelJoinDate,
+    this.genId,
+    this.getHelpUsers,
+    this.provideHelpUsers,
+    this.provideCount,
+    this.getCount,
+    this.fproof,
+    this.bproof,
+    this.spnsrId2,
+    this.spnsrId3,
+    this.downline1,
+    this.downline2,
+    this.downline3,
+    this.search,
+    this.type,
+    this.charAmt,
+    this.clubAmt,
+    this.enteredDate,
+    this.upgradeAmt,
+    this.spnsrAmt1,
+    this.spnsrAmt2,
+    this.spnsrAmt3,
+    this.index,
+    this.mobcc,
+    this.whatsappcc,
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'] ?? "";
+    nomineeName = json['nomineeName'] ?? "";
+    nomineeRelation = json['nomineeRelation'] ?? "";
+    customerSupport = json['customerSupport'] ?? false;
     panNo = json['panNo'] ?? "";
     whatsNO = json['whatsNO'] ?? "";
     whatsappcc = json['whatsappcc'] ?? "";
     mobcc = json['mobcc'] ?? "";
     name = json['name'] ?? "";
     joinDate =
-    json['joinDate'] == null ? DateTime.now() : json['joinDate'].toDate();
+        json['joinDate'] == null ? DateTime.now() : json['joinDate'].toDate();
     mobno = json['mobno'] ?? "";
     address = json['address'] ?? {};
     email = json['email'] ?? "";
@@ -217,6 +227,9 @@ class UserModel {
     final Map<String, dynamic> data = Map<String, dynamic>();
 
     data['uid'] = uid;
+    data['nomineeName'] = nomineeName;
+    data['nomineeRelation'] = nomineeRelation;
+    data['customerSupport'] = customerSupport;
 
     data['whatsNo'] = whatsNO;
 
@@ -304,6 +317,9 @@ class UserModel {
 
   UserModel.fromdocumentsnapshot(DocumentSnapshot userMap)
       : uid = userMap['uid'],
+        nomineeName = userMap['nomineeName'],
+        nomineeRelation = userMap['nomineeRelation'],
+        customerSupport = userMap['customerSupport'],
         whatsNO = userMap['whatsNO'],
         name = userMap['name'],
         joinDate = userMap['joinDate'].toDate(),
