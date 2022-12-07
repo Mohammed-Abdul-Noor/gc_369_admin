@@ -1,12 +1,8 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
-import '../pages/editUser/ProvideHelp.dart';
-import '../pages/editUser/genIDModel.dart';
-import '../pages/editUser/getHelp.dart';
-import '../model/userModel.dart';
 
 class GenIDS extends StatefulWidget {
   const GenIDS({Key? key}) : super(key: key);
@@ -105,121 +101,132 @@ class _GenIDSState extends State<GenIDS> {
                         ),
                       ),
                       // SizedBox(height: 10),
-                      Scrollbar(
-                        controller: _controller1,
-                        scrollbarOrientation: ScrollbarOrientation.top,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Column(
-                            children: [
-                              DataTable(
-                                  dataRowHeight: h * 0.5,
-                                  border: TableBorder.all(
-                                      color: Colors.black.withOpacity(0.1)),
-                                  dataRowColor:
-                                      MaterialStateProperty.resolveWith(
-                                          (Set states) {
-                                    if (states
-                                        .contains(MaterialState.selected)) {
-                                      return Colors.grey;
-                                    }
-                                    return Colors
-                                        .white; // Use the default value.
-                                  }),
-                                  checkboxHorizontalMargin: Checkbox.width,
-                                  columnSpacing: 50,
-                                  dividerThickness: 3,
-                                  showCheckboxColumn: true,
-                                  horizontalMargin: 50,
-                                  //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                      ScrollConfiguration(
+                        behavior: ScrollConfiguration.of(context).copyWith(
+                          dragDevices: {
+                            PointerDeviceKind.touch,
+                            PointerDeviceKind.mouse,
+                          },
+                        ),
+                        child: Scrollbar(
+                          controller: _controller1,
+                          scrollbarOrientation: ScrollbarOrientation.top,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Column(
+                              children: [
+                                DataTable(
+                                    dataRowHeight: h * 0.5,
+                                    border: TableBorder.all(
+                                        color: Colors.black.withOpacity(0.1)),
+                                    dataRowColor:
+                                        MaterialStateProperty.resolveWith(
+                                            (Set states) {
+                                      if (states
+                                          .contains(MaterialState.selected)) {
+                                        return Colors.grey;
+                                      }
+                                      return Colors
+                                          .white; // Use the default value.
+                                    }),
+                                    checkboxHorizontalMargin: Checkbox.width,
+                                    columnSpacing: 50,
+                                    dividerThickness: 3,
+                                    showCheckboxColumn: true,
+                                    horizontalMargin: 50,
+                                    //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
 
-                                  columns: [
-                                    DataColumn(
-                                        numeric: true,
-                                        onSort: (columnIndex, ascending) =>
-                                            const Text(''),
-                                        label: const Text('SI.No')),
-                                    const DataColumn(label: Text('Gen id')),
-                                    //  const DataColumn(label: Text('Time')),
-                                    const DataColumn(label: Text('Name')),
-                                    const DataColumn(
-                                        label: Text('Mobile Number')),
-                                    const DataColumn(
-                                        label: Text('WhatsApp Number')),
-                                    const DataColumn(label: Text('ID Proof')),
-                                    const DataColumn(label: Text('Proof')),
-                                    const DataColumn(label: Text('Verify')),
-                                  ],
-                                  rows: List.generate(data.length, (index) {
-                                    var registration = data[index];
+                                    columns: [
+                                      DataColumn(
+                                          numeric: true,
+                                          onSort: (columnIndex, ascending) =>
+                                              const Text(''),
+                                          label: const Text('SI.No')),
+                                      const DataColumn(label: Text('Gen id')),
+                                      //  const DataColumn(label: Text('Time')),
+                                      const DataColumn(label: Text('Name')),
+                                      const DataColumn(
+                                          label: Text('Mobile Number')),
+                                      const DataColumn(
+                                          label: Text('WhatsApp Number')),
+                                      const DataColumn(label: Text('ID Proof')),
+                                      const DataColumn(label: Text('Proof')),
+                                      const DataColumn(label: Text('Verify')),
+                                    ],
+                                    rows: List.generate(data.length, (index) {
+                                      var registration = data[index];
 
-                                    return DataRow(cells: [
-                                      DataCell(Text('${index + 1}')),
-                                      DataCell(
-                                          Text(registration.data()['userId'])),
-                                      DataCell(SelectableText(
-                                          registration.data()['name'])),
-                                      DataCell(SelectableText(
-                                          registration.data()['mobNo'])),
-                                      DataCell(SelectableText(
-                                          registration.data()['whatsNo'])),
-                                      DataCell(CachedNetworkImage(
-                                        imageUrl: registration.data()['fProof'],
-                                        width: currentWidth < 700
-                                            ? w * 0.4
-                                            : w * 0.2,
-                                        fit: BoxFit.fitHeight,
-                                      )),
-                                      DataCell(CachedNetworkImage(
-                                        imageUrl: registration.data()['file'],
-                                        width: currentWidth < 700
-                                            ? w * 0.4
-                                            : w * 0.2,
-                                        fit: BoxFit.fitHeight,
-                                      )),
-                                      DataCell(Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          InkWell(
-                                            onTap: () async {
-                                              if (!disable) {
-                                                disable == true;
-                                                registration.reference.update({
-                                                  'verify': true,
-                                                });
-                                                FirebaseFirestore.instance
-                                                    .collection('Users')
-                                                    .doc(registration
-                                                        .data()['userId'])
-                                                    .update({
-                                                  'status': true,
-                                                  'sno': 1,
-                                                  'eligible': true
-                                                }).then((value) {});
-                                              }
-                                            },
-                                            child: Container(
-                                                height: 30,
-                                                width: 60,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.green,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            3),
-                                                    border: Border.all(
-                                                        color: Colors.black
-                                                            .withOpacity(0.3))),
-                                                alignment: Alignment.center,
-                                                child: const Text('Accept')),
-                                          ),
-                                        ],
-                                      )),
-                                    ]);
-                                  })),
-                            ],
+                                      return DataRow(cells: [
+                                        DataCell(Text('${index + 1}')),
+                                        DataCell(Text(
+                                            registration.data()['userId'])),
+                                        DataCell(SelectableText(
+                                            registration.data()['name'])),
+                                        DataCell(SelectableText(
+                                            registration.data()['mobNo'])),
+                                        DataCell(SelectableText(
+                                            registration.data()['whatsNo'])),
+                                        DataCell(CachedNetworkImage(
+                                          imageUrl:
+                                              registration.data()['fProof'],
+                                          width: currentWidth < 700
+                                              ? w * 0.4
+                                              : w * 0.2,
+                                          fit: BoxFit.fitHeight,
+                                        )),
+                                        DataCell(CachedNetworkImage(
+                                          imageUrl: registration.data()['file'],
+                                          width: currentWidth < 700
+                                              ? w * 0.4
+                                              : w * 0.2,
+                                          fit: BoxFit.fitHeight,
+                                        )),
+                                        DataCell(Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                if (!disable) {
+                                                  disable == true;
+                                                  registration.reference
+                                                      .update({
+                                                    'verify': true,
+                                                  });
+                                                  FirebaseFirestore.instance
+                                                      .collection('Users')
+                                                      .doc(registration
+                                                          .data()['userId'])
+                                                      .update({
+                                                    'status': true,
+                                                    'sno': 1,
+                                                    'eligible': true
+                                                  }).then((value) {});
+                                                }
+                                              },
+                                              child: Container(
+                                                  height: 30,
+                                                  width: 60,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.green,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              3),
+                                                      border: Border.all(
+                                                          color: Colors.black
+                                                              .withOpacity(
+                                                                  0.3))),
+                                                  alignment: Alignment.center,
+                                                  child: const Text('Accept')),
+                                            ),
+                                          ],
+                                        )),
+                                      ]);
+                                    })),
+                              ],
+                            ),
                           ),
                         ),
                       )

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -209,147 +211,155 @@ class _sponsorlessUsersPageState extends State<sponsorlessUsersPage> {
             ),
           ),
           // SizedBox(height: 10),
-          Scrollbar(
-            controller: _controller1,
-            scrollbarOrientation: ScrollbarOrientation.top,
-            child: SingleChildScrollView(
-                controller: _controller1,
-                scrollDirection: Axis.horizontal,
-                child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    stream: search!.text == ''
-                        ? userStream
-                        : FirebaseFirestore.instance
-                            .collection('Users')
-                            .where('search',
-                                arrayContains: search!.text.toUpperCase())
-                            .limit(10)
-                            .snapshots(),
-                    // search?.text!=""?FirebaseFirestore.instance.collection('Users')
-                    //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if (snapshot.data?.docs.length == 0) {
-                        return Center(
-                          child: Text("No Users Found"),
-                        );
-                      }
-                      var data = snapshot.data!.docs;
+          ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context).copyWith(
+              dragDevices: {
+                PointerDeviceKind.touch,
+                PointerDeviceKind.mouse,
+              },
+            ),
+            child: Scrollbar(
+              controller: _controller1,
+              scrollbarOrientation: ScrollbarOrientation.top,
+              child: SingleChildScrollView(
+                  controller: _controller1,
+                  scrollDirection: Axis.horizontal,
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                      stream: search!.text == ''
+                          ? userStream
+                          : FirebaseFirestore.instance
+                              .collection('Users')
+                              .where('search',
+                                  arrayContains: search!.text.toUpperCase())
+                              .limit(10)
+                              .snapshots(),
+                      // search?.text!=""?FirebaseFirestore.instance.collection('Users')
+                      //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (snapshot.data?.docs.length == 0) {
+                          return Center(
+                            child: Text("No Users Found"),
+                          );
+                        }
+                        var data = snapshot.data!.docs;
 
-                      lastDoc = snapshot.data!.docs[data.length - 1];
-                      lastDocuments[pageIndex] = lastDoc!;
-                      firstDoc = snapshot.data!.docs[0];
-                      return DataTable(
-                        border: TableBorder.all(
-                            color: Colors.black.withOpacity(0.1)),
-                        dataRowColor:
-                            MaterialStateProperty.resolveWith((Set states) {
-                          if (states.contains(MaterialState.selected)) {
-                            return Colors.grey;
-                          }
-                          return Colors.white; // Use the default value.
-                        }),
-                        checkboxHorizontalMargin: Checkbox.width,
-                        columnSpacing: 50,
-                        dividerThickness: 3,
-                        showCheckboxColumn: true,
-                        horizontalMargin: 50,
-                        columns: const [
-                          DataColumn(numeric: true, label: Text('SI.No')),
-                          DataColumn(
-                            label: Text('User ID'),
-                          ),
-                          DataColumn(label: Text('Name')),
-                          DataColumn(label: Text('Mobile')),
-                          DataColumn(label: Expanded(child: Text('Join Date'))),
-                          DataColumn(label: Text('Status')),
-                          DataColumn(label: Text('Sponsor Id')),
-                          DataColumn(label: Text('Action')),
-                        ],
-                        rows: List.generate(data.length, (index) {
-                          TextEditingController sponsorId$index =
-                              TextEditingController();
-                          var user = data[index];
-                          return DataRow(cells: [
-                            DataCell(Text(
-                                (ind == 0 ? index + 1 : ind + index + 1)
-                                    .toString())),
-                            DataCell(SelectableText(user['uid'])),
-                            DataCell(Text(user['name'])),
-                            DataCell(SelectableText(user['mobno'])),
-                            DataCell(Text(
-                                "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
-                            //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
-                            DataCell(
-                                Text(user['status'] ? 'Active' : 'Not Active')),
-                            DataCell(TextFormField(
-                              readOnly: false,
-                              // maxLines: 2,
-                              controller: sponsorId$index,
+                        lastDoc = snapshot.data!.docs[data.length - 1];
+                        lastDocuments[pageIndex] = lastDoc!;
+                        firstDoc = snapshot.data!.docs[0];
+                        return DataTable(
+                          border: TableBorder.all(
+                              color: Colors.black.withOpacity(0.1)),
+                          dataRowColor:
+                              MaterialStateProperty.resolveWith((Set states) {
+                            if (states.contains(MaterialState.selected)) {
+                              return Colors.grey;
+                            }
+                            return Colors.white; // Use the default value.
+                          }),
+                          checkboxHorizontalMargin: Checkbox.width,
+                          columnSpacing: 50,
+                          dividerThickness: 3,
+                          showCheckboxColumn: true,
+                          horizontalMargin: 50,
+                          columns: const [
+                            DataColumn(numeric: true, label: Text('SI.No')),
+                            DataColumn(
+                              label: Text('User ID'),
+                            ),
+                            DataColumn(label: Text('Name')),
+                            DataColumn(label: Text('Mobile')),
+                            DataColumn(label: Expanded(child: Text('Join Date'))),
+                            DataColumn(label: Text('Status')),
+                            DataColumn(label: Text('Sponsor Id')),
+                            DataColumn(label: Text('Action')),
+                          ],
+                          rows: List.generate(data.length, (index) {
+                            TextEditingController sponsorId$index =
+                                TextEditingController();
+                            var user = data[index];
+                            return DataRow(cells: [
+                              DataCell(Text(
+                                  (ind == 0 ? index + 1 : ind + index + 1)
+                                      .toString())),
+                              DataCell(SelectableText(user['uid'])),
+                              DataCell(Text(user['name'])),
+                              DataCell(SelectableText(user['mobno'])),
+                              DataCell(Text(
+                                  "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
+                              //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
+                              DataCell(
+                                  Text(user['status'] ? 'Active' : 'Not Active')),
+                              DataCell(TextFormField(
+                                readOnly: false,
+                                // maxLines: 2,
+                                controller: sponsorId$index,
 
-                              decoration: InputDecoration(
-                                fillColor: Colors.blue.withOpacity(0.07),
-                                filled: true,
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.yellow,
-                                ),
-                                border: InputBorder.none,
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.blue.withOpacity(0.07),
+                                  filled: true,
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.yellow,
+                                  ),
+                                  border: InputBorder.none,
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              cursorColor: Colors.black,
-                              // validator: (ctrl){
-                              //   if(ctrl==null && ctrl!.isEmpty){
-                              //     return 'This field is empty';
-                              //   }else{
-                              //     return null;
-                              //   }
-                              // },
-                            )),
-                            DataCell(ElevatedButton(
-                                onPressed: () async {
-                                  if (sponsorId$index.text != '') {
-                                    DocumentSnapshot doc =
-                                        await FirebaseFirestore.instance
-                                            .collection('Users')
-                                            .doc(sponsorId$index.text
-                                                .toUpperCase())
-                                            .get();
+                                cursorColor: Colors.black,
+                                // validator: (ctrl){
+                                //   if(ctrl==null && ctrl!.isEmpty){
+                                //     return 'This field is empty';
+                                //   }else{
+                                //     return null;
+                                //   }
+                                // },
+                              )),
+                              DataCell(ElevatedButton(
+                                  onPressed: () async {
+                                    if (sponsorId$index.text != '') {
+                                      DocumentSnapshot doc =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .doc(sponsorId$index.text
+                                                  .toUpperCase())
+                                              .get();
 
-                                    if (doc.exists) {
-                                      FirebaseFirestore.instance
-                                          .collection('Users')
-                                          .doc(user['uid'])
-                                          .update({
-                                        'spnsr_Id':
-                                            sponsorId$index.text.toUpperCase(),
-                                        'spnsrId2': doc['spnsr_Id'],
-                                        'spnsrId3': doc['spnsrId2'],
-                                      });
-                                      showUploadMessage(
-                                          'Sponsor Updated... \n Sponsor name :${doc.get('name')}',
-                                          context);
+                                      if (doc.exists) {
+                                        FirebaseFirestore.instance
+                                            .collection('Users')
+                                            .doc(user['uid'])
+                                            .update({
+                                          'spnsr_Id':
+                                              sponsorId$index.text.toUpperCase(),
+                                          'spnsrId2': doc['spnsr_Id'],
+                                          'spnsrId3': doc['spnsrId2'],
+                                        });
+                                        showUploadMessage(
+                                            'Sponsor Updated... \n Sponsor name :${doc.get('name')}',
+                                            context);
+                                      } else {
+                                        showUploadMessage(
+                                            'No User Found', context);
+                                      }
                                     } else {
                                       showUploadMessage(
-                                          'No User Found', context);
+                                          'Please Enter Sponsor Id', context);
                                     }
-                                  } else {
-                                    showUploadMessage(
-                                        'Please Enter Sponsor Id', context);
-                                  }
-                                },
-                                child: const Text('Update Sponsor Id'))),
-                          ]);
-                        }),
-                      );
-                    })),
+                                  },
+                                  child: const Text('Update Sponsor Id'))),
+                            ]);
+                          }),
+                        );
+                      })),
+            ),
           ),
           Row(
             children: [

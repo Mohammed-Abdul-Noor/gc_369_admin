@@ -456,19 +456,15 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 0)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 0)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });
@@ -480,19 +476,14 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 1)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 1)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
                                       setState(() {
                                         loading = false;
                                       });
@@ -504,19 +495,14 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 2)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 2)
+                                              .orderBy('index')
+                                              .get();
+                                      await getPurchases(data);
                                       setState(() {
                                         loading = false;
                                       });
@@ -528,19 +514,16 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 3)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 3)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });
@@ -552,19 +535,16 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 4)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 4)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });
@@ -576,19 +556,15 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 5)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 5)
+                                              .orderBy('index')
+                                              .get();
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });
@@ -600,21 +576,18 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 0)
-                                                .where('eligible',
-                                                    isEqualTo: true)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 0)
+                                              .where('eligible',
+                                                  isEqualTo: true)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });
@@ -626,21 +599,18 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 1)
-                                                .where('eligible',
-                                                    isEqualTo: true)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 1)
+                                              .where('eligible',
+                                                  isEqualTo: true)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });
@@ -652,21 +622,18 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 2)
-                                                .where('eligible',
-                                                    isEqualTo: true)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 2)
+                                              .where('eligible',
+                                                  isEqualTo: true)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });
@@ -678,21 +645,18 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 3)
-                                                .where('eligible',
-                                                    isEqualTo: true)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 3)
+                                              .where('eligible',
+                                                  isEqualTo: true)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });
@@ -704,21 +668,18 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 4)
-                                                .where('eligible',
-                                                    isEqualTo: true)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 4)
+                                              .where('eligible',
+                                                  isEqualTo: true)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });
@@ -730,21 +691,18 @@ class _DownTotalUsersState extends State<DownTotalUsers> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      if (allUsers == null) {
-                                        QuerySnapshot<Map<String, dynamic>>
-                                            data = await FirebaseFirestore
-                                                .instance
-                                                .collection('Users')
-                                                .where('sno', isEqualTo: 5)
-                                                .where('eligible',
-                                                    isEqualTo: true)
-                                                .orderBy('index')
-                                                .get();
-                                        allUsers = data;
-                                        await getPurchases(data);
-                                      } else {
-                                        await getPurchases(allUsers!);
-                                      }
+
+                                      QuerySnapshot<Map<String, dynamic>> data =
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .where('sno', isEqualTo: 5)
+                                              .where('eligible',
+                                                  isEqualTo: true)
+                                              .orderBy('index')
+                                              .get();
+
+                                      await getPurchases(data);
+
                                       setState(() {
                                         loading = false;
                                       });

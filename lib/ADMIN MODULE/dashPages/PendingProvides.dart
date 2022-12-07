@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -27,70 +29,19 @@ class _PendingProvidesState extends State<PendingProvides> {
 
   TextEditingController? search;
 
-  Stream<QuerySnapshot<Map<String, dynamic>>>? userStream;
   DocumentSnapshot? lastDoc;
   DocumentSnapshot? firstDoc;
   int pageIndex = 0;
   int ind = 0;
+  DateTime? yesterday;
   @override
   void initState() {
+    yesterday = DateTime.now().subtract(const Duration(days: 1));
     _controller = ScrollController();
     _controller1 = ScrollController();
-    userStream = FirebaseFirestore.instance
-        .collection('Users')
-        .orderBy('index')
-        .where('provideHelpUsers.date', isNotEqualTo: 0)
-        .limit(10)
-        .snapshots();
+
     search = TextEditingController();
     super.initState();
-  }
-
-  next() {
-    pageIndex++;
-    if (lastDoc == null || pageIndex == 0) {
-      ind = 0;
-      pageIndex = 0;
-      userStream = FirebaseFirestore.instance
-          .collection('Users')
-          .orderBy('index')
-          .limit(10)
-          .snapshots();
-    } else {
-      ind += 10;
-      userStream = FirebaseFirestore.instance
-          .collection('Users')
-          .orderBy('index')
-          .startAfterDocument(lastDoc!)
-          .limit(10)
-          .snapshots();
-    }
-
-    setState(() {});
-  }
-
-  prev() {
-    pageIndex--;
-    if (firstDoc == null || pageIndex == 0) {
-      print("here");
-      ind = 0;
-
-      userStream = FirebaseFirestore.instance
-          .collection('Users')
-          .orderBy('index')
-          .limit(10)
-          .snapshots();
-    } else {
-      ind -= 10;
-
-      userStream = FirebaseFirestore.instance
-          .collection('Users')
-          .orderBy('index')
-          .startAfterDocument(lastDocuments[pageIndex - 1]!)
-          .limit(10)
-          .snapshots();
-    }
-    setState(() {});
   }
 
   ScrollController? _controller;
@@ -197,98 +148,85 @@ class _PendingProvidesState extends State<PendingProvides> {
             ),
           ),
           // SizedBox(height: 10),
-          Scrollbar(
-            controller: _controller1,
-            scrollbarOrientation: ScrollbarOrientation.top,
-            child: SingleChildScrollView(
-                controller: _controller1,
-                scrollDirection: Axis.horizontal,
-                child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    stream: search!.text == ''
-                        ? userStream
-                        : FirebaseFirestore.instance
-                            .collection('Users')
-                            .where('search',
-                                arrayContains: search!.text.toUpperCase())
-                            .limit(10)
-                            .snapshots(),
-                    // search?.text!=""?FirebaseFirestore.instance.collection('Users')
-                    //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
-                    builder: (context, snapshot) {
-                      var data = snapshot.data!.docs;
+          ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context).copyWith(
+              dragDevices: {
+                PointerDeviceKind.touch,
+                PointerDeviceKind.mouse,
+              },
+            ),
+            child: Scrollbar(
+              controller: _controller1,
+              scrollbarOrientation: ScrollbarOrientation.top,
+              child: SingleChildScrollView(
+                  controller: _controller1,
+                  scrollDirection: Axis.horizontal,
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                      stream: search!.text == ''
+                          ? FirebaseFirestore.instance
+                              .collection('Users')
+                              .where('provideHelpUsers.date',
+                                  isGreaterThan: yesterday)
+                              .orderBy('provideHelpUsers.date')
+                              .snapshots()
+                          : FirebaseFirestore.instance
+                              .collection('Users')
+                              .where('search',
+                                  arrayContains: search!.text.toUpperCase())
+                              .snapshots(),
+                      builder: (context, snapshot) {
+                        print(snapshot.error);
+                        var data = snapshot.data!.docs;
+                        return DataTable(
+                          border: TableBorder.all(
+                              color: Colors.black.withOpacity(0.1)),
+                          dataRowColor:
+                              MaterialStateProperty.resolveWith((Set states) {
+                            if (states.contains(MaterialState.selected)) {
+                              return Colors.grey;
+                            }
+                            return Colors.white; // Use the default value.
+                          }),
+                          checkboxHorizontalMargin: Checkbox.width,
+                          columnSpacing: 50,
+                          dividerThickness: 3,
+                          showCheckboxColumn: true,
+                          horizontalMargin: 50,
+                          columns: const [
+                            DataColumn(numeric: true, label: Text('SI.No')),
+                            DataColumn(
+                              label: Text('User ID'),
+                            ),
+                            DataColumn(
+                              label: Text('Password'),
+                            ),
+                            DataColumn(label: Text('Name')),
+                            DataColumn(label: Text('Mobile')),
+                            DataColumn(label: Expanded(child: Text('Join Date'))),
+                            DataColumn(label: Text('Status')),
+                          ],
+                          rows: List.generate(data.length, (index) {
+                            var user = data[index];
+                            return DataRow(cells: [
+                              DataCell(Text(
+                                  (ind == 0 ? index + 1 : ind + index + 1)
+                                      .toString())),
+                              DataCell(SelectableText(user['uid'])),
+                              DataCell(SelectableText(user['password'])),
+                              DataCell(Text(user['name'])),
+                              DataCell(SelectableText(user['mobno'])),
+                              DataCell(Text(
+                                  "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
+                              //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
+                              DataCell(
+                                  Text(user['status'] ? 'Active' : 'Not Active')),
+                            ]);
+                          }),
+                        );
+                      })),
+            ),
+          ),
 
-                      lastDoc = snapshot.data!.docs[data.length - 1];
-                      lastDocuments[pageIndex] = lastDoc!;
-                      firstDoc = snapshot.data!.docs[0];
-                      return DataTable(
-                        border: TableBorder.all(
-                            color: Colors.black.withOpacity(0.1)),
-                        dataRowColor:
-                            MaterialStateProperty.resolveWith((Set states) {
-                          if (states.contains(MaterialState.selected)) {
-                            return Colors.grey;
-                          }
-                          return Colors.white; // Use the default value.
-                        }),
-                        checkboxHorizontalMargin: Checkbox.width,
-                        columnSpacing: 50,
-                        dividerThickness: 3,
-                        showCheckboxColumn: true,
-                        horizontalMargin: 50,
-                        columns: const [
-                          DataColumn(numeric: true, label: Text('SI.No')),
-                          DataColumn(
-                            label: Text('User ID'),
-                          ),
-                          DataColumn(
-                            label: Text('Password'),
-                          ),
-                          DataColumn(label: Text('Name')),
-                          DataColumn(label: Text('Mobile')),
-                          DataColumn(label: Expanded(child: Text('Join Date'))),
-                          DataColumn(label: Text('Status')),
-                        ],
-                        rows: List.generate(data.length, (index) {
-                          var user = data[index];
-                          return DataRow(cells: [
-                            DataCell(Text(
-                                (ind == 0 ? index + 1 : ind + index + 1)
-                                    .toString())),
-                            DataCell(SelectableText(user['uid'])),
-                            DataCell(SelectableText(user['password'])),
-                            DataCell(Text(user['name'])),
-                            DataCell(SelectableText(user['mobno'])),
-                            DataCell(Text(
-                                "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
-                            //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
-                            DataCell(
-                                Text(user['status'] ? 'Active' : 'Not Active')),
-                          ]);
-                        }),
-                      );
-                    })),
-          ),
-          Row(
-            children: [
-              pageIndex == 0
-                  ? Container()
-                  : ElevatedButton(
-                      onPressed: () {
-                        prev();
-                      },
-                      child: Text('Previous')),
-              SizedBox(
-                width: 30,
-              ),
-              lastDoc == null && pageIndex != 0
-                  ? Container()
-                  : ElevatedButton(
-                      onPressed: () {
-                        next();
-                      },
-                      child: Text('Next'))
-            ],
-          ),
           FutureBuilder<void>(future: _launched, builder: _launchStatus),
         ]),
       ]),

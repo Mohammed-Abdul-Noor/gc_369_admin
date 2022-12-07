@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/charityAmount.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/clubAmount.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/DistrictWise.dart';
+import 'package:gc_369/ADMIN%20MODULE/dashPages/PendingProvides.dart';
 import 'package:gc_369/ADMIN%20MODULE/pages/editUser/password/passwordTable.dart';
 
 import '../../main.dart';
@@ -66,6 +67,7 @@ List<Widget> _screens = [
   const DistrictWise(),
   const RegistrationReport(),
   const SendReceiveReport(),
+  const PendingProvides(),
 
   // NewUsers(),
   // Changepasswords(),
