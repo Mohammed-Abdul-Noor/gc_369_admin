@@ -219,119 +219,75 @@ class _SendReceiveReportState extends State<SendReceiveReport> {
                       // search?.text!=""?FirebaseFirestore.instance.collection('Users')
                       //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                       builder: (context, snapshot) {
-                        var data = snapshot.data!.docs;
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasData &&
+                            snapshot.data!.docs.isEmpty) {
+                          return Text('Empty');
+                        } else {
+                          var data = snapshot.data!.docs;
 
-                        lastDoc = snapshot.data!.docs[data.length - 1];
-                        lastDocuments[pageIndex] = lastDoc!;
-                        firstDoc = snapshot.data!.docs[0];
-                        return DataTable(
-                          border: TableBorder.all(
-                              color: Colors.black.withOpacity(0.1)),
-                          dataRowColor:
-                              MaterialStateProperty.resolveWith((Set states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return Colors.grey;
-                            }
-                            return Colors.white; // Use the default value.
-                          }),
-                          checkboxHorizontalMargin: Checkbox.width,
-                          columnSpacing: 50,
-                          dividerThickness: 3,
-                          showCheckboxColumn: true,
-                          horizontalMargin: 50,
-                          columns: const [
-                            DataColumn(numeric: true, label: Text('SI.No')),
-                            DataColumn(
-                              label: Text('User ID'),
-                            ),
-                            DataColumn(label: Text('Name')),
-                            DataColumn(label: Text('Recieve Help')),
-                            DataColumn(label: Text('Send Help')),
-                            DataColumn(label: Text('Wallet')),
-                            DataColumn(label: Text('Current Plan Level')),
-                            DataColumn(label: Text(' Level')),
-                            DataColumn(label: Text('Mobile')),
-                            DataColumn(label: Expanded(child: Text('Join Date'))),
-                          ],
-                          rows: List.generate(data.length, (index) {
-                            final showEditIcon = index == index;
-                            var user = data[index];
-                            return DataRow(cells: [
-                              DataCell(Text(
-                                  (ind == 0 ? index + 1 : ind + index + 1)
-                                      .toString())),
-                              DataCell(SelectableText(user['uid'])),
-                              DataCell(Text(user['name'])),
-                              DataCell(
-                                  SelectableText(user['receivehelp'].toString()),
-                                  showEditIcon: showEditIcon, onTap: () {
-                                TextEditingController rcvHelp =
-                                    TextEditingController(
-                                        text: user['receivehelp'].toString());
-                                showDialog(
-                                    context: context,
-                                    builder: (buildContext) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            'Edit Receive Help Amount'),
-                                        content: SingleChildScrollView(
-                                          child: Column(
-                                              // shrinkWrap: true,
-                                              children: [
-                                                TextFormField(
-                                                  controller: rcvHelp,
-                                                  decoration: InputDecoration(
-                                                      border:
-                                                          OutlineInputBorder()),
-                                                )
-                                              ]),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {
-                                                if (double.tryParse(
-                                                        rcvHelp.text) !=
-                                                    null) {
-                                                  user.reference.update({
-                                                    'receivehelp':
-                                                        double.tryParse(
-                                                            rcvHelp.text)
-                                                  });
-                                                  showUploadMessage(
-                                                      "edit successfull",
-                                                      context);
-                                                } else {
-                                                  showUploadMessage(
-                                                      "invalid amount", context);
-                                                }
-                                              },
-                                              child: const Text('Confirm Edit')),
-                                        ],
-                                      );
-                                    });
-
-                                setState(() {});
-                              }),
-                              DataCell(
-                                  SelectableText(user['sendhelp'].toString()),
-                                  showEditIcon: showEditIcon, onTap: () {
-                                {
+                          lastDoc = snapshot.data!.docs[data.length - 1];
+                          lastDocuments[pageIndex] = lastDoc!;
+                          firstDoc = snapshot.data!.docs[0];
+                          return DataTable(
+                            border: TableBorder.all(
+                                color: Colors.black.withOpacity(0.1)),
+                            dataRowColor:
+                                MaterialStateProperty.resolveWith((Set states) {
+                              if (states.contains(MaterialState.selected)) {
+                                return Colors.grey;
+                              }
+                              return Colors.white; // Use the default value.
+                            }),
+                            checkboxHorizontalMargin: Checkbox.width,
+                            columnSpacing: 50,
+                            dividerThickness: 3,
+                            showCheckboxColumn: true,
+                            horizontalMargin: 50,
+                            columns: const [
+                              DataColumn(numeric: true, label: Text('SI.No')),
+                              DataColumn(
+                                label: Text('User ID'),
+                              ),
+                              DataColumn(label: Text('Name')),
+                              DataColumn(label: Text('Recieve Help')),
+                              DataColumn(label: Text('Send Help')),
+                              DataColumn(label: Text('Wallet')),
+                              DataColumn(label: Text('Current Plan Level')),
+                              DataColumn(label: Text(' Level')),
+                              DataColumn(label: Text('Mobile')),
+                              DataColumn(
+                                  label: Expanded(child: Text('Join Date'))),
+                            ],
+                            rows: List.generate(data.length, (index) {
+                              final showEditIcon = index == index;
+                              var user = data[index];
+                              return DataRow(cells: [
+                                DataCell(Text(
+                                    (ind == 0 ? index + 1 : ind + index + 1)
+                                        .toString())),
+                                DataCell(SelectableText(user['uid'])),
+                                DataCell(Text(user['name'])),
+                                DataCell(
+                                    SelectableText(
+                                        user['receivehelp'].toString()),
+                                    showEditIcon: showEditIcon, onTap: () {
+                                  TextEditingController rcvHelp =
+                                      TextEditingController(
+                                          text: user['receivehelp'].toString());
                                   showDialog(
                                       context: context,
                                       builder: (buildContext) {
-                                        TextEditingController sndHelp =
-                                            TextEditingController(
-                                                text:
-                                                    user['sendhelp'].toString());
                                         return AlertDialog(
-                                          title:
-                                              const Text('Edit Send Help Amount'),
+                                          title: const Text(
+                                              'Edit Receive Help Amount'),
                                           content: SingleChildScrollView(
                                             child: Column(
                                                 // shrinkWrap: true,
                                                 children: [
                                                   TextFormField(
-                                                    controller: sndHelp,
+                                                    controller: rcvHelp,
                                                     decoration: InputDecoration(
                                                         border:
                                                             OutlineInputBorder()),
@@ -342,91 +298,151 @@ class _SendReceiveReportState extends State<SendReceiveReport> {
                                             TextButton(
                                                 onPressed: () {
                                                   if (double.tryParse(
-                                                          sndHelp.text) !=
+                                                          rcvHelp.text) !=
                                                       null) {
                                                     user.reference.update({
-                                                      'sendhelp': double.tryParse(
-                                                          sndHelp.text)
+                                                      'receivehelp':
+                                                          double.tryParse(
+                                                              rcvHelp.text)
                                                     });
                                                     showUploadMessage(
                                                         "edit successfull",
                                                         context);
-                                                    //  Navigator.pop(context);
                                                   } else {
                                                     showUploadMessage(
                                                         "invalid amount",
                                                         context);
                                                   }
                                                 },
-                                                child: const Text('Edit')),
+                                                child:
+                                                    const Text('Confirm Edit')),
                                           ],
                                         );
                                       });
 
                                   setState(() {});
-                                }
-                              }),
-                              DataCell(SelectableText(user['wallet'].toString()),
-                                  showEditIcon: showEditIcon, onTap: () {
-                                {
-                                  showDialog(
-                                      context: context,
-                                      builder: (buildContext) {
-                                        TextEditingController wallet =
-                                            TextEditingController(
-                                                text: user['wallet'].toString());
-                                        return AlertDialog(
-                                          title:
-                                              const Text('Edit Wallet  Amount'),
-                                          content: SingleChildScrollView(
-                                            child: Column(
-                                                // shrinkWrap: true,
-                                                children: [
-                                                  TextFormField(
-                                                    controller: wallet,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            OutlineInputBorder()),
-                                                  )
-                                                ]),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  if (double.tryParse(
-                                                          wallet.text) !=
-                                                      null) {
-                                                    user.reference.update({
-                                                      'wallet': double.tryParse(
-                                                          wallet.text)
-                                                    });
-                                                    showUploadMessage(
-                                                        "edit successfull",
-                                                        context);
-                                                    //   Navigator.pop(context);
-                                                  } else {
-                                                    showUploadMessage(
-                                                        "invalid amount",
-                                                        context);
-                                                  }
-                                                },
-                                                child: const Text('Edit')),
-                                          ],
-                                        );
-                                      });
+                                }),
+                                DataCell(
+                                    SelectableText(user['sendhelp'].toString()),
+                                    showEditIcon: showEditIcon, onTap: () {
+                                  {
+                                    showDialog(
+                                        context: context,
+                                        builder: (buildContext) {
+                                          TextEditingController sndHelp =
+                                              TextEditingController(
+                                                  text: user['sendhelp']
+                                                      .toString());
+                                          return AlertDialog(
+                                            title: const Text(
+                                                'Edit Send Help Amount'),
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                  // shrinkWrap: true,
+                                                  children: [
+                                                    TextFormField(
+                                                      controller: sndHelp,
+                                                      decoration: InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder()),
+                                                    )
+                                                  ]),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    if (double.tryParse(
+                                                            sndHelp.text) !=
+                                                        null) {
+                                                      user.reference.update({
+                                                        'sendhelp':
+                                                            double.tryParse(
+                                                                sndHelp.text)
+                                                      });
+                                                      showUploadMessage(
+                                                          "edit successfull",
+                                                          context);
+                                                      //  Navigator.pop(context);
+                                                    } else {
+                                                      showUploadMessage(
+                                                          "invalid amount",
+                                                          context);
+                                                    }
+                                                  },
+                                                  child: const Text('Edit')),
+                                            ],
+                                          );
+                                        });
 
-                                  setState(() {});
-                                }
-                              }),
-                              DataCell(SelectableText(
-                                  user['currentPlanLevel'].toString())),
-                              DataCell(SelectableText(user['sno'].toString())),
-                              DataCell(SelectableText(user['mobno'])),
-                              DataCell(Text(
-                                  "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
-                            ]);
-                          }),
-                        );
+                                    setState(() {});
+                                  }
+                                }),
+                                DataCell(
+                                    SelectableText(user['wallet'].toString()),
+                                    showEditIcon: showEditIcon, onTap: () {
+                                  {
+                                    showDialog(
+                                        context: context,
+                                        builder: (buildContext) {
+                                          TextEditingController wallet =
+                                              TextEditingController(
+                                                  text: user['wallet']
+                                                      .toString());
+                                          return AlertDialog(
+                                            title: const Text(
+                                                'Edit Wallet  Amount'),
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                  // shrinkWrap: true,
+                                                  children: [
+                                                    TextFormField(
+                                                      controller: wallet,
+                                                      decoration: InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder()),
+                                                    )
+                                                  ]),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    if (double.tryParse(
+                                                            wallet.text) !=
+                                                        null) {
+                                                      user.reference.update({
+                                                        'wallet':
+                                                            double.tryParse(
+                                                                wallet.text)
+                                                      });
+                                                      showUploadMessage(
+                                                          "edit successfull",
+                                                          context);
+                                                      //   Navigator.pop(context);
+                                                    } else {
+                                                      showUploadMessage(
+                                                          "invalid amount",
+                                                          context);
+                                                    }
+                                                  },
+                                                  child: const Text('Edit')),
+                                            ],
+                                          );
+                                        });
+
+                                    setState(() {});
+                                  }
+                                }),
+                                DataCell(SelectableText(
+                                    user['currentPlanLevel'].toString())),
+                                DataCell(
+                                    SelectableText(user['sno'].toString())),
+                                DataCell(SelectableText(user['mobno'])),
+                                DataCell(Text(
+                                    "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
+                              ]);
+                            }),
+                          );
+                        }
                       })),
             ),
           ),

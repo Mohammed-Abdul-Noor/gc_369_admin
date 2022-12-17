@@ -19,8 +19,7 @@ class RegistrationReport extends StatefulWidget {
 }
 
 class _RegistrationReportState extends State<RegistrationReport> {
-
-  Stream<QuerySnapshot<Map<String,dynamic>>>? userStream;
+  Stream<QuerySnapshot<Map<String, dynamic>>>? userStream;
   DocumentSnapshot? lastDoc;
   DocumentSnapshot? firstDoc;
   int pageIndex = 0;
@@ -28,28 +27,29 @@ class _RegistrationReportState extends State<RegistrationReport> {
   @override
   void initState() {
     // usersListener(currentUserId);
-    _controller1=ScrollController();
-    userStream =  FirebaseFirestore.instance
+    _controller1 = ScrollController();
+    userStream = FirebaseFirestore.instance
         .collection('registration')
-        .limit(25).snapshots();
+        .limit(25)
+        .snapshots();
     //  TextEditingController search =TextEditingController();
     super.initState();
-
   }
 
   next() {
     pageIndex++;
     if (lastDoc == null || pageIndex == 0) {
-      ind=0;
-      pageIndex=0;
-      userStream =  FirebaseFirestore.instance
-          .collection('registration')
-          .limit(25).snapshots();
-    } else {
-      ind+=25;
+      ind = 0;
+      pageIndex = 0;
       userStream = FirebaseFirestore.instance
           .collection('registration')
-      // .orderBy('index')
+          .limit(25)
+          .snapshots();
+    } else {
+      ind += 25;
+      userStream = FirebaseFirestore.instance
+          .collection('registration')
+          // .orderBy('index')
           .startAfterDocument(lastDoc!)
           .limit(25)
           .snapshots();
@@ -62,15 +62,16 @@ class _RegistrationReportState extends State<RegistrationReport> {
     pageIndex--;
     if (firstDoc == null || pageIndex == 0) {
       print("here");
-      ind=0;
+      ind = 0;
 
-      userStream =  FirebaseFirestore.instance
+      userStream = FirebaseFirestore.instance
           .collection('registration')
-          .limit(25).snapshots();
+          .limit(25)
+          .snapshots();
     } else {
-      ind-=25;
+      ind -= 25;
 
-      userStream =  FirebaseFirestore.instance
+      userStream = FirebaseFirestore.instance
           .collection('registration')
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
           .limit(25)
@@ -80,7 +81,7 @@ class _RegistrationReportState extends State<RegistrationReport> {
   }
 
   ScrollController? _controller1;
-  TextEditingController search =TextEditingController();
+  TextEditingController search = TextEditingController();
   bool disable = false;
   Map<int, DocumentSnapshot> lastDocuments = {};
   @override
@@ -150,9 +151,8 @@ class _RegistrationReportState extends State<RegistrationReport> {
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                 ),
-                                onFieldSubmitted: (value){
+                                onFieldSubmitted: (value) {
                                   setState(() {
-
                                     //  usersFiltered = userStream;
                                   });
                                 },
@@ -176,101 +176,116 @@ class _RegistrationReportState extends State<RegistrationReport> {
                 child: Scrollbar(
                   scrollbarOrientation: ScrollbarOrientation.top,
                   child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child:
+                      scrollDirection: Axis.horizontal,
+                      child: StreamBuilder<QuerySnapshot>(
+                          stream: search!.text == ''
+                              ? userStream
+                              : FirebaseFirestore.instance
+                                  .collection('registration')
+                                  .where('mobNo',
+                                      isEqualTo: search.text.toUpperCase())
+                                  .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasData &&
+                                snapshot.data!.docs.isEmpty) {
+                              return Text("Empty");
+                            } else {
+                              List<DocumentSnapshot> data = snapshot.data!.docs;
+                              lastDoc = snapshot.data!.docs[data.length - 1];
+                              firstDoc = snapshot.data!.docs[0];
+                              lastDocuments[pageIndex] = lastDoc!;
+                              return Column(
+                                children: [
+                                  DataTable(
+                                      dataRowHeight: h * 0.1,
+                                      border: TableBorder.all(
+                                          color: Colors.black.withOpacity(0.1)),
+                                      dataRowColor:
+                                          MaterialStateProperty.resolveWith(
+                                              (Set states) {
+                                        if (states
+                                            .contains(MaterialState.selected)) {
+                                          return Colors.grey;
+                                        }
+                                        return Colors
+                                            .white; // Use the default value.
+                                      }),
+                                      checkboxHorizontalMargin: Checkbox.width,
+                                      columnSpacing: 50,
+                                      dividerThickness: 3,
+                                      showCheckboxColumn: true,
+                                      horizontalMargin: 50,
+                                      //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
 
-                    StreamBuilder<QuerySnapshot>(
-                        stream: search!.text==''? userStream: FirebaseFirestore.instance
-                        .collection('registration').where('mobNo',arrayContains: search!.text.toUpperCase())
-                        .snapshots(),
-                        builder: (context, snapshot) {
-                          List<DocumentSnapshot> data = snapshot.data!.docs;
-                          lastDoc=snapshot.data!.docs[data.length - 1];
-                          firstDoc=snapshot.data!.docs[0];
-                          lastDocuments[pageIndex] = lastDoc!;
-                          if (!snapshot.hasData) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasData &&
-                              snapshot.data!.docs.isEmpty) {
-                            return Text("Empty");
-                          } else {
-                            return Column(
-                              children: [
-                                DataTable(
-                                    dataRowHeight: h * 0.1,
-                                    border: TableBorder.all(
-                                        color: Colors.black.withOpacity(0.1)),
-                                    dataRowColor:
-                                    MaterialStateProperty.resolveWith(
-                                            (Set states) {
-                                          if (states
-                                              .contains(MaterialState.selected)) {
-                                            return Colors.grey;
-                                          }
-                                          return Colors
-                                              .white; // Use the default value.
-                                        }),
-                                    checkboxHorizontalMargin: Checkbox.width,
-                                    columnSpacing: 50,
-                                    dividerThickness: 3,
-                                    showCheckboxColumn: true,
-                                    horizontalMargin: 50,
-                                    //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                                      columns: [
+                                        DataColumn(
+                                            numeric: true,
+                                            onSort: (columnIndex, ascending) =>
+                                                const Text(''),
+                                            label: const Text('SI.No')),
+                                        const DataColumn(label: Text('Name')),
+                                        const DataColumn(
+                                            label: Text('Password')),
+                                        const DataColumn(label: Text('UserID')),
+                                        const DataColumn(
+                                            label: Text('Join Date')),
+                                        const DataColumn(
+                                            label: Text('Mobile Number')),
+                                        // const DataColumn(label: Text('Sponsor I')),
+                                        // const DataColumn(label: Text('Sponsor II')),
+                                        // const DataColumn(label: Text('Sponsor III')),
+                                      ],
+                                      rows: List.generate(data.length, (index) {
+                                        DocumentSnapshot registration =
+                                            data[index];
 
-                                    columns: [
-                                      DataColumn(
-                                          numeric: true,
-                                          onSort: (columnIndex, ascending) =>
-                                          const Text(''),
-                                          label: const Text('SI.No')),
-                                      const DataColumn(label: Text('Name')),
-                                      const DataColumn(label: Text('Password')),
-                                     const DataColumn(label: Text('UserID')),
-                                     const DataColumn(label: Text('Join Date')),
-                                     const DataColumn(label: Text('Mobile Number')),
-                                     // const DataColumn(label: Text('Sponsor I')),
-                                     // const DataColumn(label: Text('Sponsor II')),
-                                     // const DataColumn(label: Text('Sponsor III')),
-                                    ],
-                                    rows: List.generate(data.length, (index) {
-                                      DocumentSnapshot registration = data[index];
-
-                                      return DataRow(cells: [
-                                        DataCell(Text((ind == 0 ? index + 1 : ind + index + 1).toString())),
-                                        DataCell(SelectableText(registration['name'])),
-                                        DataCell(SelectableText(registration['password'])),
-                                       DataCell(SelectableText(
-                                           registration['verify']==true?
-                                           registration['userId']??''
-                                               :''
-                                       )),
-                                      DataCell(Text("${DateFormat('dd-MMM-yyyy').format(registration['joinDate'].toDate())??''}")),
-                                       DataCell(SelectableText(registration['mobNo']??'')),
-                                       // DataCell(Text(registration['spnsr_Id']??'')),
-                                       // DataCell(Text(registration['spnsrId2']??'')),
-                                       // DataCell(Text(registration['spnsrId3']??'')),
-                                      ]);
-                                    })),
-                              ],
-                            );
-                          }
-                        })
-                  ),
+                                        return DataRow(cells: [
+                                          DataCell(Text((ind == 0
+                                                  ? index + 1
+                                                  : ind + index + 1)
+                                              .toString())),
+                                          DataCell(SelectableText(
+                                              registration['name'])),
+                                          DataCell(SelectableText(
+                                              registration['password'])),
+                                          DataCell(SelectableText(
+                                              registration['verify'] == true
+                                                  ? registration['userId'] ?? ''
+                                                  : '')),
+                                          DataCell(Text(
+                                              "${DateFormat('dd-MMM-yyyy').format(registration['joinDate'].toDate()) ?? ''}")),
+                                          DataCell(SelectableText(
+                                              registration['mobNo'] ?? '')),
+                                          // DataCell(Text(registration['spnsr_Id']??'')),
+                                          // DataCell(Text(registration['spnsrId2']??'')),
+                                          // DataCell(Text(registration['spnsrId3']??'')),
+                                        ]);
+                                      })),
+                                ],
+                              );
+                            }
+                          })),
                 ),
               ),
               Row(
                 children: [
-                  pageIndex == 0 ? Container():ElevatedButton(onPressed: (){
-                    prev();
-                  }, child: Text('previous')),
+                  pageIndex == 0
+                      ? Container()
+                      : ElevatedButton(
+                          onPressed: () {
+                            prev();
+                          },
+                          child: Text('previous')),
                   SizedBox(width: 30),
-                  lastDoc == null && pageIndex !=0
-                  ?
-                      Container():
-                      ElevatedButton(onPressed: (){
-                        next();
-                      }, child: Text('Next'))
-
+                  lastDoc == null && pageIndex != 0
+                      ? Container()
+                      : ElevatedButton(
+                          onPressed: () {
+                            next();
+                          },
+                          child: Text('Next'))
                 ],
               )
             ],
@@ -284,7 +299,7 @@ class _RegistrationReportState extends State<RegistrationReport> {
 getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
     String id) async {
   DocumentSnapshot<Map<String, dynamic>> sendUser =
-  await FirebaseFirestore.instance.collection('Users').doc(id).get();
+      await FirebaseFirestore.instance.collection('Users').doc(id).get();
   int totalAmount =
       int.tryParse(sendUser.get('provideHelpUsers')['Amount'].toString()) ?? 0;
   int paidAmount =
@@ -305,7 +320,7 @@ getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
     }
   }
   transaction =
-  planMap['${sendUsermodel?.sno}']['${sendUsermodel?.currentPlanLevel}'];
+      planMap['${sendUsermodel?.sno}']['${sendUsermodel?.currentPlanLevel}'];
   if (transaction['amt'] ==
       (int.tryParse(data[index]['amount'].toString()) ?? 0)) {
     if (transaction['type'] == 3) {
@@ -328,7 +343,7 @@ getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
       planMap['${sndUsr.sno}']['last'] == currentuser?.currentPlanLevel) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'clubAmt.${sndUsr.sno}':
-      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
@@ -343,7 +358,7 @@ getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'clubAmt.${sndUsr.sno}':
-      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
@@ -356,7 +371,7 @@ getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
   } else {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'clubAmt.${sndUsr.sno}':
-      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
+          FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,

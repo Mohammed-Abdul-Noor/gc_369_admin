@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/charityAmount.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/clubAmount.dart';
+import 'package:gc_369/ADMIN%20MODULE/dashPages/CustomerSupport.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/DistrictWise.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/PendingProvides.dart';
 import 'package:gc_369/ADMIN%20MODULE/pages/editUser/password/passwordTable.dart';
@@ -14,6 +15,7 @@ import '../dashPages/WalletRegistration.dart';
 import '../dashPages/downloadtotalusers.dart';
 import '../dashPages/four.dart';
 import '../dashPages/geniDS.dart';
+import '../dashPages/paginated.dart';
 import '../dashPages/proof_verification.dart';
 import '../dashPages/seniorityLevel/sLevel.dart';
 import '../dashPages/sponsorlessUsers.dart';
@@ -28,6 +30,7 @@ List<Widget> _screens = [
   const DashboardPage(),
   const DownTotalUsers(),
   const TotalUsersPage(),
+  const CustomerSupport(),
   const KycPage(),
   const CharityAmountPage(),
   const ClubAmount(),

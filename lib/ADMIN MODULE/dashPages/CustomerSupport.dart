@@ -3,31 +3,32 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../pages/editUser/editUser.dart';
 import '../model/userModel.dart';
 
-class KycPage extends StatefulWidget {
-  const KycPage({Key? key}) : super(key: key);
+class CustomerSupport extends StatefulWidget {
+  const CustomerSupport({Key? key}) : super(key: key);
 
   @override
-  State<KycPage> createState() => _KycPageState();
+  State<CustomerSupport> createState() => _CustomerSupportState();
 }
 
-class _KycPageState extends State<KycPage> {
+class _CustomerSupportState extends State<CustomerSupport> {
+  Future<void>? _launched;
+
+  _launchURLBrowser(String userId) async {
+    var url =
+        Uri.parse("https://www.369globalclub.org/#/adminUserPanel?$userId");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   TextEditingController? search;
-  // Stream ?userStream;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   userStream = FirebaseFirestore.instance
-  //       .collection('Users')
-  //       .snapshots();
-  //   search = TextEditingController();
-  // }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>>? kycStream;
+  Stream<QuerySnapshot<Map<String, dynamic>>>? userStream;
   DocumentSnapshot? lastDoc;
   DocumentSnapshot? firstDoc;
   int pageIndex = 0;
@@ -37,11 +38,11 @@ class _KycPageState extends State<KycPage> {
     // usersListener(currentUserId);
     _controller = ScrollController();
     _controller1 = ScrollController();
-    kycStream = FirebaseFirestore.instance
+    userStream = FirebaseFirestore.instance
         .collection('Users')
-        .where('fproof', isEqualTo: '')
-        .where('bproof', isEqualTo: '')
-        .orderBy('joinDate')
+        .orderBy('index')
+        .where('index', isNotEqualTo: 0)
+        .where('customerSupport', isEqualTo: true)
         .limit(10)
         .snapshots();
     search = TextEditingController();
@@ -52,25 +53,25 @@ class _KycPageState extends State<KycPage> {
     pageIndex++;
     if (lastDoc == null || pageIndex == 0) {
       ind = 0;
-
-      kycStream = FirebaseFirestore.instance
+      pageIndex = 0;
+      userStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('joinDate')
+          .where('customerSupport', isEqualTo: true)
+          .orderBy('index')
           .limit(10)
           .snapshots();
     } else {
       ind += 10;
-      kycStream = FirebaseFirestore.instance
+      userStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('joinDate')
+          .where('customerSupport', isEqualTo: true)
+          .orderBy('index')
           .startAfterDocument(lastDoc!)
           .limit(10)
           .snapshots();
     }
 
-    if (mounted) {
-      setState(() {});
-    }
+    setState(() {});
   }
 
   prev() {
@@ -79,28 +80,36 @@ class _KycPageState extends State<KycPage> {
       print("here");
       ind = 0;
 
-      kycStream = FirebaseFirestore.instance
+      userStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('joinDate')
+          .where('customerSupport', isEqualTo: true)
+          .orderBy('index')
           .limit(10)
           .snapshots();
     } else {
       ind -= 10;
 
-      kycStream = FirebaseFirestore.instance
+      userStream = FirebaseFirestore.instance
           .collection('Users')
-          .orderBy('joinDate')
+          .where('customerSupport', isEqualTo: true)
+          .orderBy('index')
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
           .limit(10)
           .snapshots();
     }
-    if (mounted) {
-      setState(() {});
-    }
+    setState(() {});
   }
 
   ScrollController? _controller;
   ScrollController? _controller1;
+
+  Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
+    if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    } else {
+      return const Text('');
+    }
+  }
 
   Map<int, DocumentSnapshot> lastDocuments = {};
   @override
@@ -136,17 +145,22 @@ class _KycPageState extends State<KycPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // const Text(
-                  //   'Total User',
-                  //   style: TextStyle(
-                  //     color: Colors.red,
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              border: Border.all(
+                                  color: Colors.black.withOpacity(0.3))),
+                          alignment: Alignment.center,
+                          height: 20,
+                          width: 75,
+                          child: const Text('Download'),
+                        ),
+                      ),
                       const SizedBox(width: 10),
                       Container(
                         decoration: BoxDecoration(
@@ -155,12 +169,9 @@ class _KycPageState extends State<KycPage> {
                                 color: Colors.black.withOpacity(0.3))),
                         alignment: Alignment.center,
                         height: 20,
-                        width: 50,
-                        child: const Text('Excel'),
+                        width: 75,
+                        child: const Text('Total Count'),
                       ),
-                      const SizedBox(width: 10),
-                      // Text((pageIndex+1).toString()),
-                      // Text((ind+1).toString()),
                       const Spacer(),
                       const Text('Search'),
                       const SizedBox(width: 7),
@@ -199,29 +210,33 @@ class _KycPageState extends State<KycPage> {
               PointerDeviceKind.mouse,
             }),
             child: Scrollbar(
+              controller: _controller1,
               scrollbarOrientation: ScrollbarOrientation.top,
               child: SingleChildScrollView(
                   controller: _controller1,
                   scrollDirection: Axis.horizontal,
                   child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                       stream: search!.text == ''
-                          ? kycStream
+                          ? userStream
                           : FirebaseFirestore.instance
                               .collection('Users')
+                              .where('customerSupport', isEqualTo: true)
                               .where('search',
                                   arrayContains: search!.text.toUpperCase())
                               .limit(10)
                               .snapshots(),
-                      // search?.text!=""?FirebaseFirestore.instance.collection('Users')
-                      //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                       builder: (context, snapshot) {
+                        print(snapshot.error);
                         if (!snapshot.hasData) {
-                          return CircularProgressIndicator();
+                          return Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasData &&
                             snapshot.data!.docs.isEmpty) {
                           return Text('Empty');
                         } else {
                           var data = snapshot.data!.docs;
+                          print(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,');
+                          print(data.length);
+
                           lastDoc = snapshot.data!.docs[data.length - 1];
                           lastDocuments[pageIndex] = lastDoc!;
                           firstDoc = snapshot.data!.docs[0];
@@ -245,6 +260,9 @@ class _KycPageState extends State<KycPage> {
                               DataColumn(
                                 label: Text('User ID'),
                               ),
+                              DataColumn(
+                                label: Text('Password'),
+                              ),
                               DataColumn(label: Text('Name')),
                               DataColumn(label: Text('Mobile')),
                               DataColumn(
@@ -260,6 +278,7 @@ class _KycPageState extends State<KycPage> {
                                     (ind == 0 ? index + 1 : ind + index + 1)
                                         .toString())),
                                 DataCell(SelectableText(user['uid'])),
+                                DataCell(SelectableText(user['password'])),
                                 DataCell(Text(user['name'])),
                                 DataCell(SelectableText(user['mobno'])),
                                 DataCell(Text(
@@ -267,20 +286,23 @@ class _KycPageState extends State<KycPage> {
                                 //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
                                 DataCell(Text(
                                     user['status'] ? 'Active' : 'Not Active')),
-                                DataCell(
-                                  Container(
-                                      height: 30,
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius:
-                                              BorderRadius.circular(3),
-                                          border: Border.all(
-                                              color: Colors.black
-                                                  .withOpacity(0.3))),
-                                      alignment: Alignment.center,
-                                      child: const Text('Goto Panel')),
-                                ),
+                                DataCell(Container(
+                                  height: 30,
+                                  width: 90,
+                                  decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(3),
+                                      border: Border.all(
+                                          color:
+                                              Colors.black.withOpacity(0.3))),
+                                  alignment: Alignment.center,
+                                  child: InkWell(
+                                    onTap: () {
+                                      _launchURLBrowser(user['uid']);
+                                    },
+                                    child: const Text('Goto Panel'),
+                                  ),
+                                )),
                                 DataCell(Container(
                                     height: 30,
                                     width: 90,
@@ -329,7 +351,9 @@ class _KycPageState extends State<KycPage> {
                       },
                       child: Text('Next'))
             ],
-          )
+          ),
+
+          FutureBuilder<void>(future: _launched, builder: _launchStatus),
         ]),
       ]),
     ));

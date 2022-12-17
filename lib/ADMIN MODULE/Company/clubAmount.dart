@@ -90,13 +90,13 @@ class _ClubAmountState extends State<ClubAmount> {
                 ),
               ),
               // SizedBox(height: 10),
-            ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(
-              dragDevices: {
-                PointerDeviceKind.touch,
-                PointerDeviceKind.mouse,
-              },
-            ),
+              ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context).copyWith(
+                  dragDevices: {
+                    PointerDeviceKind.touch,
+                    PointerDeviceKind.mouse,
+                  },
+                ),
                 child: Scrollbar(
                   scrollbarOrientation: ScrollbarOrientation.top,
                   child: SingleChildScrollView(
@@ -136,7 +136,6 @@ class _ClubAmountState extends State<ClubAmount> {
                                     showCheckboxColumn: true,
                                     horizontalMargin: 50,
                                     //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-
                                     columns: [
                                       DataColumn(
                                           numeric: true,
@@ -194,7 +193,8 @@ class _ClubAmountState extends State<ClubAmount> {
                                                 decoration: BoxDecoration(
                                                     color: Colors.yellow,
                                                     borderRadius:
-                                                        BorderRadius.circular(3),
+                                                        BorderRadius.circular(
+                                                            3),
                                                     border: Border.all(
                                                         color: Colors.black
                                                             .withOpacity(0.3))),
@@ -279,8 +279,8 @@ getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
     int index, UserModel sndUsr) {
   if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
       planMap['${sndUsr.sno}']['last'] == currentuser?.currentPlanLevel) {
-    int sno=currentuser?.sno??0;
-    updateAllUser(sno,sno+1,currentuser);
+    int sno = currentuser?.sno ?? 0;
+    updateAllUser(sno, sno + 1, currentuser);
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
       'clubAmt.${sndUsr.sno}':
           FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),

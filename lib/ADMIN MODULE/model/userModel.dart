@@ -180,7 +180,7 @@ class UserModel {
     rebirthId = json['rebirthId'] ?? 0;
     status = json['status'] ?? false;
     spnsr_Id = json['spnsr_Id'] ?? "";
-    spnsrId2 = json[' spnsrId2'] ?? "";
+    spnsrId2 = json['spnsrId2'] ?? "";
     spnsrId3 = json['spnsrId3'] ?? "";
     sponsoremobile = json['sponsoremobile'] ?? "";
     sponsorincome = json['sponsorincome'] ?? 0;

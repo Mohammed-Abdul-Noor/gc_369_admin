@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/charityAmount.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/clubAmount.dart';
+import 'package:gc_369/ADMIN%20MODULE/dashPages/CustomerSupport.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/DistrictWise.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/PendingProvides.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/kyc.dart';
-import 'package:gc_369/ADMIN%20MODULE/widgets/changePassword.dart';
-
 import '../../main.dart';
 import '../Company/create_genid.dart';
 import '../dashPages/RegistrationReport.dart';
@@ -18,29 +17,17 @@ import '../dashPages/geniDS.dart';
 import '../dashPages/proof_verification.dart';
 import '../dashPages/seniorityLevel/sLevel.dart';
 import '../dashPages/sponsorlessUsers.dart';
-import '../pages/accountReport.dart';
-import '../pages/changePassword.dart';
-import '../pages/clubs.dart';
 import '../pages/dashboard/dashboard.dart';
 import '../dashPages/userVerification.dart';
 import '../dashPages/club_users.dart';
 import '../pages/editUser/password/passwordTable.dart';
-import '../pages/paymentRequest.dart';
-import '../pages/planReport.dart';
-import '../pages/rebirth_genId.dart';
-import '../pages/rejectId.dart';
-import '../pages/sendMessge/InboxMessage.dart';
-import '../pages/sendMessge/SendMessagePage.dart';
 import '../dashPages/toatalUsers.dart';
-import '../pages/transactionHistory.dart';
-import '../pages/userReport.dart';
-import '../pages/webInfo.dart';
-import '../pages/withdrawEligible.dart';
 
 List<Widget> _pages = [
   const DashboardPage(),
   const DownTotalUsers(),
   const TotalUsersPage(),
+  const CustomerSupport(),
   const KycPage(),
   const CharityAmountPage(),
   const ClubAmount(),

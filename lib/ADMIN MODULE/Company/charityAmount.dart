@@ -107,13 +107,13 @@ class _CharityAmountPageState extends State<CharityAmountPage> {
                             .where('verify', isEqualTo: false)
                             .snapshots(),
                         builder: (context, snapshot) {
-                          var data = snapshot.data!.docs;
                           if (!snapshot.hasData) {
                             return CircularProgressIndicator();
                           } else if (snapshot.hasData &&
                               snapshot.data!.docs.isEmpty) {
                             return Text("Empty");
                           } else {
+                            var data = snapshot.data!.docs;
                             return Column(
                               children: [
                                 DataTable(
@@ -168,7 +168,8 @@ class _CharityAmountPageState extends State<CharityAmountPage> {
                                               : w * 0.2,
                                           fit: BoxFit.fitHeight,
                                         )),
-                                        DataCell(Text(charityProof['paymentM'])),
+                                        DataCell(
+                                            Text(charityProof['paymentM'])),
                                         DataCell(Text(charityProof['amount'])),
                                         DataCell(Container(
                                             height: 30,

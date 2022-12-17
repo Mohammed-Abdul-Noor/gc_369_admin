@@ -175,54 +175,62 @@ class _PendingProvidesState extends State<PendingProvides> {
                                   arrayContains: search!.text.toUpperCase())
                               .snapshots(),
                       builder: (context, snapshot) {
-                        print(snapshot.error);
-                        var data = snapshot.data!.docs;
-                        return DataTable(
-                          border: TableBorder.all(
-                              color: Colors.black.withOpacity(0.1)),
-                          dataRowColor:
-                              MaterialStateProperty.resolveWith((Set states) {
-                            if (states.contains(MaterialState.selected)) {
-                              return Colors.grey;
-                            }
-                            return Colors.white; // Use the default value.
-                          }),
-                          checkboxHorizontalMargin: Checkbox.width,
-                          columnSpacing: 50,
-                          dividerThickness: 3,
-                          showCheckboxColumn: true,
-                          horizontalMargin: 50,
-                          columns: const [
-                            DataColumn(numeric: true, label: Text('SI.No')),
-                            DataColumn(
-                              label: Text('User ID'),
-                            ),
-                            DataColumn(
-                              label: Text('Password'),
-                            ),
-                            DataColumn(label: Text('Name')),
-                            DataColumn(label: Text('Mobile')),
-                            DataColumn(label: Expanded(child: Text('Join Date'))),
-                            DataColumn(label: Text('Status')),
-                          ],
-                          rows: List.generate(data.length, (index) {
-                            var user = data[index];
-                            return DataRow(cells: [
-                              DataCell(Text(
-                                  (ind == 0 ? index + 1 : ind + index + 1)
-                                      .toString())),
-                              DataCell(SelectableText(user['uid'])),
-                              DataCell(SelectableText(user['password'])),
-                              DataCell(Text(user['name'])),
-                              DataCell(SelectableText(user['mobno'])),
-                              DataCell(Text(
-                                  "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
-                              //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
-                              DataCell(
-                                  Text(user['status'] ? 'Active' : 'Not Active')),
-                            ]);
-                          }),
-                        );
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasData &&
+                            snapshot.data!.docs.isEmpty) {
+                          return Text('Empty');
+                        } else {
+                          print(snapshot.error);
+                          var data = snapshot.data!.docs;
+                          return DataTable(
+                            border: TableBorder.all(
+                                color: Colors.black.withOpacity(0.1)),
+                            dataRowColor:
+                                MaterialStateProperty.resolveWith((Set states) {
+                              if (states.contains(MaterialState.selected)) {
+                                return Colors.grey;
+                              }
+                              return Colors.white; // Use the default value.
+                            }),
+                            checkboxHorizontalMargin: Checkbox.width,
+                            columnSpacing: 50,
+                            dividerThickness: 3,
+                            showCheckboxColumn: true,
+                            horizontalMargin: 50,
+                            columns: const [
+                              DataColumn(numeric: true, label: Text('SI.No')),
+                              DataColumn(
+                                label: Text('User ID'),
+                              ),
+                              DataColumn(
+                                label: Text('Password'),
+                              ),
+                              DataColumn(label: Text('Name')),
+                              DataColumn(label: Text('Mobile')),
+                              DataColumn(
+                                  label: Expanded(child: Text('Join Date'))),
+                              DataColumn(label: Text('Status')),
+                            ],
+                            rows: List.generate(data.length, (index) {
+                              var user = data[index];
+                              return DataRow(cells: [
+                                DataCell(Text(
+                                    (ind == 0 ? index + 1 : ind + index + 1)
+                                        .toString())),
+                                DataCell(SelectableText(user['uid'])),
+                                DataCell(SelectableText(user['password'])),
+                                DataCell(Text(user['name'])),
+                                DataCell(SelectableText(user['mobno'])),
+                                DataCell(Text(
+                                    "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
+                                //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
+                                DataCell(Text(
+                                    user['status'] ? 'Active' : 'Not Active')),
+                              ]);
+                            }),
+                          );
+                        }
                       })),
             ),
           ),

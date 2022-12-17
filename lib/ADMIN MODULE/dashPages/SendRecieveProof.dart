@@ -175,281 +175,141 @@ class _SendReceiveProofState extends State<SendReceiveProof> {
                   scrollbarOrientation: ScrollbarOrientation.top,
                   child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child:
-                          // search!.text==''?
-                          // StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
-                          //     stream: userStream,
-                          //     builder: (context, snapshot) {
-                          //       List<DocumentSnapshot> data = snapshot.data!.docs;
-                          //       lastDoc = snapshot.data!.docs[data.length - 1];
-                          //       lastDocuments[pageIndex] = lastDoc!;
-                          //       firstDoc = snapshot.data!.docs[0];
-                          //       if (!snapshot.hasData) {
-                          //         return CircularProgressIndicator();
-                          //       } else if (snapshot.hasData &&
-                          //           snapshot.data!.docs.isEmpty) {
-                          //         return Text("Empty");
-                          //       } else {
-                          //
-                          //         return Column(
-                          //           children: [
-                          //             DataTable(
-                          //                 dataRowHeight: h * 0.5,
-                          //                 border: TableBorder.all(
-                          //                     color: Colors.black.withOpacity(0.1)),
-                          //                 dataRowColor:
-                          //                 MaterialStateProperty.resolveWith(
-                          //                         (Set states) {
-                          //                       if (states
-                          //                           .contains(MaterialState.selected)) {
-                          //                         return Colors.grey;
-                          //                       }
-                          //                       return Colors
-                          //                           .white; // Use the default value.
-                          //                     }),
-                          //                 checkboxHorizontalMargin: Checkbox.width,
-                          //                 columnSpacing: 50,
-                          //                 dividerThickness: 3,
-                          //                 showCheckboxColumn: true,
-                          //                 horizontalMargin: 50,
-                          //                 //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                          //
-                          //                 columns: [
-                          //                   DataColumn(
-                          //                       numeric: true,
-                          //                       onSort: (columnIndex, ascending) =>
-                          //                       const Text(''),
-                          //                       label: const Text('SI.No')),
-                          //                   const DataColumn(label: Text('Sender ID')),
-                          //                   const DataColumn(label: Text('Receiver ID')),
-                          //                   const DataColumn(label: Text('Sender Level')),
-                          //                   const DataColumn(label: Text('Send Date')),
-                          //                   const DataColumn(label: Text('Proof')),
-                          //                   const DataColumn(
-                          //                       label: Text('Payment Method')),
-                          //                   const DataColumn(label: Text('Amount')),
-                          //                   const DataColumn(label: Text('Status')),
-                          //                   // const DataColumn(label: Text('Remove')),
-                          //                 ],
-                          //                 rows: List.generate(data.length, (index) {
-                          //                   DocumentSnapshot proof = data[index];
-                          //
-                          //                   return DataRow(cells: [
-                          //                     DataCell(Text(
-                          //                         (ind == 0 ? index + 1 : ind + index + 1)
-                          //                             .toString())),
-                          //                     DataCell(SelectableText(proof['senderId'])),
-                          //                     DataCell(SelectableText(proof['receiverId'])),
-                          //                     DataCell(SelectableText(proof['senderlevel'].toString())),
-                          //                     DataCell(Text("${DateFormat('dd-MMM-yyyy').format(proof['sendTime'].toDate())}")),
-                          //                     DataCell(CachedNetworkImage(
-                          //                       imageUrl: proof['file'],
-                          //                       width: currentWidth < 700
-                          //                           ? w * 0.4
-                          //                           : w * 0.2,
-                          //                       fit: BoxFit.fitHeight,
-                          //                     )),
-                          //                     DataCell(Text(proof['paymentM'])),
-                          //                     DataCell(Text(proof['amount'])),
-                          //                     DataCell(Container(
-                          //                         height: 30,
-                          //                         width: 60,
-                          //                         decoration: BoxDecoration(
-                          //                             color: Colors.red,
-                          //                             borderRadius:
-                          //                             BorderRadius.circular(3),
-                          //                             border: Border.all(
-                          //                                 color: Colors.black
-                          //                                     .withOpacity(0.3))),
-                          //                         alignment: Alignment.center,
-                          //                         child: const Text('View'))),
-                          //                     // DataCell(Column(
-                          //                     //   crossAxisAlignment:
-                          //                     //   CrossAxisAlignment.center,
-                          //                     //   mainAxisAlignment:
-                          //                     //   MainAxisAlignment.center,
-                          //                     //   children: [
-                          //                     //     Container(
-                          //                     //         height: 30,
-                          //                     //         width: 90,
-                          //                     //         decoration: BoxDecoration(
-                          //                     //             color: Colors.yellow,
-                          //                     //             borderRadius:
-                          //                     //             BorderRadius.circular(3),
-                          //                     //             border: Border.all(
-                          //                     //                 color: Colors.black
-                          //                     //                     .withOpacity(0.3))),
-                          //                     //         alignment: Alignment.center,
-                          //                     //         child: InkWell(
-                          //                     //             onTap: () async {
-                          //                     //               if (!disable) {
-                          //                     //                 disable == true;
-                          //                     //                 await getHelp(
-                          //                     //                     data,
-                          //                     //                     index,
-                          //                     //                     context,
-                          //                     //                     proof[
-                          //                     //                     'senderId']);
-                          //                     //                 disable = false;
-                          //                     //               }
-                          //                     //             },
-                          //                     //             child: Text('verify'))),
-                          //                     //     SizedBox(height: 10),
-                          //                     //     Container()
-                          //                     //   ],
-                          //                     // )),
-                          //                   ]);
-                          //                 })),
-                          //           ],
-                          //         );
-                          //       }
-                          //     })
-                          //    :
-                          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                              stream: search!.text == ''
-                                  ? userStream
-                                  : FirebaseFirestore.instance
-                                      .collection('proof')
-                                      .where('search',
-                                          arrayContains:
-                                              search!.text.toUpperCase())
-                                      .limit(25)
-                                      .snapshots(),
-                              builder: (context, snapshot) {
-                                List<DocumentSnapshot> data =
-                                    snapshot.data!.docs;
-                                lastDoc = snapshot.data!.docs[data.length - 1];
-                                lastDocuments[pageIndex] = lastDoc!;
-                                firstDoc = snapshot.data!.docs[0];
-                                // List<DocumentSnapshot> data = snapshot.data!.docs;
-                                return Column(
-                                  children: [
-                                    DataTable(
-                                        dataRowHeight: h * 0.5,
-                                        border: TableBorder.all(
-                                            color:
-                                                Colors.black.withOpacity(0.1)),
-                                        dataRowColor:
-                                            MaterialStateProperty.resolveWith(
-                                                (Set states) {
-                                          if (states.contains(
-                                              MaterialState.selected)) {
-                                            return Colors.grey;
-                                          }
-                                          return Colors
-                                              .white; // Use the default value.
-                                        }),
-                                        checkboxHorizontalMargin:
-                                            Checkbox.width,
-                                        columnSpacing: 50,
-                                        dividerThickness: 3,
-                                        showCheckboxColumn: true,
-                                        horizontalMargin: 50,
-                                        //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                          stream: search!.text == ''
+                              ? userStream
+                              : FirebaseFirestore.instance
+                                  .collection('proof')
+                                  .where('search',
+                                      arrayContains: search!.text.toUpperCase())
+                                  .limit(25)
+                                  .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasData &&
+                                snapshot.data!.docs.isEmpty) {
+                              return Text('Empty');
+                            } else {
+                              List<DocumentSnapshot> data = snapshot.data!.docs;
+                              lastDoc = snapshot.data!.docs[data.length - 1];
+                              lastDocuments[pageIndex] = lastDoc!;
+                              firstDoc = snapshot.data!.docs[0];
+                              // List<DocumentSnapshot> data = snapshot.data!.docs;
+                              return DataTable(
+                                  dataRowHeight: h * 0.5,
+                                  border: TableBorder.all(
+                                      color: Colors.black.withOpacity(0.1)),
+                                  dataRowColor:
+                                      MaterialStateProperty.resolveWith(
+                                          (Set states) {
+                                    if (states
+                                        .contains(MaterialState.selected)) {
+                                      return Colors.grey;
+                                    }
+                                    return Colors
+                                        .white; // Use the default value.
+                                  }),
+                                  checkboxHorizontalMargin: Checkbox.width,
+                                  columnSpacing: 50,
+                                  dividerThickness: 3,
+                                  showCheckboxColumn: true,
+                                  horizontalMargin: 50,
+                                  //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
 
-                                        columns: [
-                                          DataColumn(
-                                              numeric: true,
-                                              onSort:
-                                                  (columnIndex, ascending) =>
-                                                      const Text(''),
-                                              label: const Text('SI.No')),
-                                          const DataColumn(
-                                              label: Text('Sender ID')),
-                                          const DataColumn(
-                                              label: Text('Receiver ID')),
-                                          const DataColumn(
-                                              label: Text('Sender Level')),
-                                          const DataColumn(
-                                              label: Text('Send Date')),
-                                          const DataColumn(
-                                              label: Text('Proof')),
-                                          const DataColumn(
-                                              label: Text('Payment Method')),
-                                          const DataColumn(
-                                              label: Text('Amount')),
-                                          const DataColumn(
-                                              label: Text('Status')),
-                                          // const DataColumn(label: Text('Remove')),
-                                        ],
-                                        rows:
-                                            List.generate(data.length, (index) {
-                                          DocumentSnapshot proof = data[index];
-
-                                          return DataRow(cells: [
-                                            DataCell(Text(
-                                                '${pageIndex + index + 1}')),
-                                            DataCell(SelectableText(
-                                                proof['senderId'])),
-                                            DataCell(SelectableText(
-                                                proof['receiverId'])),
-                                            DataCell(SelectableText(
-                                                proof['senderlevel']
-                                                    .toString())),
-                                            DataCell(Text(
-                                                "${DateFormat('dd-MMM-yyyy').format(proof['sendTime'].toDate())}")),
-                                            DataCell(CachedNetworkImage(
-                                              imageUrl: proof['file'],
-                                              width: currentWidth < 700
-                                                  ? w * 0.4
-                                                  : w * 0.2,
-                                              fit: BoxFit.fitHeight,
-                                            )),
-                                            DataCell(Text(proof['paymentM'])),
-                                            DataCell(Text(proof['amount'])),
-                                            DataCell(Container(
-                                                height: 30,
-                                                width: 60,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.red,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            3),
-                                                    border: Border.all(
-                                                        color: Colors.black
-                                                            .withOpacity(0.3))),
-                                                alignment: Alignment.center,
-                                                child: const Text('View'))),
-                                            // DataCell(Column(
-                                            //   crossAxisAlignment:
-                                            //   CrossAxisAlignment.center,
-                                            //   mainAxisAlignment:
-                                            //   MainAxisAlignment.center,
-                                            //   children: [
-                                            //     Container(
-                                            //         height: 30,
-                                            //         width: 90,
-                                            //         decoration: BoxDecoration(
-                                            //             color: Colors.yellow,
-                                            //             borderRadius:
-                                            //             BorderRadius.circular(3),
-                                            //             border: Border.all(
-                                            //                 color: Colors.black
-                                            //                     .withOpacity(0.3))),
-                                            //         alignment: Alignment.center,
-                                            //         child: InkWell(
-                                            //             onTap: () async {
-                                            //               if (!disable) {
-                                            //                 disable == true;
-                                            //                 await getHelp(
-                                            //                     data,
-                                            //                     index,
-                                            //                     context,
-                                            //                     proof[
-                                            //                     'senderId']);
-                                            //                 disable = false;
-                                            //               }
-                                            //             },
-                                            //             child: Text('verify'))),
-                                            //     SizedBox(height: 10),
-                                            //     Container()
-                                            //   ],
-                                            // )),
-                                          ]);
-                                        })),
+                                  columns: [
+                                    DataColumn(
+                                        numeric: true,
+                                        onSort: (columnIndex, ascending) =>
+                                            const Text(''),
+                                        label: const Text('SI.No')),
+                                    const DataColumn(label: Text('Sender ID')),
+                                    const DataColumn(
+                                        label: Text('Receiver ID')),
+                                    const DataColumn(
+                                        label: Text('Sender Level')),
+                                    const DataColumn(label: Text('Send Date')),
+                                    const DataColumn(label: Text('Proof')),
+                                    const DataColumn(
+                                        label: Text('Payment Method')),
+                                    const DataColumn(label: Text('Amount')),
+                                    const DataColumn(label: Text('Status')),
+                                    // const DataColumn(label: Text('Remove')),
                                   ],
-                                );
-                              })),
+                                  rows: List.generate(data.length, (index) {
+                                    DocumentSnapshot proof = data[index];
+
+                                    return DataRow(cells: [
+                                      DataCell(
+                                          Text('${pageIndex + index + 1}')),
+                                      DataCell(
+                                          SelectableText(proof['senderId'])),
+                                      DataCell(
+                                          SelectableText(proof['receiverId'])),
+                                      DataCell(SelectableText(
+                                          proof['senderlevel'].toString())),
+                                      DataCell(Text(
+                                          "${DateFormat('dd-MMM-yyyy').format(proof['sendTime'].toDate())}")),
+                                      DataCell(CachedNetworkImage(
+                                        imageUrl: proof['file'],
+                                        width: currentWidth < 700
+                                            ? w * 0.4
+                                            : w * 0.2,
+                                        fit: BoxFit.fitHeight,
+                                      )),
+                                      DataCell(Text(proof['paymentM'])),
+                                      DataCell(Text(proof['amount'])),
+                                      DataCell(Container(
+                                          height: 30,
+                                          width: 60,
+                                          decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                              border: Border.all(
+                                                  color: Colors.black
+                                                      .withOpacity(0.3))),
+                                          alignment: Alignment.center,
+                                          child: const Text('View'))),
+                                      // DataCell(Column(
+                                      //   crossAxisAlignment:
+                                      //   CrossAxisAlignment.center,
+                                      //   mainAxisAlignment:
+                                      //   MainAxisAlignment.center,
+                                      //   children: [
+                                      //     Container(
+                                      //         height: 30,
+                                      //         width: 90,
+                                      //         decoration: BoxDecoration(
+                                      //             color: Colors.yellow,
+                                      //             borderRadius:
+                                      //             BorderRadius.circular(3),
+                                      //             border: Border.all(
+                                      //                 color: Colors.black
+                                      //                     .withOpacity(0.3))),
+                                      //         alignment: Alignment.center,
+                                      //         child: InkWell(
+                                      //             onTap: () async {
+                                      //               if (!disable) {
+                                      //                 disable == true;
+                                      //                 await getHelp(
+                                      //                     data,
+                                      //                     index,
+                                      //                     context,
+                                      //                     proof[
+                                      //                     'senderId']);
+                                      //                 disable = false;
+                                      //               }
+                                      //             },
+                                      //             child: Text('verify'))),
+                                      //     SizedBox(height: 10),
+                                      //     Container()
+                                      //   ],
+                                      // )),
+                                    ]);
+                                  }));
+                            }
+                          })),
                 ),
               ),
               Row(
