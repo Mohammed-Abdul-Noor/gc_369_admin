@@ -6,6 +6,7 @@ final itemsMain = [
   const DrawerItem(title: 'Dashboard', icon: Icons.home),
   const DrawerItem(title: 'Download Reports', icon: Icons.download),
   const DrawerItem(title: 'Total Users', icon: Icons.person_pin_outlined),
+  const DrawerItem(title: 'Daily Users', icon: Icons.person_pin_outlined),
   const DrawerItem(title: 'Customer Support', icon: Icons.person_pin_outlined),
   const DrawerItem(title: 'KYC Pending', icon: Icons.circle_outlined),
   // const DrawerItem(title:'Rebirth and Gen ID',icon:Icons.remove_circle_outline_rounded),

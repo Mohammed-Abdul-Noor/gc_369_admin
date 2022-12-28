@@ -12,6 +12,7 @@ import '../dashPages/RegistrationReport.dart';
 import '../dashPages/SendRecieveProof.dart';
 import '../dashPages/TotalGenID.dart';
 import '../dashPages/WalletRegistration.dart';
+import '../dashPages/dialyUsers.dart';
 import '../dashPages/downloadtotalusers.dart';
 import '../dashPages/four.dart';
 import '../dashPages/geniDS.dart';
@@ -30,6 +31,7 @@ List<Widget> _screens = [
   const DashboardPage(),
   const DownTotalUsers(),
   const TotalUsersPage(),
+  const DailyUsersPage(),
   const CustomerSupport(),
   const KycPage(),
   const CharityAmountPage(),
