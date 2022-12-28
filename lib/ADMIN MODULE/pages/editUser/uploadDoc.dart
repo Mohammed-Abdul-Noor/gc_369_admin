@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-int currentUserId=currentUserListener('');
+int currntUserId=currentUserListener('');
 
 String url='';
 
@@ -108,7 +108,7 @@ class _UploadDocState extends State<UploadDoc> {
     print('----------------------HERE?-------------------------');
     pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     var fileName = DateTime.now();
-    var ref = await FirebaseStorage.instance.ref().child('proofs/$currentUserId/$fileName');
+    var ref = await FirebaseStorage.instance.ref().child('proofs/$currntUserId/$fileName');
     Uri blobUri = Uri.parse(pickedFile.path);
     http.Response response = await http.get(blobUri);
     await ref
@@ -124,7 +124,7 @@ class _UploadDocState extends State<UploadDoc> {
     print('----------------------HERkkkE?-------------------------');
     pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     var fileName = DateTime.now();
-    var ref = await FirebaseStorage.instance.ref().child('proofs/$currentUserId/$fileName');
+    var ref = await FirebaseStorage.instance.ref().child('proofs/$currntUserId/$fileName');
     Uri blobUri = Uri.parse(pickedFile.path);
     http.Response response = await http.get(blobUri);
     await ref

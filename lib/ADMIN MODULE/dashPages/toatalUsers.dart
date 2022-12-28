@@ -261,16 +261,11 @@ class _TotalUsersPageState extends State<TotalUsersPage> {
                             horizontalMargin: 50,
                             columns: const [
                               DataColumn(numeric: true, label: Text('SI.No')),
-                              DataColumn(
-                                label: Text('User ID'),
-                              ),
-                              DataColumn(
-                                label: Text('Password'),
-                              ),
+                              DataColumn(label: Text('User ID'),),
+                              DataColumn(label: Text('Password'),),
                               DataColumn(label: Text('Name')),
                               DataColumn(label: Text('Mobile')),
-                              DataColumn(
-                                  label: Expanded(child: Text('Join Date'))),
+                              DataColumn(label: Expanded(child: Text('Join Date'))),
                               DataColumn(label: Text('Status')),
                               DataColumn(label: Text('User Panel')),
                               DataColumn(label: Text('View')),

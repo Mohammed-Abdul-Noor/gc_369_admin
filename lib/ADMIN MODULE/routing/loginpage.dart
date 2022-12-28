@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/userModel.dart';
 import '../pages/layout.dart';
+import '../widgets/changePassword.dart';
 SharedPreferences? preferences;
 class Loginpage extends StatefulWidget {
   @override
@@ -34,27 +37,27 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 var loginkey = GlobalKey();
-  Future loginEvent() async {
-    preferences = await SharedPreferences.getInstance();
-    userId = preferences?.getString('userId') ?? "";
-    password = preferences?.getString('password') ?? "";
-    if (userId == 'admin@gmail.com' &&
-        password == 'admin369') {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => SiteLayout(index: 1))
-      );
-
-      print(nameController.text);
-      print(passwordController.text);
-    }
-    //var password =localStorage.getString('pass');
-
-    setState(() {});
-  }
+  // Future loginEvent() async {
+  //   preferences = await SharedPreferences.getInstance();
+  //   userId = preferences?.getString('userId') ?? "";
+  //   password = preferences?.getString('password') ?? "";
+  //   if (userId == 'admin@gmail.com' &&
+  //       password == 'admin369') {
+  //     Navigator.of(context).push(MaterialPageRoute(
+  //         builder: (context) => SiteLayout(index: 1))
+  //     );
+  //
+  //     print(nameController.text);
+  //     print(passwordController.text);
+  //   }
+  //   //var password =localStorage.getString('pass');
+  //
+  //   setState(() {});
+  // }
 
   @override
   void initState() {
-    loginEvent();
+    // loginEvent();
     // TODO: implement initState
     super.initState();
   }
@@ -127,23 +130,64 @@ var loginkey = GlobalKey();
                         backgroundColor: MaterialStateProperty.all(Colors.green)),
                     child: const Text('submit',
                         style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      if (nameController.text == 'admin@gmail.com' &&
-                          passwordController.text == 'admin369') {
-                        preferences?.setString('userId',
-                            nameController.text);
-                        preferences?.setString('password',
-                            passwordController.text);
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SiteLayout(index: 1))
-                        );
-
-                        print(nameController.text);
-                        print(passwordController.text);
+                    onPressed: () async {
+                      try {
+                        currentuser=null;
+                        currentUserId="";
+                        DocumentSnapshot doc =
+                        await FirebaseFirestore.instance
+                            .collection('settings')
+                            .doc('settings')
+                            .get();
+                        if (!doc.exists) {
+                          return;
+                        }
+                        if (doc['adminId'] == nameController.text && doc['adminPassword'] == passwordController.text) {
+                          preferences = await SharedPreferences.getInstance();
+                          preferences?.setString('userId', nameController.text);
+                          preferences?.setString('pass', passwordController.text);
+                          currentUserId = nameController.text;
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, _, __) =>
+                                    SiteLayout(index: 1),
+                              ),
+                                  (route) => false);
+                        } else {
+                          if(doc['adminId'] != nameController.text) {
+                            showUploadMessage('Invalid User ID', context);
+                          }
+                          else
+                            {
+                              showUploadMessage('Invalid Password', context);
+                            }
+                        }
+                      } catch (r) {
+                        showUploadMessage(
+                            'Invalid User Id', context);
                       }
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //    builder: (context) => SiteLayout(index: 1)));
+                      print(nameController.text);
+                      print(passwordController.text);
                     },
+                    // onPressed: () {
+                    //   if (nameController.text == 'admin@gmail.com' &&
+                    //       passwordController.text == 'admin369') {
+                    //     preferences?.setString('userId',
+                    //         nameController.text);
+                    //     preferences?.setString('password',
+                    //         passwordController.text);
+                    //     Navigator.of(context).push(MaterialPageRoute(
+                    //         builder: (context) => SiteLayout(index: 1))
+                    //     );
+                    //
+                    //     print(nameController.text);
+                    //     print(passwordController.text);
+                    //   }
+                    //   // Navigator.of(context).push(MaterialPageRoute(
+                    //   //    builder: (context) => SiteLayout(index: 1)));
+                    // },
                   )),
               SizedBox(height: 10),
               Center(child: Text('Version 1.1.1'))

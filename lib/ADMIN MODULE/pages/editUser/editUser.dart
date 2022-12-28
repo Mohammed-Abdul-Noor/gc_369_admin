@@ -1188,7 +1188,7 @@ class _EditUserState extends State<EditUser> {
     print('----------------------HERE?-------------------------');
     pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     var fileName = DateTime.now();
-    var ref = await FirebaseStorage.instance.ref().child('proofs/$currentUserId/$fileName');
+    var ref = await FirebaseStorage.instance.ref().child('proofs/$currntUserId/$fileName');
     Uri blobUri = Uri.parse(pickedFile.path);
     http.Response response = await http.get(blobUri);
     await ref
@@ -1206,7 +1206,7 @@ class _EditUserState extends State<EditUser> {
     print('----------------------HERkkkE?-------------------------');
     pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     var fileName = DateTime.now();
-    var ref = await FirebaseStorage.instance.ref().child('proofs/$currentUserId/$fileName');
+    var ref = await FirebaseStorage.instance.ref().child('proofs/$currntUserId/$fileName');
     Uri blobUri = Uri.parse(pickedFile.path);
     http.Response response = await http.get(blobUri);
     await ref

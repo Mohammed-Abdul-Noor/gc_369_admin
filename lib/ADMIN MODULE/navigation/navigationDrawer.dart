@@ -24,6 +24,7 @@ import '../pages/userReport.dart';
 import '../pages/webInfo.dart';
 import '../pages/withdrawEligible.dart';
 import '../routing/loginpage.dart';
+import '../routing/splashScreen.dart';
 import 'navigationProvider.dart';
 
 List<Widget> _screens = [
@@ -76,13 +77,15 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   // buildCollapsiveIcon(context, isCollapsed),
                   const SizedBox(height: 12),
                   isCollapsed?IconButton(onPressed: (){
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);
+                    logOutEvent(context);
+                    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);
                   }, icon:Icon (Icons.logout,color: Colors.white,))
                  : Row(
                     children: [
 
                       IconButton(onPressed: (){
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);
+                        logOutEvent(context);
+                        //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);
                       }, icon:Icon (Icons.logout,color: Colors.white,)),
                       SizedBox(width: 23),
                       Text('Logout',style: TextStyle(color: Colors.white),)

@@ -6,7 +6,7 @@ import '../pages/layout.dart';
 import '../pages/editUser/ProvideHelp.dart';
 import '../pages/editUser/genIDModel.dart';
 import '../pages/editUser/getHelp.dart';
-
+String? currentUserId;
 UserModel? currentuser;
 UserModel? sponsorUser1;
 UserModel? sponsorUser2;

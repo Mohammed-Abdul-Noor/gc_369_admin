@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gc_369/ADMIN%20MODULE/routing/splashScreen.dart';
 import 'package:provider/provider.dart';
 import 'ADMIN MODULE/model/userModel.dart';
 import 'ADMIN MODULE/navigation/navigationProvider.dart';
@@ -45,7 +46,8 @@ class _MyAppState extends State<MyApp> {
         create: ((context) => NavigationProvider()),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: Loginpage(),
+          // home: Loginpage(),
+          home: SplashScreen(),
         ),
       );
 }
