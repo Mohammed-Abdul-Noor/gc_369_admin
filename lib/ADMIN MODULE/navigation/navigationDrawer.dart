@@ -80,17 +80,17 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     logOutEvent(context);
                     // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);
                   }, icon:Icon (Icons.logout,color: Colors.white,))
-                 : Row(
-                    children: [
-
-                      IconButton(onPressed: (){
-                        logOutEvent(context);
-                        //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Loginpage(),), (route) => false);
-                      }, icon:Icon (Icons.logout,color: Colors.white,)),
-                      SizedBox(width: 23),
-                      Text('Logout',style: TextStyle(color: Colors.white),)
-                    ],
-                  )
+                 : InkWell(
+                    onTap: ()=>logOutEvent(context),
+                    child: Row(
+                      children: [
+                        // SizedBox(width: 5),
+                        Icon (Icons.logout,color: Colors.white,),
+                        SizedBox(width: 20),
+                        Text('Logout',style: TextStyle(color: Colors.white),)
+                      ],
+                    ),
+                 )
                 ],
               ),
             ),
