@@ -45,6 +45,7 @@ class UserModel {
   String? spnsrId3;
   String? sponsoremobile;
   int? sponsorincome;
+  String? sponsorname;
   String? mystatus;
   String? password;
   int? receiveCount;
@@ -112,6 +113,7 @@ class UserModel {
     this.spnsr_Id,
     this.sponsoremobile,
     this.sponsorincome,
+    this.sponsorname,
     this.mystatus,
     this.password,
     this.receiveCount,
@@ -183,6 +185,7 @@ class UserModel {
     spnsrId2 = json['spnsrId2'] ?? "";
     spnsrId3 = json['spnsrId3'] ?? "";
     sponsoremobile = json['sponsoremobile'] ?? "";
+    sponsorname = json['sponsorname'] ?? "";
     sponsorincome = json['sponsorincome'] ?? 0;
     mystatus = json['mystatus'] ?? '';
     password = json['password'] ?? '';
@@ -282,6 +285,7 @@ class UserModel {
     data['spnsrId3'] = spnsrId3 ?? "";
     data['whatsappcc'] = whatsappcc ?? "";
     data['sponsoremobile'] = sponsoremobile ?? "";
+    data['sponsorname'] = sponsorname ?? "";
     data['sponsorincome'] = sponsorincome ?? 0;
     data['mystatus'] = mystatus ?? '';
     data['password'] = password ?? '';
@@ -349,6 +353,7 @@ class UserModel {
         spnsrId2 = userMap['spnsrId2'] ?? "",
         spnsrId3 = userMap['spnsrId3'] ?? "",
         sponsoremobile = userMap['sponsoremobile'],
+        sponsorname = userMap['sponsorname'],
         sponsorincome = userMap['sponsorincome'],
         mystatus = userMap['mystatus'],
         password = userMap['password'],

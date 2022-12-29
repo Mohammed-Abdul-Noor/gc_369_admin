@@ -312,28 +312,23 @@ class _UserVerificationState extends State<UserVerification> {
                                                                   'name']),
                                                       sendhelp: 0,
                                                       sno: 0,
-                                                      spnsr_Id: registration
-                                                          .data()['spnsr_Id'],
-                                                      spnsrId2: registration
-                                                          .data()['spnsrId2'],
-                                                      spnsrId3: registration
-                                                          .data()['spnsrId3'],
+                                                      spnsr_Id: registration.data()['spnsr_Id'],
+                                                      spnsrId2: registration.data()['spnsrId2'],
+                                                      spnsrId3: registration.data()['spnsrId3'],
                                                       spnsrAmt1: {},
                                                       spnsrAmt2: {},
                                                       spnsrAmt3: {},
-                                                      sponsoremobile: '',
+                                                      sponsoremobile: registration.data()['sponsoremobile'],
+                                                      sponsorname:    registration.data()['sponsorname'],
                                                       sponsorincome: 0,
                                                       status: true,
-                                                      type: registration
-                                                          .data()['typeId'],
+                                                      type: registration.data()['typeId'],
                                                       upiId: '',
                                                       uid: userid,
                                                       upgradeAmt: {},
                                                       wallet: 0,
-                                                      whatsNO: registration
-                                                          .data()['whatsNo'],
-                                                      whatsappcc: registration
-                                                          .data()['whatsCc'],
+                                                      whatsNO: registration.data()['whatsNo'],
+                                                      whatsappcc: registration.data()['whatsCc'],
                                                     );
 
                                                     FirebaseFirestore.instance
