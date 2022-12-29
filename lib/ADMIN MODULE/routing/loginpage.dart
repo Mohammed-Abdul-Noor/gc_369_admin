@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gc_369/ADMIN%20MODULE/cordinator/cordinatorView.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/userModel.dart';
 import '../pages/layout.dart';
 import '../widgets/changePassword.dart';
 SharedPreferences? preferences;
+// var CoId;
+// var AdId;
 class Loginpage extends StatefulWidget {
   @override
   State<Loginpage> createState() => _LoginpageState();
@@ -36,24 +39,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-var loginkey = GlobalKey();
-  // Future loginEvent() async {
-  //   preferences = await SharedPreferences.getInstance();
-  //   userId = preferences?.getString('userId') ?? "";
-  //   password = preferences?.getString('password') ?? "";
-  //   if (userId == 'admin@gmail.com' &&
-  //       password == 'admin369') {
-  //     Navigator.of(context).push(MaterialPageRoute(
-  //         builder: (context) => SiteLayout(index: 1))
-  //     );
-  //
-  //     print(nameController.text);
-  //     print(passwordController.text);
-  //   }
-  //   //var password =localStorage.getString('pass');
-  //
-  //   setState(() {});
-  // }
+  var loginkey = GlobalKey();
 
   @override
   void initState() {
@@ -71,7 +57,7 @@ var loginkey = GlobalKey();
           child: ListView(
             children: <Widget>[
               const Text(
-                'Admin Panel',
+                '369 Panel',
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
@@ -139,24 +125,24 @@ var loginkey = GlobalKey();
                             .collection('settings')
                             .doc('settings')
                             .get();
+                        // CoId = doc['cordinatorId'];
+                        // AdId = doc['adminId'];
+                        // print(' Coid        '+CoId);
                         if (!doc.exists) {
                           return;
                         }
-                        if (doc['adminId'] == nameController.text && doc['adminPassword'] == passwordController.text) {
+                        if ((doc['adminId'] == nameController.text && doc['adminPassword']  == passwordController.text ) ||
+                            (doc['cordinatorId'] == nameController.text && doc['copass']  == passwordController.text)) {
                           preferences = await SharedPreferences.getInstance();
                           preferences?.setString('userId', nameController.text);
                           preferences?.setString('pass', passwordController.text);
                           currentUserId = nameController.text;
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, _, __) =>
-                                    SiteLayout(index: 1),
-                              ),
-                                  (route) => false);
-                        } else {
-                          if(doc['adminId'] != nameController.text) {
+                          currentUserId==doc['adminId']?Navigator.pushAndRemoveUntil(context, PageRouteBuilder(pageBuilder: (context, _, __) => SiteLayout(index: 1),),(route) => false)
+                              :Navigator.pushAndRemoveUntil(context, PageRouteBuilder(pageBuilder: (context, _, __) => CoView()),(route) => false);
+
+                        }
+                        else {
+                          if((doc['adminId'] != nameController.text) && (doc['cordinatorId'] != nameController.text)) {
                             showUploadMessage('Invalid User ID', context);
                           }
                           else
@@ -170,24 +156,9 @@ var loginkey = GlobalKey();
                       }
                       print(nameController.text);
                       print(passwordController.text);
+                      print('UserId : ' + currentUserId!);
+
                     },
-                    // onPressed: () {
-                    //   if (nameController.text == 'admin@gmail.com' &&
-                    //       passwordController.text == 'admin369') {
-                    //     preferences?.setString('userId',
-                    //         nameController.text);
-                    //     preferences?.setString('password',
-                    //         passwordController.text);
-                    //     Navigator.of(context).push(MaterialPageRoute(
-                    //         builder: (context) => SiteLayout(index: 1))
-                    //     );
-                    //
-                    //     print(nameController.text);
-                    //     print(passwordController.text);
-                    //   }
-                    //   // Navigator.of(context).push(MaterialPageRoute(
-                    //   //    builder: (context) => SiteLayout(index: 1)));
-                    // },
                   )),
               SizedBox(height: 10),
               Center(child: Text('Version 1.1.1'))
