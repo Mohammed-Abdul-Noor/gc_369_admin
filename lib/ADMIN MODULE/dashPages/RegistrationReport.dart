@@ -240,6 +240,12 @@ class _RegistrationReportState extends State<RegistrationReport> {
                                       rows: List.generate(data.length, (index) {
                                         DocumentSnapshot registration =
                                             data[index];
+                                        String userId = '';
+                                        try {
+                                          userId = registration['userId'];
+                                        } catch (e) {
+                                          print(e.toString());
+                                        }
 
                                         return DataRow(cells: [
                                           DataCell(Text((ind == 0
@@ -250,10 +256,11 @@ class _RegistrationReportState extends State<RegistrationReport> {
                                               registration['name'])),
                                           DataCell(SelectableText(
                                               registration['password'])),
-                                          DataCell(SelectableText(
-                                              registration['verify'] == true
-                                                  ? registration['userId'] ?? ''
-                                                  : '')),
+                                          DataCell(SelectableText(userId)),
+                                          // DataCell(SelectableText(
+                                          //     registration['verify'] == true
+                                          //         ? registration['userId'] ?? ''
+                                          //         : '')),
                                           DataCell(Text(
                                               "${DateFormat('dd-MMM-yyyy').format(registration['joinDate'].toDate()) ?? ''}")),
                                           DataCell(SelectableText(
