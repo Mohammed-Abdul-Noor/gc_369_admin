@@ -8,8 +8,10 @@ import 'package:gc_369/ADMIN%20MODULE/pages/editUser/password/passwordTable.dart
 
 import '../../main.dart';
 import '../Company/create_genid.dart';
+import '../dashPages/A.dart';
 import '../dashPages/RegistrationReport.dart';
 import '../dashPages/SendRecieveProof.dart';
+import '../dashPages/SocialWelfare.dart';
 import '../dashPages/TotalGenID.dart';
 import '../dashPages/WalletRegistration.dart';
 import '../dashPages/dialyUsers.dart';
@@ -36,6 +38,7 @@ List<Widget> _screens = [
   const KycPage(),
   const CharityAmountPage(),
   const ClubAmount(),
+  const SocialWelfare(),
   const PasswordTable(),
   const UserVerification(),
   const WalletRegistration(),

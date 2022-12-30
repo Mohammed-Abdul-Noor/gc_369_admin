@@ -6,18 +6,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/userModel.dart';
 import '../pages/layout.dart';
 import '../widgets/changePassword.dart';
+
 SharedPreferences? preferences;
+
 // var CoId;
 // var AdId;
 class Loginpage extends StatefulWidget {
   @override
   State<Loginpage> createState() => _LoginpageState();
 }
-String userId="";
-String password="";
+
+String userId = "";
+String password = "";
+
 class _LoginpageState extends State<Loginpage> {
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -66,7 +68,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               const Text(
                 'Please Login Here',
                 style: TextStyle(
-                    color: Colors.red, fontWeight: FontWeight.w500, fontSize: 30),
+                    color: Colors.red,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 30),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,9 +88,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       border: OutlineInputBorder(),
                       labelText: 'Your ID',
                     ),
-
                   ),
-
                   Padding(
                     padding: const EdgeInsets.only(top: 15, bottom: 15),
                     child: Text(
@@ -101,7 +103,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       border: OutlineInputBorder(),
                       labelText: 'Your Password',
                     ),
-
                   ),
                 ],
               ),
@@ -113,15 +114,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.green)),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.green)),
                     child: const Text('submit',
                         style: TextStyle(color: Colors.white)),
                     onPressed: () async {
                       try {
-                        currentuser=null;
-                        currentUserId="";
-                        DocumentSnapshot doc =
-                        await FirebaseFirestore.instance
+                        currentuser = null;
+                        currentUserId = "";
+                        DocumentSnapshot doc = await FirebaseFirestore.instance
                             .collection('settings')
                             .doc('settings')
                             .get();
@@ -131,37 +132,48 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         if (!doc.exists) {
                           return;
                         }
-                        if ((doc['adminId'] == nameController.text && doc['adminPassword']  == passwordController.text ) ||
-                            (doc['cordinatorId'] == nameController.text && doc['copass']  == passwordController.text)) {
+                        if ((doc['adminId'] == nameController.text &&
+                                doc['adminPassword'] ==
+                                    passwordController.text) ||
+                            (doc['cordinatorId'] == nameController.text &&
+                                doc['copass'] == passwordController.text)) {
                           preferences = await SharedPreferences.getInstance();
                           preferences?.setString('userId', nameController.text);
-                          preferences?.setString('pass', passwordController.text);
+                          preferences?.setString(
+                              'pass', passwordController.text);
                           currentUserId = nameController.text;
-                          currentUserId==doc['adminId']?Navigator.pushAndRemoveUntil(context, PageRouteBuilder(pageBuilder: (context, _, __) => SiteLayout(index: 1),),(route) => false)
-                              :Navigator.pushAndRemoveUntil(context, PageRouteBuilder(pageBuilder: (context, _, __) => CoView()),(route) => false);
-
-                        }
-                        else {
-                          if((doc['adminId'] != nameController.text) && (doc['cordinatorId'] != nameController.text)) {
+                          currentUserId == doc['adminId']
+                              ? Navigator.pushAndRemoveUntil(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, _, __) =>
+                                        SiteLayout(index: 1),
+                                  ),
+                                  (route) => false)
+                              : Navigator.pushAndRemoveUntil(
+                                  context,
+                                  PageRouteBuilder(
+                                      pageBuilder: (context, _, __) =>
+                                          CoView()),
+                                  (route) => false);
+                        } else {
+                          if ((doc['adminId'] != nameController.text) &&
+                              (doc['cordinatorId'] != nameController.text)) {
                             showUploadMessage('Invalid User ID', context);
+                          } else {
+                            showUploadMessage('Invalid Password', context);
                           }
-                          else
-                            {
-                              showUploadMessage('Invalid Password', context);
-                            }
                         }
                       } catch (r) {
-                        showUploadMessage(
-                            'Invalid User Id', context);
+                        showUploadMessage('Invalid User Id', context);
                       }
                       print(nameController.text);
                       print(passwordController.text);
                       print('UserId : ' + currentUserId!);
-
                     },
                   )),
               SizedBox(height: 10),
-              Center(child: Text('Version 1.1.1'))
+              Center(child: Text('Version 1.1.3'))
             ],
           )),
     );

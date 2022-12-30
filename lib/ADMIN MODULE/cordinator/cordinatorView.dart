@@ -202,7 +202,9 @@ class _CoViewState extends State<CoView> {
     "FZ",
   ];
   List<String> selectedFields = [
-    "uid", "name", "joinDate",
+    "uid",
+    "name",
+    "joinDate",
   ];
   getExcel(QuerySnapshot<Map<String, dynamic>> data) async {
     int i = 1;
@@ -222,9 +224,9 @@ class _CoViewState extends State<CoView> {
       for (int n = 0; n < selectedFields.toList().length; n++) {
         if (selectedFields.contains(selectedFields.toList()[n])) {
           var cell =
-          sheetObject.cell(CellIndex.indexByString("${columns[k + 1]}1"));
+              sheetObject.cell(CellIndex.indexByString("${columns[k + 1]}1"));
           cell.value =
-          selectedFields.toList()[n]; // dynamic values support provided;
+              selectedFields.toList()[n]; // dynamic values support provided;
           cell.cellStyle = cellStyle;
           k++;
         }
@@ -276,26 +278,23 @@ class _CoViewState extends State<CoView> {
       ..click();
   }
 
-  getSortedUsers(String txt){
-    allUsersSort=[];
-    for(int i=0;i<allUsers.length;i++){
-      if(allUsers[i]['name'].toString().toLowerCase().contains(txt)||allUsers[i]['uid'].toString().toLowerCase().contains(txt)){
-
+  getSortedUsers(String txt) {
+    allUsersSort = [];
+    for (int i = 0; i < allUsers.length; i++) {
+      if (allUsers[i]['name'].toString().toLowerCase().contains(txt) ||
+          allUsers[i]['uid'].toString().toLowerCase().contains(txt)) {
         allUsersSort.add(allUsers[i]);
       }
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
-  String districtValue="";
-  TextEditingController search =TextEditingController();
-
+  String districtValue = "";
+  TextEditingController search = TextEditingController();
 
   bool loading = false;
-  List<DocumentSnapshot<Map<String,dynamic>>> allUsers = [];
-  List<DocumentSnapshot<Map<String,dynamic>>> allUsersSort = [];
+  List<DocumentSnapshot<Map<String, dynamic>>> allUsers = [];
+  List<DocumentSnapshot<Map<String, dynamic>>> allUsersSort = [];
   final controller = ScrollController();
   @override
   void initState() {
@@ -305,68 +304,67 @@ class _CoViewState extends State<CoView> {
 
   @override
   Widget build(BuildContext context) {
-    var data=allUsers;
+    var data = allUsers;
     return Scaffold(
       appBar: AppBar(
-        title:    const Center(
+        title: const Center(
           child: Text(
             'District Wise Users',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,color: Colors.black),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
           ),
         ),
         actions: [
-          IconButton(onPressed: (){
-            logOutEvent(context);
-          }, icon: Icon(Icons.logout))
+          IconButton(
+              onPressed: () {
+                logOutEvent(context);
+              },
+              icon: Icon(Icons.logout))
         ],
       ),
       body: Container(
         color: Colors.blueGrey[50],
-
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
-
                 const SizedBox(
                   height: 10,
                 ),
                 Row(
-                  mainAxisAlignment:   MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    allUsers.isEmpty?SizedBox(): Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.white),
-                        width: 200,
-                        height: 40,
-                        child: TextField(
-                          onChanged: ((str){
-                            allUsersSort=[];
-                            if(search.text.isEmpty){
-                              allUsersSort.addAll(allUsers);
-                            }else{
-                              getSortedUsers(str.toLowerCase());
-                            }
-                            setState(() {
-
-                            });
-                          }),
-                          controller: search,
-                          decoration: InputDecoration(
-                            hintText: "Search here",
-
-                            prefixIcon: const Icon(CupertinoIcons.search),
-                            filled: true,
-
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        )),
+                    allUsers.isEmpty
+                        ? SizedBox()
+                        : Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Colors.white),
+                            width: 200,
+                            height: 40,
+                            child: TextField(
+                              onChanged: ((str) {
+                                allUsersSort = [];
+                                if (search.text.isEmpty) {
+                                  allUsersSort.addAll(allUsers);
+                                } else {
+                                  getSortedUsers(str.toLowerCase());
+                                }
+                                setState(() {});
+                              }),
+                              controller: search,
+                              decoration: InputDecoration(
+                                hintText: "Search here",
+                                prefixIcon: const Icon(CupertinoIcons.search),
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            )),
                   ],
                 ),
                 const SizedBox(
@@ -388,9 +386,9 @@ class _CoViewState extends State<CoView> {
                           value: districtValue,
                           hint: const Center(
                               child: Text(
-                                'Select District',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )),
+                            'Select District',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
                           style: const TextStyle(fontWeight: FontWeight.bold),
                           items: const [
                             DropdownMenuItem(
@@ -529,30 +527,30 @@ class _CoViewState extends State<CoView> {
                               ),
                             ),
                           ],
-
                           onChanged: (String? value) async {
-
-                            if(value==''){
-                              allUsers =[];
-                              allUsersSort=[];
-                              setState((){
-                                loading =false;
+                            if (value == '') {
+                              allUsers = [];
+                              allUsersSort = [];
+                              setState(() {
+                                loading = false;
                               });
-                            }
-                            else{
-                              districtValue =value!;
-                              setState((){
-                                loading =true;
+                            } else {
+                              districtValue = value!;
+                              setState(() {
+                                loading = true;
                               });
-                              QuerySnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance
-                                  .collection('Users')
-                                  .where('motherId',isEqualTo:true)
-                                  .where('address.city', isEqualTo: districtValue)
-                                  .orderBy('index').get();
-                              allUsers =doc.docs;
-                              allUsersSort=doc.docs;
-                              setState((){
-                                loading =false;
+                              QuerySnapshot<Map<String, dynamic>> doc =
+                                  await FirebaseFirestore.instance
+                                      .collection('Users')
+                                      .where('motherId', isEqualTo: true)
+                                      .where('address.city',
+                                          isEqualTo: districtValue)
+                                      .orderBy('index')
+                                      .get();
+                              allUsers = doc.docs;
+                              allUsersSort = doc.docs;
+                              setState(() {
+                                loading = false;
                               });
                             }
                           },
@@ -560,86 +558,94 @@ class _CoViewState extends State<CoView> {
                       ),
                     ),
                     const Spacer(),
-                    districtValue==''?Container():
-                    ElevatedButton(
-                        onPressed: () async {
-                          setState(() {
-                            loading = true;
-                          });
-                          QuerySnapshot<Map<String, dynamic>> data = await FirebaseFirestore
-                              .instance
-                              .collection('Users')
-                              .where('motherId',isEqualTo:true)
-                              .where('address.city', isEqualTo: districtValue)
-                              .orderBy('index')
-                              .get();
-                          await getExcel(data);
-                          setState(() {
-                            loading = false;
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            Icon(Icons.download),
-                            Text('Download'),
-                          ],
-                        )),
+                    districtValue == ''
+                        ? Container()
+                        : ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                loading = true;
+                              });
+                              QuerySnapshot<Map<String, dynamic>> data =
+                                  await FirebaseFirestore.instance
+                                      .collection('Users')
+                                      .where('motherId', isEqualTo: true)
+                                      .where('address.city',
+                                          isEqualTo: districtValue)
+                                      .orderBy('index')
+                                      .get();
+                              await getExcel(data);
+                              setState(() {
+                                loading = false;
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                Icon(Icons.download),
+                                Text('Download'),
+                              ],
+                            )),
                   ],
                 ),
                 const SizedBox(
                   height: 40,
                 ),
-                loading==true?Center(child: CircularProgressIndicator(),):
-                Scrollbar(
-                  child: Column(
-                    children: [
-                      DataTable(
-                          border: TableBorder.all(
-                              color: Colors.black.withOpacity(0.1)),
-                          dataRowColor: MaterialStateProperty.resolveWith(
-                                  (Set states) {
-                                if (states.contains(MaterialState.selected)) {
-                                  return Colors.grey;
-                                }
-                                return Colors.white; // Use the default value.
-                              }),
-                          checkboxHorizontalMargin: Checkbox.width,
-                          columnSpacing: 50.0,
-                          dividerThickness: 3,
-                          showCheckboxColumn: true,
-                          horizontalMargin: 50,
-                          //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                loading == true
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Scrollbar(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Column(
+                            children: [
+                              DataTable(
+                                  border: TableBorder.all(
+                                      color: Colors.black.withOpacity(0.1)),
+                                  dataRowColor:
+                                      MaterialStateProperty.resolveWith(
+                                          (Set states) {
+                                    if (states
+                                        .contains(MaterialState.selected)) {
+                                      return Colors.grey;
+                                    }
+                                    return Colors
+                                        .white; // Use the default value.
+                                  }),
+                                  checkboxHorizontalMargin: Checkbox.width,
+                                  columnSpacing: 50.0,
+                                  dividerThickness: 3,
+                                  showCheckboxColumn: true,
+                                  horizontalMargin: 50,
+                                  //decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
 
-                          columns: const [
-                            DataColumn(
-
-                                numeric: true,
-
-                                label: (Text('SI.No'))),
-                            DataColumn(label: Text('User ID')),
-                            DataColumn(label: Text('Name')),
-                            DataColumn(label: Text('Mobile')),
-                            DataColumn(label: Text('Join Date')),
-                            DataColumn(label: Text('Sponsor ID')),
-                            DataColumn(label: Text('Sponsor Name')),
-                          ],
-                          rows: List.generate(allUsersSort.length
-                              , (index) {
-                                var user = allUsersSort[index];
-                                return DataRow(cells: [
-                                  DataCell(Text('${index + 1}')),
-                                  DataCell(Text(user['uid'])),
-                                  DataCell(Text(user['name'])),
-                                  DataCell(SelectableText(user['mobno'])),
-                                  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate()))),
-                                  DataCell(Text(user["spnsr_Id"])),
-                                  DataCell(Text(user["sponsorname"])),
-                                ]);
-                              })),
-
-                    ],
-                  ),
-                ),
+                                  columns: const [
+                                    DataColumn(
+                                        numeric: true, label: (Text('SI.No'))),
+                                    DataColumn(label: Text('User ID')),
+                                    DataColumn(label: Text('Name')),
+                                    DataColumn(label: Text('Mobile')),
+                                    DataColumn(label: Text('Join Date')),
+                                    DataColumn(label: Text('Sponsor ID')),
+                                    DataColumn(label: Text('Sponsor Name')),
+                                  ],
+                                  rows: List.generate(allUsersSort.length,
+                                      (index) {
+                                    var user = allUsersSort[index];
+                                    return DataRow(cells: [
+                                      DataCell(Text('${index + 1}')),
+                                      DataCell(Text(user['uid'])),
+                                      DataCell(Text(user['name'])),
+                                      DataCell(SelectableText(user['mobno'])),
+                                      DataCell(Text(DateFormat('dd-MMM-yyyy')
+                                          .format(user['joinDate'].toDate()))),
+                                      DataCell(Text(user["spnsr_Id"])),
+                                      DataCell(Text(user["sponsorname"])),
+                                    ]);
+                                  })),
+                            ],
+                          ),
+                        ),
+                      ),
               ],
             ),
           ),
@@ -647,9 +653,9 @@ class _CoViewState extends State<CoView> {
       ),
     );
   }
-  void topScroll(){
-    final double start =0;
-    controller.jumpTo(start);
 
+  void topScroll() {
+    final double start = 0;
+    controller.jumpTo(start);
   }
 }

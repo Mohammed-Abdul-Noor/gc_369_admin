@@ -39,8 +39,8 @@ class _KycPageState extends State<KycPage> {
     _controller1 = ScrollController();
     kycStream = FirebaseFirestore.instance
         .collection('Users')
-        .where('fproof', isEqualTo: '')
-        .where('bproof', isEqualTo: '')
+        .where('fProof', isEqualTo: '')
+        .where('bProof', isEqualTo: '')
         .orderBy('joinDate')
         .limit(10)
         .snapshots();
@@ -55,6 +55,8 @@ class _KycPageState extends State<KycPage> {
 
       kycStream = FirebaseFirestore.instance
           .collection('Users')
+          .where('fProof', isEqualTo: '')
+          .where('bProof', isEqualTo: '')
           .orderBy('joinDate')
           .limit(10)
           .snapshots();
@@ -62,6 +64,8 @@ class _KycPageState extends State<KycPage> {
       ind += 10;
       kycStream = FirebaseFirestore.instance
           .collection('Users')
+          .where('fProof', isEqualTo: '')
+          .where('bProof', isEqualTo: '')
           .orderBy('joinDate')
           .startAfterDocument(lastDoc!)
           .limit(10)
@@ -81,6 +85,8 @@ class _KycPageState extends State<KycPage> {
 
       kycStream = FirebaseFirestore.instance
           .collection('Users')
+          .where('fProof', isEqualTo: '')
+          .where('bProof', isEqualTo: '')
           .orderBy('joinDate')
           .limit(10)
           .snapshots();
@@ -89,6 +95,8 @@ class _KycPageState extends State<KycPage> {
 
       kycStream = FirebaseFirestore.instance
           .collection('Users')
+          .where('fProof', isEqualTo: '')
+          .where('bProof', isEqualTo: '')
           .orderBy('joinDate')
           .startAfterDocument(lastDocuments[pageIndex - 1]!)
           .limit(10)
@@ -208,6 +216,8 @@ class _KycPageState extends State<KycPage> {
                           ? kycStream
                           : FirebaseFirestore.instance
                               .collection('Users')
+                              .where('fProof', isEqualTo: '')
+                              .where('bProof', isEqualTo: '')
                               .where('search',
                                   arrayContains: search!.text.toUpperCase())
                               .limit(10)

@@ -14,6 +14,7 @@ final itemsMain = [
   // const DrawerItem(title:'Clubs',icon:Icons.cloud_upload),
   const DrawerItem(title: 'Charity Amount', icon: Icons.announcement_outlined),
   const DrawerItem(title: 'Club Amount', icon: Icons.announcement_outlined),
+  const DrawerItem(title: 'Social Welfare', icon: Icons.announcement_outlined),
   const DrawerItem(title: 'Change Password', icon: Icons.password),
   const DrawerItem(title: 'User Verification', icon: Icons.password),
   const DrawerItem(title: 'Wallet Registration', icon: Icons.password),
