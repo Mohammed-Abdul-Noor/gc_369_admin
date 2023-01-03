@@ -35,7 +35,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-   // addFieldtoAlldoc();
 
     // TODO: implement initState
     loginEvent().whenComplete(() async {
@@ -45,8 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
             MaterialPageRoute(
                 builder: (context) =>
                      currentUserId == null || currentUserId == ""
-                    ? Loginpage():currentUserId == 'cordinator@369'? CoView()
-                    : const SiteLayout(index: 1)
+                         ? Loginpage():currentUserId == 'cordinator@369'? CoView()
+                         : const SiteLayout(index: 1)
             ),
                 (route) => false);
       });
@@ -78,26 +77,28 @@ logOutEvent(BuildContext context) async {
 }
 
 // addFieldtoAlldoc() {
-//   FirebaseFirestore.instance.collection('Users').get().then(
+//   print('------------------');
+//   FirebaseFirestore.instance.collection('Users').where('uid',isGreaterThan: 'GC10001353').get().then(
 //         (value) => value.docs.forEach(
 //           (element) async {
-//             Map<String, dynamic> d = element.data();
-//             if (d['sponsorname'] == null || d['sponsorname'] == '') {
-//               FirebaseFirestore.instance
-//                   .collection('Users')
-//                   .get()
-//                   .then((events) {
-//                 for (DocumentSnapshot<Map<String, dynamic>> doc1 in events.docs) {
-//                   if (doc1.id == d['spnsr_Id']) {
-//                     DocumentSnapshot<Map<String, dynamic>> sponsorDoc = doc1;
-//                     FirebaseFirestore.instance.collection('Users').doc(element.id).update({
-//                       'sponsorname': sponsorDoc.data()!['name'],
-//                     });
-//                     print(element.id);
-//                      break;
-//                   }
-//                 }
-//               });
+//             Map<String, dynamic> doc = element.data();
+//             if (doc['sponsorname'] == null || doc['sponsorname'] == '') {
+//               // FirebaseFirestore.instance
+//               //     .collection('registration')
+//               //     .get()
+//               //     .then((events) {
+//               //  events.docs.forEach((eee) {
+//               //    Map<String, dynamic> doc1 = eee.data();
+//               //    if (doc1['userId'] == doc['uid']) {
+//               //      FirebaseFirestore.instance.collection('Users').doc(element.id).update({
+//               //        'sponsoremobile': doc1['sponsoremobile'],
+//               //        'sponsorname': doc1['sponsorname'],
+//               //      });
+//                    print(element.id);
+//               //    }
+//               //    });
+//               // });
 //             }
 //           }));
+//   print('------------------');
 // }
