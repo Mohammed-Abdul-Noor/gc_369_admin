@@ -15,7 +15,6 @@ class CoView extends StatefulWidget {
 }
 
 class _CoViewState extends State<CoView> {
-  final items = ['CSV File', 'EXCEL File', 'PDF File', 'Copy All'];
 
   List<String> columns = [
     "A",
@@ -204,7 +203,10 @@ class _CoViewState extends State<CoView> {
   List<String> selectedFields = [
     "uid",
     "name",
+    "mobno",
     "joinDate",
+    "spnsr_Id",
+    "sponsorname",
   ];
   getExcel(QuerySnapshot<Map<String, dynamic>> data) async {
     int i = 1;
@@ -274,7 +276,7 @@ class _CoViewState extends State<CoView> {
     final content = base64Encode(fileBytes!);
     final anchor = AnchorElement(
         href: "data:application/octet-stream;charset=utf-16le;base64,$content")
-      ..setAttribute("download", "369 District Wise Members.xlsx")
+      ..setAttribute("download", "369 $districtValue District  Members.xlsx")
       ..click();
   }
 

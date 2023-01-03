@@ -259,8 +259,7 @@ getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
   }
   transaction =
       planMap['${sendUsermodel.sno}']['${sendUsermodel.currentPlanLevel}'];
-  if (transaction['amt'] ==
-      (int.tryParse(data[index]['amount'].toString()) ?? 0)) {
+  if (transaction['amt'] == (int.tryParse(data[index]['amount'].toString()) ?? 0)) {
     if (transaction['type'] == 3) {
       getClub(transaction, data, index, sendUsermodel);
     }
@@ -275,8 +274,7 @@ getHelp(List<DocumentSnapshot> data, int index, BuildContext context,
   }
 }
 
-getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
-    int index, UserModel sndUsr) {
+getClub(Map<String, dynamic> transaction, List<DocumentSnapshot> data, int index, UserModel sndUsr) {
   if (transaction['cnt'] == sndUsr.currentCount! + 1 &&
       planMap['${sndUsr.sno}']['last'] == currentuser?.currentPlanLevel) {
     int sno = currentuser?.sno ?? 0;

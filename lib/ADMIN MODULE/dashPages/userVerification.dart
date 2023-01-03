@@ -211,46 +211,30 @@ class _UserVerificationState extends State<UserVerification> {
                                                   DocumentSnapshot id =
                                                       await FirebaseFirestore
                                                           .instance
-                                                          .collection(
-                                                              'settings')
+                                                          .collection('settings')
                                                           .doc('settings')
                                                           .get();
-                                                  var user =
-                                                      id["userId"].toString();
+                                                  var user = id["userId"].toString();
                                                   if (id["userId"] > 1000) {
                                                     var userid = "";
                                                     bool increment = true;
-                                                    if (registration.data()[
-                                                                'userId'] ==
-                                                            "" ||
-                                                        registration.data()[
-                                                                'userId'] ==
-                                                            null) {
+                                                    if (registration.data()['userId'] == "" || registration.data()['userId'] == null) {
                                                       id.reference.update({
-                                                        "userId": FieldValue
-                                                            .increment(1)
+                                                        "userId": FieldValue.increment(1)
                                                       });
                                                       userid = "GC$user";
                                                     } else {
                                                       increment = false;
-                                                      userid = registration
-                                                          .data()['userId'];
+                                                      userid = registration.data()['userId'];
                                                     }
 
                                                     final userdata = UserModel(
-                                                      nomineeName:
-                                                          registration.data()[
-                                                              'nomineeName'],
-                                                      nomineeRelation:
-                                                          registration.data()[
-                                                              'nomineeRelation'],
-                                                      customerSupport:
-                                                          registration.data()[
-                                                              'customerSupport'],
-                                                      address: registration
-                                                          .data()['address'],
-                                                      bproof: registration
-                                                          .data()['bProof'],
+
+                                                      nomineeName: registration.data()['nomineeName'],
+                                                      nomineeRelation: registration.data()['nomineeRelation'],
+                                                      customerSupport: registration.data()['customerSupport'],
+                                                      address: registration.data()['address'],
+                                                      bproof: registration.data()['bProof'],
                                                       charAmt: {},
                                                       clubAmt: {},
                                                       directmember: 0,
@@ -261,11 +245,9 @@ class _UserVerificationState extends State<UserVerification> {
                                                       eligible: false,
                                                       email: "",
                                                       enteredDate: {
-                                                        '0': FieldValue
-                                                            .serverTimestamp(),
+                                                        '0': FieldValue.serverTimestamp(),
                                                       },
-                                                      fproof: registration
-                                                          .data()['fProof'],
+                                                      fproof: registration.data()['fProof'],
                                                       genId: GenIdModel(
                                                           firstGenId: "",
                                                           secondGenId: "",
@@ -282,16 +264,13 @@ class _UserVerificationState extends State<UserVerification> {
                                                       index: int.tryParse(user),
                                                       joinDate: DateTime.now(),
                                                       levelincome: 0,
-                                                      mobno: registration
-                                                          .data()['mobNo'],
+                                                      mobno: registration.data()['mobNo'],
                                                       motherId: true,
                                                       mystatus: '',
-                                                      name: registration
-                                                          .data()['name'],
+                                                      name: registration.data()['name'],
                                                       paytmno: "",
                                                       phonepayno: "",
-                                                      password: registration
-                                                          .data()['password'],
+                                                      password: registration.data()['password'],
                                                       provideHelpUsers:
                                                           ProvideHelpUsers(
                                                               Amount: 0,
@@ -304,12 +283,7 @@ class _UserVerificationState extends State<UserVerification> {
                                                       receiveCount: 0,
                                                       referral: [],
                                                       sendCount: 0,
-                                                      search: setSearchParam(
-                                                          userid +
-                                                              '' +
-                                                              registration
-                                                                      .data()[
-                                                                  'name']),
+                                                      search: setSearchParam(userid + '' + registration.data()['name']),
                                                       sendhelp: 0,
                                                       sno: 0,
                                                       spnsr_Id: registration.data()['spnsr_Id'],
@@ -335,25 +309,15 @@ class _UserVerificationState extends State<UserVerification> {
                                                         .collection('settings')
                                                         .doc('settings')
                                                         .update({
-                                                      'totalMembers':
-                                                          FieldValue.increment(
-                                                              increment
-                                                                  ? 1
-                                                                  : 0),
-                                                      'totalID':
-                                                          FieldValue.increment(
-                                                              increment
-                                                                  ? 1
-                                                                  : 0),
+                                                      'totalMembers': FieldValue.increment(increment ? 1 : 0),
+                                                      'totalID': FieldValue.increment(increment ? 1 : 0),
                                                     }).then((value) {
                                                       print(
                                                           "===================================");
                                                       String newId = userid;
                                                       print(userid);
                                                       print(userid.runtimeType);
-                                                      Map<String, dynamic>
-                                                          userMap =
-                                                          userdata.toJson();
+                                                      Map<String, dynamic> userMap = userdata.toJson();
                                                       print(userMap);
                                                       try {
                                                         FirebaseFirestore
@@ -373,45 +337,27 @@ class _UserVerificationState extends State<UserVerification> {
                                                       'verify': true,
                                                       'userId': userid,
                                                     });
-                                                    if (registration.data()[
-                                                            'spnsr_Id'] !=
-                                                        '') {
+                                                    if (registration.data()['spnsr_Id'] != '') {
                                                       FirebaseFirestore.instance
                                                           .collection('Users')
-                                                          .doc(registration
-                                                                  .data()[
-                                                              'spnsr_Id'])
+                                                          .doc(registration.data()['spnsr_Id'])
                                                           .update({
-                                                        'levelincome':
-                                                            FieldValue
-                                                                .increment(30),
-                                                        'wallet': FieldValue
-                                                            .increment(30),
-                                                        'downline1': FieldValue
-                                                            .increment(1),
+                                                        'levelincome': FieldValue.increment(30),
+                                                        'wallet': FieldValue.increment(30),
+                                                        'downline1': FieldValue.increment(1),
                                                       });
                                                       FirebaseFirestore.instance
                                                           .collection('Users')
-                                                          .doc(registration
-                                                                  .data()[
-                                                              'spnsrId2'])
+                                                          .doc(registration.data()['spnsrId2'])
                                                           .update({
-                                                        'levelincome':
-                                                            FieldValue
-                                                                .increment(15),
-                                                        'wallet': FieldValue
-                                                            .increment(15),
-                                                        'downline2': FieldValue
-                                                            .increment(1),
+                                                        'levelincome': FieldValue.increment(15),
+                                                        'wallet': FieldValue.increment(15),
+                                                        'downline2': FieldValue.increment(1),
                                                       });
                                                       FirebaseFirestore.instance
                                                           .collection('Users')
-                                                          .doc(registration
-                                                                  .data()[
-                                                              'spnsrId3'])
-                                                          .update({
-                                                        'downline3': FieldValue
-                                                            .increment(1),
+                                                          .doc(registration.data()['spnsrId3'])
+                                                          .update({'downline3': FieldValue.increment(1),
                                                       });
                                                     }
                                                   } else {
@@ -439,10 +385,8 @@ class _UserVerificationState extends State<UserVerification> {
                                             InkWell(
                                               onTap: () {
                                                 final userdata = UserModel(
-                                                  address: registration
-                                                      .data()['address'],
-                                                  bproof: registration
-                                                      .data()['bProof'],
+                                                  address: registration.data()['address'],
+                                                  bproof: registration.data()['bProof'],
                                                   charAmt: {},
                                                   clubAmt: {},
                                                   directmember: 0,
@@ -470,16 +414,13 @@ class _UserVerificationState extends State<UserVerification> {
                                                   index: 0,
                                                   joinDate: DateTime.now(),
                                                   levelincome: 0,
-                                                  mobno: registration
-                                                      .data()['mobNo'],
+                                                  mobno: registration.data()['mobNo'],
                                                   motherId: true,
                                                   mystatus: '',
-                                                  name: registration
-                                                      .data()['name'],
+                                                  name: registration.data()['name'],
                                                   paytmno: "",
                                                   phonepayno: "",
-                                                  password: registration
-                                                      .data()['password'],
+                                                  password: registration.data()['password'],
                                                   provideHelpUsers:
                                                       ProvideHelpUsers(
                                                           Amount: 0,
@@ -503,19 +444,15 @@ class _UserVerificationState extends State<UserVerification> {
                                                   spnsrAmt3: {},
                                                   sponsoremobile: '',
                                                   sponsorincome: 0,
-                                                  status: true,
-                                                  type: registration
-                                                      .data()['typeId'],
+                                                  status: false,
+                                                  type: registration.data()['typeId'],
                                                   upiId: '',
                                                   uid: "",
                                                   upgradeAmt: {},
                                                   wallet: 0,
-                                                  whatsNO: registration
-                                                      .data()['whatsNo'],
-                                                  whatsappcc: registration
-                                                      .data()['whatsCc'],
-                                                  mobcc: registration
-                                                      .data()['mobCc'],
+                                                  whatsNO: registration.data()['whatsNo'],
+                                                  whatsappcc: registration.data()['whatsCc'],
+                                                  mobcc: registration.data()['mobCc'],
                                                 );
                                                 registration.reference.update({
                                                   'verify': true,

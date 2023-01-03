@@ -8,7 +8,6 @@ import 'package:gc_369/ADMIN%20MODULE/pages/editUser/password/passwordTable.dart
 
 import '../../main.dart';
 import '../Company/create_genid.dart';
-import '../dashPages/A.dart';
 import '../dashPages/RegistrationReport.dart';
 import '../dashPages/SendRecieveProof.dart';
 import '../dashPages/SocialWelfare.dart';
