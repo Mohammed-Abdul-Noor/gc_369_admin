@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/charityAmount.dart';
 import 'package:gc_369/ADMIN%20MODULE/Company/clubAmount.dart';
+import 'package:gc_369/ADMIN%20MODULE/dashPages/ClearProvides.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/CustomerSupport.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/DistrictWise.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/PendingProvides.dart';
@@ -72,6 +73,7 @@ List<Widget> _pages = [
   const RegistrationReport(),
   const SendReceiveReport(),
   const PendingProvides(),
+  const ClearPro(),
   // Changepasswords(),
   // RebirthGenIdPage(),
   // RejectIdPage(),

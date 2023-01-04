@@ -276,7 +276,7 @@ class _CoViewState extends State<CoView> {
     final content = base64Encode(fileBytes!);
     final anchor = AnchorElement(
         href: "data:application/octet-stream;charset=utf-16le;base64,$content")
-      ..setAttribute("download", "369 $districtValue District  Members.xlsx")
+      ..setAttribute("download", "369 $districtValue District Members.xlsx")
       ..click();
   }
 
