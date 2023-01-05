@@ -157,7 +157,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     },
                   )),
               SizedBox(height: 10),
-              Center(child: Text('Version 1.2.0'))
+              Center(child: Text('Version 1.2.4'))
             ],
           )),
     );
