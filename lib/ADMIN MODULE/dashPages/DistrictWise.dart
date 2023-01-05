@@ -72,6 +72,7 @@ class _DistrictWiseState extends State<DistrictWise> {
     'Pathanamthitta',
     'Kollam',
     'Thiruvananthapuram',
+    'Other',
   ];
 
   @override
@@ -282,9 +283,11 @@ class _DistrictWiseState extends State<DistrictWise> {
                                     .limit(10)
                                     .snapshots();
                               }
-                              setState(() {
-                                districtValue = value!;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  districtValue = value!;
+                                });
+                              }
                             },
                             items: list
                                 .map<DropdownMenuItem<String>>((String value) {
@@ -359,6 +362,7 @@ class _DistrictWiseState extends State<DistrictWise> {
                       //   .where('search',arrayContains: search?.text.toUpperCase()).limit(10).snapshots(): FirebaseFirestore.instance.collection('Users').limit(10).snapshots(),
                       builder: (context, snapshot) {
                         print(snapshot.error);
+                        print(userStream);
                         if (!snapshot.hasData) {
                           return const CircularProgressIndicator();
                         }
