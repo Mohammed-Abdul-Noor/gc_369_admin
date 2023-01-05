@@ -6,6 +6,7 @@ import 'package:gc_369/ADMIN%20MODULE/dashPages/CustomerSupport.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/DistrictWise.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/PendingProvides.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/kyc.dart';
+import 'package:gc_369/ADMIN%20MODULE/dashPages/sponsorIncome.dart';
 import '../../main.dart';
 import '../Company/create_genid.dart';
 import '../dashPages/RegistrationReport.dart';
@@ -17,6 +18,7 @@ import '../dashPages/dialyUsers.dart';
 import '../dashPages/downloadtotalusers.dart';
 import '../dashPages/four.dart';
 import '../dashPages/geniDS.dart';
+import '../dashPages/levelIncome.dart';
 import '../dashPages/proof_verification.dart';
 import '../dashPages/seniorityLevel/sLevel.dart';
 import '../dashPages/sponsorlessUsers.dart';
@@ -74,6 +76,8 @@ List<Widget> _pages = [
   const SendReceiveReport(),
   const PendingProvides(),
   const ClearPro(),
+  const LevelIncome(),
+  const SponsorIncome(),
   // Changepasswords(),
   // RebirthGenIdPage(),
   // RejectIdPage(),

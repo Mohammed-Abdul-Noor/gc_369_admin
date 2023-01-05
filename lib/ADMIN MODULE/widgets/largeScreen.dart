@@ -5,6 +5,7 @@ import 'package:gc_369/ADMIN%20MODULE/dashPages/ClearProvides.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/CustomerSupport.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/DistrictWise.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/PendingProvides.dart';
+import 'package:gc_369/ADMIN%20MODULE/dashPages/sponsorIncome.dart';
 import 'package:gc_369/ADMIN%20MODULE/pages/editUser/password/passwordTable.dart';
 
 import '../../main.dart';
@@ -18,6 +19,7 @@ import '../dashPages/dialyUsers.dart';
 import '../dashPages/downloadtotalusers.dart';
 import '../dashPages/four.dart';
 import '../dashPages/geniDS.dart';
+import '../dashPages/levelIncome.dart';
 import '../dashPages/paginated.dart';
 import '../dashPages/proof_verification.dart';
 import '../dashPages/seniorityLevel/sLevel.dart';
@@ -77,6 +79,8 @@ List<Widget> _screens = [
   const SendReceiveReport(),
   const PendingProvides(),
   const ClearPro(),
+  const LevelIncome(),
+  const SponsorIncome(),
 
   // NewUsers(),
   // Changepasswords(),
