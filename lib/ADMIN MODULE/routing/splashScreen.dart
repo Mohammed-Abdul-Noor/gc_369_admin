@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-
+    // addFieldtoAlldoc();
     // TODO: implement initState
     loginEvent().whenComplete(() async {
       Timer(const Duration(seconds: 3), () {
@@ -99,6 +99,27 @@ logOutEvent(BuildContext context) async {
 //               //    });
 //               // });
 //             }
+//           }));
+//   print('------------------');
+// }
+
+
+// addFieldtoAlldoc() {
+//   print('------------------');
+//   FirebaseFirestore.instance.collection('Users').where('uid',isEqualTo:'GC2502694').get().then(
+//         (value) => value.docs.forEach(
+//           (element) async {
+//
+//             Map<String, dynamic> doc = element.data();
+//             await FirebaseFirestore.instance.collection('Users').doc(element.id).update(
+//                 {
+//                   'address' :{}
+//                 });
+//
+//
+//                    print(element.id);
+//
+//
 //           }));
 //   print('------------------');
 // }

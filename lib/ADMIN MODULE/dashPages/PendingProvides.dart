@@ -165,8 +165,7 @@ class _PendingProvidesState extends State<PendingProvides> {
                       stream: search!.text == ''
                           ? FirebaseFirestore.instance
                               .collection('Users')
-                              .where('provideHelpUsers.date',
-                                  isGreaterThan: yesterday)
+                              .where('provideHelpUsers.date', isGreaterThan: yesterday)
                               .orderBy('provideHelpUsers.date')
                               .snapshots()
                           : FirebaseFirestore.instance
