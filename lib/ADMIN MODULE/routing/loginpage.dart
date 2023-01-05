@@ -132,14 +132,30 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         if (!doc.exists) {
                           return;
                         }
-                        if ((doc['adminId'] == nameController.text && doc['adminPassword'] == passwordController.text) ||
-                            (doc['cordinatorId'] == nameController.text && doc['copass'] == passwordController.text)) {
+                        if ((doc['adminId'] == nameController.text &&
+                                doc['adminPassword'] ==
+                                    passwordController.text) ||
+                            (doc['cordinatorId'] == nameController.text &&
+                                doc['copass'] == passwordController.text)) {
                           preferences = await SharedPreferences.getInstance();
                           preferences?.setString('userId', nameController.text);
-                          preferences?.setString('pass', passwordController.text);
+                          preferences?.setString(
+                              'pass', passwordController.text);
                           currentUserId = nameController.text;
-                          currentUserId == doc['adminId'] ? Navigator.pushAndRemoveUntil(context, PageRouteBuilder(pageBuilder: (context, _, __) => SiteLayout(index: 1),), (route) => false)
-                              : Navigator.pushAndRemoveUntil(context, PageRouteBuilder(pageBuilder: (context, _, __) => CoView()), (route) => false);
+                          currentUserId == doc['adminId']
+                              ? Navigator.pushAndRemoveUntil(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, _, __) =>
+                                        SiteLayout(index: 1),
+                                  ),
+                                  (route) => false)
+                              : Navigator.pushAndRemoveUntil(
+                                  context,
+                                  PageRouteBuilder(
+                                      pageBuilder: (context, _, __) =>
+                                          CoView()),
+                                  (route) => false);
                         } else {
                           if ((doc['adminId'] != nameController.text) &&
                               (doc['cordinatorId'] != nameController.text)) {
@@ -157,7 +173,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     },
                   )),
               SizedBox(height: 10),
-              Center(child: Text('Version 1.2.0'))
+              Center(child: Text('Version 1.2.1'))
             ],
           )),
     );

@@ -165,7 +165,8 @@ class _PendingProvidesState extends State<PendingProvides> {
                       stream: search!.text == ''
                           ? FirebaseFirestore.instance
                               .collection('Users')
-                              .where('provideHelpUsers.date', isGreaterThan: yesterday)
+                              .where('provideHelpUsers.date',
+                                  isGreaterThan: yesterday)
                               .orderBy('provideHelpUsers.date')
                               .snapshots()
                           : FirebaseFirestore.instance
@@ -209,7 +210,7 @@ class _PendingProvidesState extends State<PendingProvides> {
                               DataColumn(label: Text('Mobile')),
                               DataColumn(
                                   label: Expanded(child: Text('Join Date'))),
-                              DataColumn(label: Text('Status')),
+                              DataColumn(label: Text('Slip Entered Date')),
                             ],
                             rows: List.generate(data.length, (index) {
                               var user = data[index];
@@ -224,8 +225,8 @@ class _PendingProvidesState extends State<PendingProvides> {
                                 DataCell(Text(
                                     "${DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate())}")),
                                 //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
-                                DataCell(Text(
-                                    user['status'] ? 'Active' : 'Not Active')),
+                                DataCell(Text(DateFormat('dd-MMM-yyyy').format(
+                                    user['provideHelpUsers.date'].toDate()))),
                               ]);
                             }),
                           );
