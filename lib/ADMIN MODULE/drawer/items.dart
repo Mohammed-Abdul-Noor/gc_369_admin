@@ -47,8 +47,8 @@ final itemsMain = [
   const DrawerItem(title: 'User Report', icon: Icons.verified_user),
   const DrawerItem(title: 'Pending Provides', icon: Icons.read_more),
   const DrawerItem(title: 'Clear Provides', icon: Icons.clear_outlined),
-  const DrawerItem(title: 'Level Income', icon: Icons.clear_outlined),
-  const DrawerItem(title: 'Sponsor Income', icon: Icons.clear_outlined),
+  const DrawerItem(title: 'Level Income', icon: Icons.leaderboard_outlined),
+  const DrawerItem(title: 'Sponsor Income', icon: Icons.leaderboard),
 
   // const DrawerItem(title:'Withdraw Eligible',icon:Icons.currency_rupee),
   // const DrawerItem(title:'Transaction History',icon:Icons.history),

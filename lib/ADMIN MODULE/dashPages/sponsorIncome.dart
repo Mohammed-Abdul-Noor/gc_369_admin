@@ -218,7 +218,6 @@ class _SponsorIncomeState extends State<SponsorIncome> {
     "uid", "name", "sponsorincome",
 
     //  "password",
-
     //"mobno",
     // "status",
   ];
@@ -226,7 +225,7 @@ class _SponsorIncomeState extends State<SponsorIncome> {
     int i = 1;
     var excel = Excel.createExcel();
     // var excel = Excel.createExcel();
-    Sheet sheetObject = excel['expense'];
+    Sheet sheetObject = excel['Sponsor Income'];
     CellStyle cellStyle = CellStyle(
         backgroundColorHex: "#ffffff",
         fontFamily: getFontFamily(FontFamily.Calibri));
@@ -260,7 +259,7 @@ class _SponsorIncomeState extends State<SponsorIncome> {
       // String shopsId='';
       Map<String, dynamic> dt = data.docs[0].data();
       Map<String, dynamic> dta = doc.data()!;
-      print("hereeee");
+      print('here');
       for (int n = 0; n < selectedFields.toList().length; n++) {
         if (selectedFields.contains(selectedFields.toList()[n])) {
           var cell = sheetObject
@@ -284,14 +283,14 @@ class _SponsorIncomeState extends State<SponsorIncome> {
       i++;
     }
 
-    excel.setDefaultSheet('expense');
+    excel.setDefaultSheet('Sponsor Income');
     var fileBytes = excel.encode();
     File file;
 
     final content = base64Encode(fileBytes!);
     final anchor = AnchorElement(
         href: "data:application/octet-stream;charset=utf-16le;base64,$content")
-      ..setAttribute("download", "369 club Total users.xlsx")
+      ..setAttribute("download", "369 Sponsor Income Details.xlsx")
       ..click();
   }
 
@@ -361,8 +360,8 @@ class _SponsorIncomeState extends State<SponsorIncome> {
                             QuerySnapshot<Map<String, dynamic>> data =
                                 await FirebaseFirestore.instance
                                     .collection('Users')
-                                    .where('sponsorincome', isEqualTo: String)
-                                    .orderBy('index')
+                                    .where('sponsorincome', isGreaterThan: 0)
+                                    .orderBy('sponsorincome')
                                     .get();
 
                             await getPurchases(data);
@@ -429,14 +428,12 @@ class _SponsorIncomeState extends State<SponsorIncome> {
                       stream: search!.text == ''
                           ? FirebaseFirestore.instance
                               .collection('Users')
-                              // .orderBy('index')
                               .where('sponsorincome', isNotEqualTo: 0)
                               .snapshots()
                           : FirebaseFirestore.instance
                               .collection('Users')
                               .where('sponsorincome', isNotEqualTo: 0)
-                              .where('search',
-                                  arrayContains: search!.text.toUpperCase())
+                              .where('search', arrayContains: search!.text.toUpperCase())
                               .snapshots(),
                       builder: (context, snapshot) {
                         print(snapshot.error);
@@ -448,11 +445,14 @@ class _SponsorIncomeState extends State<SponsorIncome> {
                         } else {
                           print(snapshot.error);
                           var data = snapshot.data!.docs;
+                          data.sort((a,b){
+                            return (int.tryParse(a.get('index').toString())??0).compareTo(int.tryParse(b.get('index').toString())??0);
+                          });
+
                           return DataTable(
                             border: TableBorder.all(
                                 color: Colors.black.withOpacity(0.1)),
-                            dataRowColor:
-                                MaterialStateProperty.resolveWith((Set states) {
+                            dataRowColor: MaterialStateProperty.resolveWith((Set states) {
                               if (states.contains(MaterialState.selected)) {
                                 return Colors.grey;
                               }
@@ -466,22 +466,17 @@ class _SponsorIncomeState extends State<SponsorIncome> {
                             horizontalMargin: 50,
                             columns: const [
                               DataColumn(numeric: true, label: Text('SI.No')),
-                              DataColumn(
-                                label: Text('User ID'),
-                              ),
+                              DataColumn(label: Text('User ID'),),
                               DataColumn(label: Text('Name')),
                               DataColumn(label: Text('Sponsor Income')),
                             ],
                             rows: List.generate(data.length, (index) {
                               var user = data[index];
                               return DataRow(cells: [
-                                DataCell(Text(
-                                    (ind == 0 ? index + 1 : ind + index + 1)
-                                        .toString())),
+                                DataCell(Text((ind == 0 ? index + 1 : ind + index + 1).toString())),
                                 DataCell(SelectableText(user['uid'])),
                                 DataCell(Text(user['name'])),
-                                DataCell(SelectableText(
-                                    user['sponsorincome'].toString())),
+                                DataCell(SelectableText(user['sponsorincome'].toString())),
                               ]);
                             }),
                           );

@@ -226,7 +226,7 @@ class _LevelIncomeState extends State<LevelIncome> {
     int i = 1;
     var excel = Excel.createExcel();
     // var excel = Excel.createExcel();
-    Sheet sheetObject = excel['expense'];
+    Sheet sheetObject = excel['Level Income'];
     CellStyle cellStyle = CellStyle(
         backgroundColorHex: "#ffffff",
         fontFamily: getFontFamily(FontFamily.Calibri));
@@ -284,14 +284,14 @@ class _LevelIncomeState extends State<LevelIncome> {
       i++;
     }
 
-    excel.setDefaultSheet('expense');
+    excel.setDefaultSheet('Level Income');
     var fileBytes = excel.encode();
     File file;
 
     final content = base64Encode(fileBytes!);
     final anchor = AnchorElement(
         href: "data:application/octet-stream;charset=utf-16le;base64,$content")
-      ..setAttribute("download", "369 club Total users.xlsx")
+      ..setAttribute("download", "369 Level Income Details.xlsx")
       ..click();
   }
 
@@ -361,9 +361,10 @@ class _LevelIncomeState extends State<LevelIncome> {
                             QuerySnapshot<Map<String, dynamic>> data =
                                 await FirebaseFirestore.instance
                                     .collection('Users')
-                                    .where('levelincome', isEqualTo: String)
-                                    .orderBy('index')
+                                    .where('levelincome', isGreaterThan: 0)
+                                    .orderBy('levelincome')
                                     .get();
+                            
 
                             await getPurchases(data);
 
@@ -429,14 +430,12 @@ class _LevelIncomeState extends State<LevelIncome> {
                       stream: search!.text == ''
                           ? FirebaseFirestore.instance
                               .collection('Users')
-                              // .orderBy('index')
-                              .where('levelincome', isGreaterThanOrEqualTo: 0)
+                              .where('levelincome', isGreaterThan: 0)
                               .snapshots()
                           : FirebaseFirestore.instance
                               .collection('Users')
-                              .where('levelincome', isNotEqualTo: 0)
-                              .where('search',
-                                  arrayContains: search!.text.toUpperCase())
+                              .where('levelincome', isGreaterThan: 0)
+                              .where('search', arrayContains: search!.text.toUpperCase())
                               .snapshots(),
                       builder: (context, snapshot) {
                         print(snapshot.error);
@@ -448,6 +447,9 @@ class _LevelIncomeState extends State<LevelIncome> {
                         } else {
                           print(snapshot.error);
                           var data = snapshot.data!.docs;
+                          data.sort((a,b){
+                            return (int.tryParse(a.get('index').toString())??0).compareTo(int.tryParse(b.get('index').toString())??0);
+                          });
                           return DataTable(
                             border: TableBorder.all(
                                 color: Colors.black.withOpacity(0.1)),
@@ -466,22 +468,17 @@ class _LevelIncomeState extends State<LevelIncome> {
                             horizontalMargin: 50,
                             columns: const [
                               DataColumn(numeric: true, label: Text('SI.No')),
-                              DataColumn(
-                                label: Text('User ID'),
-                              ),
+                              DataColumn(label: Text('User ID'),),
                               DataColumn(label: Text('Name')),
                               DataColumn(label: Text('Level Income')),
                             ],
                             rows: List.generate(data.length, (index) {
                               var user = data[index];
                               return DataRow(cells: [
-                                DataCell(Text(
-                                    (ind == 0 ? index + 1 : ind + index + 1)
-                                        .toString())),
+                                DataCell(Text((ind == 0 ? index + 1 : ind + index + 1).toString())),
                                 DataCell(SelectableText(user['uid'])),
                                 DataCell(Text(user['name'])),
-                                DataCell(SelectableText(
-                                    user['levelincome'].toString())),
+                                DataCell(SelectableText(user['levelincome'].toString())),
                               ]);
                             }),
                           );
