@@ -259,7 +259,7 @@ class _SponsorIncomeState extends State<SponsorIncome> {
       // String shopsId='';
       Map<String, dynamic> dt = data.docs[0].data();
       Map<String, dynamic> dta = doc.data()!;
-      print('here');
+      // print('here');
       for (int n = 0; n < selectedFields.toList().length; n++) {
         if (selectedFields.contains(selectedFields.toList()[n])) {
           var cell = sheetObject
@@ -459,9 +459,9 @@ class _SponsorIncomeState extends State<SponsorIncome> {
                               return Colors.white; // Use the default value.
                             }),
                             checkboxHorizontalMargin: Checkbox.width,
-                            columnSpacing: 80,
-                            dataRowHeight: 80,
-                            dividerThickness: 3,
+                            columnSpacing: 50,
+                            dataRowHeight: 50,
+                            dividerThickness: 2,
                             showCheckboxColumn: true,
                             horizontalMargin: 50,
                             columns: const [
