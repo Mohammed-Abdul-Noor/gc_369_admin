@@ -232,7 +232,6 @@ class _ClearProState extends State<ClearPro> {
                                       alignment: Alignment.center,
                                       child: InkWell(
                                         onTap: () {
-
                                           FirebaseFirestore.instance.collection('ClearProvides').add(
                                               {
                                                 'userId':user['uid'],

@@ -57,7 +57,6 @@ class _DailyUsersPageState extends State<DailyUsersPage> {
         .collection('Users')
         .where('joinDate', isGreaterThan: dateToday)
         .orderBy('joinDate')
-        .limit(20)
         .snapshots();
     search = TextEditingController();
     super.initState();
