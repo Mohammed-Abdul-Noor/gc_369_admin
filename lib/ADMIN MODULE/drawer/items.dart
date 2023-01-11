@@ -17,7 +17,7 @@ final itemsMain = [
   const DrawerItem(title: 'Social Welfare', icon: Icons.announcement_outlined),
   const DrawerItem(title: 'Change Password', icon: Icons.password),
   const DrawerItem(title: 'User Verification', icon: Icons.password),
-  const DrawerItem(title: 'Wallet Registration', icon: Icons.password),
+  // const DrawerItem(title: 'Wallet Registration', icon: Icons.password),
   const DrawerItem(title: 'Gen ID Verification', icon: Icons.password),
   const DrawerItem(title: 'TotalGenID', icon: Icons.password),
   const DrawerItem(title: 'Create Gen ID', icon: Icons.password),
@@ -27,23 +27,18 @@ final itemsMain = [
   const DrawerItem(title: 'Club 3 Users', icon: Icons.person),
   const DrawerItem(title: 'Club 4 Users', icon: Icons.person),
   const DrawerItem(title: 'Club 5 Users', icon: Icons.person),
-  const DrawerItem(
-      title: 'Seniority Level 0', icon: Icons.account_tree_outlined),
-  const DrawerItem(
-      title: 'Seniority Level 1', icon: Icons.account_tree_outlined),
-  const DrawerItem(
-      title: 'Seniority Level 2', icon: Icons.account_tree_outlined),
-  const DrawerItem(
-      title: 'Seniority Level 3', icon: Icons.account_tree_outlined),
-  const DrawerItem(
-      title: 'Seniority Level 4', icon: Icons.account_tree_outlined),
-  const DrawerItem(
-      title: 'Seniority Level 5', icon: Icons.account_tree_outlined),
+  const DrawerItem(title: 'Seniority Level 0', icon: Icons.account_tree_outlined),
+  const DrawerItem(title: 'Seniority Level 1', icon: Icons.account_tree_outlined),
+  const DrawerItem(title: 'Seniority Level 2', icon: Icons.account_tree_outlined),
+  const DrawerItem(title: 'Seniority Level 3', icon: Icons.account_tree_outlined),
+  const DrawerItem(title: 'Seniority Level 4', icon: Icons.account_tree_outlined),
+  const DrawerItem(title: 'Seniority Level 5', icon: Icons.account_tree_outlined),
   const DrawerItem(title: 'Sponsor Less', icon: Icons.person_add_alt),
   const DrawerItem(title: 'Proof Verification', icon: Icons.verified_user),
   const DrawerItem(title: 'Transaction Report', icon: Icons.verified_user),
   const DrawerItem(title: 'District Wise Report', icon: Icons.verified_user),
   const DrawerItem(title: 'Registration Report', icon: Icons.verified_user),
+  const DrawerItem(title: 'Wallet Report', icon: Icons.wallet),
   const DrawerItem(title: 'User Report', icon: Icons.verified_user),
   const DrawerItem(title: 'Pending Provides', icon: Icons.read_more),
   const DrawerItem(title: 'Clear Provides', icon: Icons.clear_outlined),

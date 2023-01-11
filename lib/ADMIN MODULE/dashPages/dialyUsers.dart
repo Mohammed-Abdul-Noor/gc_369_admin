@@ -261,6 +261,7 @@ class _DailyUsersPageState extends State<DailyUsersPage> {
                                   DataColumn(label: Text('District')),
                                   DataColumn(label: Expanded(child: Text('Join Date'))),
                                   DataColumn(label: Text('Sponsor Id')),
+                                  DataColumn(label: Text('Wallet Registration')),
 
 
 
@@ -270,10 +271,18 @@ class _DailyUsersPageState extends State<DailyUsersPage> {
                                 ],
                                 rows: List.generate(data.length, (index) {
                                   var user = data[index];
+                                  bool ref = false;
+                                  try {
+                                    bool ref = user['walletReg'] ?? false;
+                                  } catch (e) {
+                                    print(e.toString());
+                                  }
+
+
                                   return DataRow(cells: [
-                                    DataCell(Text(
-                                        (ind == 0 ? index + 1 : ind + index + 1)
-                                            .toString())),
+
+
+                                    DataCell(Text((ind == 0 ? index + 1 : ind + index + 1).toString())),
                                     DataCell(SelectableText(user['uid'])),
                                     DataCell(Text(user['name'])),
                                     DataCell(SelectableText(user['mobno'])),
@@ -281,6 +290,7 @@ class _DailyUsersPageState extends State<DailyUsersPage> {
                                     DataCell(SelectableText(user['address.city'])),
                                     DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['joinDate'].toDate()))),
                                     DataCell(SelectableText(user['spnsr_Id'])),
+                                    DataCell(SelectableText(ref==true?'yes':'no')),
 
                                     //  DataCell(Text(DateFormat('dd-MMM-yyyy').format(user['join_date'].toDate()))),
                                     // DataCell(Text(

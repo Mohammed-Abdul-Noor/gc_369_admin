@@ -567,8 +567,7 @@ getSponsor1(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
     });
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
-      'spnsrAmt1.${sndUsr.sno}':
-      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
+      'spnsrAmt1.${sndUsr.sno}': FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
@@ -579,8 +578,7 @@ getSponsor1(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
     });
   } else {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
-      'spnsrAmt1.${sndUsr.sno}':
-      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
+      'spnsrAmt1.${sndUsr.sno}': FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,

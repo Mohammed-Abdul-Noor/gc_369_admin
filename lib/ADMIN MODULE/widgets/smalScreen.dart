@@ -7,6 +7,7 @@ import 'package:gc_369/ADMIN%20MODULE/dashPages/DistrictWise.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/PendingProvides.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/kyc.dart';
 import 'package:gc_369/ADMIN%20MODULE/dashPages/sponsorIncome.dart';
+import 'package:gc_369/ADMIN%20MODULE/dashPages/walletReport.dart';
 import '../../main.dart';
 import '../Company/create_genid.dart';
 import '../dashPages/RegistrationReport.dart';
@@ -40,7 +41,7 @@ List<Widget> _pages = [
   const SocialWelfare(),
   const PasswordTable(),
   const UserVerification(),
-  const WalletRegistration(),
+  // const WalletRegistration(),
   const GenIDS(),
   const TotalGenID(),
   const CreateGenID(),
@@ -61,6 +62,7 @@ List<Widget> _pages = [
   const SendReceiveProof(),
   const DistrictWise(),
   const RegistrationReport(),
+  const WalletReport(),
   const SendReceiveReport(),
   const PendingProvides(),
   const ClearPro(),
