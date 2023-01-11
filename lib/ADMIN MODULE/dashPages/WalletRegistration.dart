@@ -563,7 +563,7 @@ getSponsor1(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
       'eligible': true,
       'currentPlanLevel': 0,
       'currentCount': 0,
-      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
+      'enteredDate.${(sndUsr.sno ?? 0) + 1}': FieldValue.serverTimestamp(),
     });
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
@@ -608,7 +608,7 @@ getSponsor2(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
       'eligible': true,
       'currentPlanLevel': 0,
       'currentCount': 0,
-      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
+      'enteredDate.${(sndUsr.sno ?? 0) + 1}': FieldValue.serverTimestamp(),
     });
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
@@ -653,7 +653,7 @@ getSponsor3(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
       'eligible': true,
       'currentPlanLevel': 0,
       'currentCount': 0,
-      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
+      'enteredDate.${(sndUsr.sno ?? 0) + 1}': FieldValue.serverTimestamp(),
     });
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({

@@ -44,24 +44,12 @@ List<Widget> _pages = [
   const GenIDS(),
   const TotalGenID(),
   const CreateGenID(),
-  const ClubUsers(
-    sno: 0,
-  ),
-  const ClubUsers(
-    sno: 1,
-  ),
-  const ClubUsers(
-    sno: 2,
-  ),
-  const ClubUsers(
-    sno: 3,
-  ),
-  const ClubUsers(
-    sno: 4,
-  ),
-  const ClubUsers(
-    sno: 5,
-  ),
+  const ClubUsers(sno: 0,),
+  const ClubUsers(sno: 1,),
+  const ClubUsers(sno: 2,),
+  const ClubUsers(sno: 3,),
+  const ClubUsers(sno: 4,),
+  const ClubUsers(sno: 5,),
   const SeniorityLevelT(sno: 0),
   const SeniorityLevelT(sno: 1),
   const SeniorityLevelT(sno: 2),

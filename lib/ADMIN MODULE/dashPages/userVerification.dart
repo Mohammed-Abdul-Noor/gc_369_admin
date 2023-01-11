@@ -169,28 +169,18 @@ class _UserVerificationState extends State<UserVerification> {
 
                                       return DataRow(cells: [
                                         DataCell(Text('${index + 1}')),
-                                        DataCell(Text(DateFormat('dd-MMM-yyyy')
-                                            .format(registration
-                                                .data()['joinDate']
-                                                ?.toDate()))),
-                                        DataCell(SelectableText(
-                                            registration.data()['name'])),
-                                        DataCell(SelectableText(
-                                            registration.data()['mobNo'])),
-                                        DataCell(SelectableText(
-                                            registration.data()['whatsNo'])),
-                                        DataCell(registration
-                                                .data()['walletReg']
+                                        DataCell(Text(DateFormat('dd-MMM-yyyy').format(registration.data()['joinDate']?.toDate()))),
+                                        DataCell(SelectableText(registration.data()['name'])),
+                                        DataCell(SelectableText(registration.data()['mobNo'])),
+                                        DataCell(SelectableText(registration.data()['whatsNo'])),
+                                        DataCell(registration.data()['walletReg']
                                             ? SelectableText(
                                                 'wallet transfer by\n${registration.data()['spendId']}')
                                             : CachedNetworkImage(
-                                                imageUrl: registration
-                                                    .data()['fProof'],
-                                                width: currentWidth < 700
-                                                    ? w * 0.4
-                                                    : w * 0.2,
+                                                imageUrl: registration.data()['fProof'],
+                                                width: currentWidth < 700 ? w * 0.4 : w * 0.2,
                                                 fit: BoxFit.fitHeight,
-                                              )),
+                                        )),
                                         DataCell(CachedNetworkImage(
                                           imageUrl: registration.data()['file'],
                                           width: currentWidth < 700
@@ -515,7 +505,7 @@ getSponsor1(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
       'eligible': true,
       'currentPlanLevel': 0,
       'currentCount': 0,
-      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
+      'enteredDate.${(sndUsr.sno ?? 0) + 1}': FieldValue.serverTimestamp(),
     });
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
@@ -562,7 +552,7 @@ getSponsor2(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
       'eligible': true,
       'currentPlanLevel': 0,
       'currentCount': 0,
-      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
+      'enteredDate.${(sndUsr.sno ?? 0) + 1}': FieldValue.serverTimestamp(),
     });
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({
@@ -609,7 +599,7 @@ getSponsor3(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
       'eligible': true,
       'currentPlanLevel': 0,
       'currentCount': 0,
-      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
+      'enteredDate.${(sndUsr.sno ?? 0) + 1}': FieldValue.serverTimestamp(),
     });
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({

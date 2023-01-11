@@ -214,21 +214,9 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
       .collection('Users')
       .doc(id)
       .get();
-  int totalAmount = int.tryParse(
-      sendUser
-          .get('provideHelpUsers')[
-      'Amount']
-          .toString()) ??
-      0;
-  int paidAmount = int.tryParse(
-      sendUser
-          .get('provideHelpUsers')[
-      'paidAmount']
-          .toString()) ??
-      0;
+  int totalAmount = int.tryParse(sendUser.get('provideHelpUsers')['Amount'].toString()) ?? 0;
+  int paidAmount = int.tryParse(sendUser.get('provideHelpUsers')['paidAmount'].toString()) ?? 0;
   UserModel sendUsermodel = UserModel.fromJson(sendUser.data()!);
-
-
   Map<String, dynamic> transaction = {};
   Map<String, dynamic> nextTransaction = {};
   if (planMap == {}) {
@@ -244,17 +232,10 @@ getHelp(List<DocumentSnapshot> data,int index,BuildContext context,String id) as
   }
   transaction = planMap[sendUsermodel.sno.toString()][sendUsermodel.currentPlanLevel.toString()];
   nextTransaction = planMap[sendUsermodel.sno.toString()]['${(sendUsermodel.currentPlanLevel??0)+1}']??{};
-  if (transaction['amt'] == (int.tryParse(data[index]
-  ['amount']
-      .toString()) ??
-      0)) {
+  if (transaction['amt'] == (int.tryParse(data[index]['amount'].toString()) ?? 0)) {
     if (transaction['type'] == 5) {
       getGenId(transaction, data, index, sendUsermodel,nextTransaction);
     }
-
-
-
-
     data[index].reference.update({
       'verify': true
     }).then((value) {
@@ -273,26 +254,17 @@ getGenId(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,U
         .collection('Users')
         .doc(sndUsr.uid)
         .update({
-      'clubAmt.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+      'genIdAmt.${sndUsr.sno}': FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
-
-      'sno':
-      FieldValue.increment(
-          1),
+      'sno': FieldValue.increment(1),
       'eligible': true,
       'currentPlanLevel':0,
       'currentCount':0,
-      'enteredDate.${sndUsr.sno??0 + 1}':
+      'enteredDate.${(sndUsr.sno ?? 0) + 1}':
       FieldValue
           .serverTimestamp(),
     });
@@ -302,14 +274,7 @@ getGenId(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,U
         .collection('Users')
         .doc(sndUsr.uid)
         .update({
-
-      'clubAmt.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+      'genIdAmt.${sndUsr.sno}': FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
@@ -321,25 +286,18 @@ getGenId(Map<String,dynamic> transaction,List<DocumentSnapshot> data,int index,U
     });
   }
   else {
-
     FirebaseFirestore.instance
         .collection('Users')
         .doc(sndUsr.uid)
         .update({
-      'clubAmt.${sndUsr.sno}':
-      FieldValue.increment(
-          int.tryParse(data[
-          index]
-          [
-          'amount']) ??
-              0),
+      'genIdAmt.${sndUsr.sno}':
+      FieldValue.increment(int.tryParse(data[index]['amount']) ?? 0),
       'provideHelpUsers': {
         'Id': "",
         'Amount': 0,
         "paidAmount": 0,
       },
       'currentCount': FieldValue.increment(1),
-
     });
   }
 }

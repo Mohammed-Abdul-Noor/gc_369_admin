@@ -35,7 +35,7 @@ class _SocialWelfareState extends State<SocialWelfare> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Club Amount',
+                'Social Welfare',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -294,7 +294,7 @@ getWelfare(Map<String, dynamic> transaction, List<DocumentSnapshot> data,
       'eligible': true,
       'currentPlanLevel': 0,
       'currentCount': 0,
-      'enteredDate.${sndUsr.sno ?? 0 + 1}': FieldValue.serverTimestamp(),
+      'enteredDate.${(sndUsr.sno ?? 0) + 1}': FieldValue.serverTimestamp(),
     });
   } else if (transaction['cnt'] == sndUsr.currentCount! + 1) {
     FirebaseFirestore.instance.collection('Users').doc(sndUsr.uid).update({

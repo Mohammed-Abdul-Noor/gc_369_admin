@@ -215,7 +215,7 @@ class _LevelIncomeState extends State<LevelIncome> {
   bool called = false;
 
   List<String> selectedFields = [
-    "uid", "name", "levelincome",
+    "uid", "name", "levelincome",'sno','mobno'
 
     //  "password",
 
@@ -471,14 +471,26 @@ class _LevelIncomeState extends State<LevelIncome> {
                               DataColumn(label: Text('User ID'),),
                               DataColumn(label: Text('Name')),
                               DataColumn(label: Text('Level Income')),
+                              DataColumn(label: Text('Position')),
+                              DataColumn(label: Text('Mobile Number')),
                             ],
                             rows: List.generate(data.length, (index) {
                               var user = data[index];
+
+                              String sno = '';
+                              try {
+                                sno = user['sno'].toString();
+                              } catch (e) {
+                                print(e.toString());
+                              }
+
                               return DataRow(cells: [
                                 DataCell(Text((ind == 0 ? index + 1 : ind + index + 1).toString())),
                                 DataCell(SelectableText(user['uid'])),
                                 DataCell(Text(user['name'])),
                                 DataCell(SelectableText(user['levelincome'].toString())),
+                                DataCell(SelectableText(sno == '1'? 'Club Member'  : sno == '2'? 'Global Member': sno == '3'? 'Club I': sno == '4'? 'Club II': sno == '5'? 'Club III' : 'Member'),),
+                                DataCell(SelectableText(user['mobno'].toString())),
                               ]);
                             }),
                           );
