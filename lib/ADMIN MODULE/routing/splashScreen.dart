@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // addFieldtoAlldoc();
+ // addFieldtoAlldoc();
     // TODO: implement initState
     loginEvent().whenComplete(() async {
       Timer(const Duration(seconds: 3), () {
@@ -122,4 +122,24 @@ logOutEvent(BuildContext context) async {
 //
 //           }));
 //   print('------------------');
+// }
+
+// addFieldtoAlldoc() {
+//   FirebaseFirestore.instance.collection('Users').get().then(
+//         (value) => value.docs.forEach(
+//           (element) async {
+//             Map<String, dynamic> d = element.data();
+//             if (d['fProof'] == '' || d['bProof'] == '') {
+//               await FirebaseFirestore.instance
+//                   .collection('Users')
+//                   .doc(element.id)
+//                   .update({
+//                 'status': false,
+//               }).whenComplete(() {
+//                 print('Field Updated: ${element.id}');
+//               });
+//             }
+//           },
+//         ),
+//       );
 // }
