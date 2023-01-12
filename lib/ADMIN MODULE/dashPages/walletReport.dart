@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:html';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -24,18 +27,297 @@ class _WalletReportState extends State<WalletReport> {
   DocumentSnapshot? firstDoc;
   int pageIndex = 0;
   int ind = 0;
+  int len = 0;
+
+  final scrollController=ScrollController();
   @override
   void initState() {
     // usersListener(currentUserId);
+    getUser();
     _controller1 = ScrollController();
+
+
+    //  TextEditingController search =TextEditingController();
+    super.initState();
+  }
+  getUser()  {
     userStream = FirebaseFirestore.instance
         .collection('registration')
         .where('walletReg',isEqualTo: true)
         .orderBy('joinDate',descending: true)
-        .limit(100)
+    // .limit(100)
         .snapshots();
-    //  TextEditingController search =TextEditingController();
-    super.initState();
+   userStream!.listen((event) {
+     len = event.docs.length;
+   });
+    if(mounted){
+      setState(() {
+
+      });
+    }
+  }
+
+  List<String> columns = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "AA",
+    "AB",
+    "AC",
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AH",
+    "AI",
+    "AJ",
+    "AK",
+    "AL",
+    "AM",
+    "AN",
+    "AO",
+    "AP",
+    "AQ",
+    "AR",
+    "AS",
+    "AT",
+    "AU",
+    "AV",
+    "AW",
+    "AX",
+    "AY",
+    "AZ",
+    "BA",
+    "BB",
+    "BC",
+    "BD",
+    "BE",
+    "BF",
+    "BG",
+    "BH",
+    "BI",
+    "BJ",
+    "BK",
+    "BL",
+    "BM",
+    "BN",
+    "BO",
+    "BP",
+    "BQ",
+    "BR",
+    "BS",
+    "BT",
+    "BU",
+    "BV",
+    "BW",
+    "BX",
+    "BY",
+    "BZ",
+    "CA",
+    "CB",
+    "CC",
+    "CD",
+    "CE",
+    "CF",
+    "CG",
+    "CH",
+    "CI",
+    "CJ",
+    "CK",
+    "CL",
+    "CM",
+    "CN",
+    "CO",
+    "CP",
+    "CQ",
+    "CR",
+    "CS",
+    "CT",
+    "CU",
+    "CV",
+    "CW",
+    "CX",
+    "CY",
+    "CZ",
+    "DA",
+    "DB",
+    "DC",
+    "DD",
+    "DE",
+    "DF",
+    "DG",
+    "DH",
+    "DI",
+    "DJ",
+    "DK",
+    "DL",
+    "DM",
+    "DN",
+    "DO",
+    "DP",
+    "DQ",
+    "DR",
+    "DS",
+    "DT",
+    "DU",
+    "DV",
+    "DW",
+    "DX",
+    "DY",
+    "DZ",
+    "EA",
+    "EB",
+    "EC",
+    "ED",
+    "EE",
+    "EF",
+    "EG",
+    "EH",
+    "EI",
+    "EJ",
+    "EK",
+    "EL",
+    "EM",
+    "EN",
+    "EO",
+    "EP",
+    "EQ",
+    "ER",
+    "ES",
+    "ET",
+    "EU",
+    "EV",
+    "EW",
+    "EX",
+    "EY",
+    "EZ",
+    "FA",
+    "FB",
+    "FC",
+    "FD",
+    "FE",
+    "FF",
+    "FG",
+    "FH",
+    "FI",
+    "FJ",
+    "FK",
+    "FL",
+    "FM",
+    "FN",
+    "FO",
+    "FP",
+    "FQ",
+    "FR",
+    "FS",
+    "FT",
+    "FU",
+    "FV",
+    "FW",
+    "FX",
+    "FY",
+    "FZ",
+  ];
+  bool loading = false;
+  List<String> selectedFields = [
+    "userId","name", "password", "joinDate","mobNo","spendId",
+
+    // "status",
+  ];
+  getPurchases(QuerySnapshot<Map<String, dynamic>> data) async {
+    int i = 1;
+    var excel = Excel.createExcel();
+    // var excel = Excel.createExcel();
+    Sheet sheetObject = excel['WalletReport'];
+    CellStyle cellStyle = CellStyle(
+        backgroundColorHex: "#ffffff",
+        fontFamily: getFontFamily(FontFamily.Calibri));
+    if (data.docs.length > 0) {
+      var cell = sheetObject.cell(CellIndex.indexByString("A1"));
+      cell.value = 'SL NO'; // dynamic values support provided;
+      cell.cellStyle = cellStyle;
+      Map<String, dynamic> dt = data.docs[0].data();
+      // print(dt.keys.toList().length);
+      // print(dt.keys.toList());
+      int k = 0;
+      for (int n = 0; n < selectedFields.toList().length; n++) {
+        if (selectedFields.contains(selectedFields.toList()[n])) {
+          var cell =
+          sheetObject.cell(CellIndex.indexByString("${columns[k + 1]}1"));
+          cell.value =
+          selectedFields.toList()[n]; // dynamic values support provided;
+          cell.cellStyle = cellStyle;
+          k++;
+        }
+      }
+    }
+
+    for (DocumentSnapshot<Map<String, dynamic>> doc in data.docs) {
+      int l = 0;
+      var cell = sheetObject.cell(CellIndex.indexByString("A${i + 1}"));
+      cell.value = i.toString(); // dynamic values support provided;
+      cell.cellStyle = cellStyle;
+      // double amt=0;
+      // double commission=0;
+      // String shopsId='';
+      Map<String, dynamic> dt = data.docs[0].data();
+      Map<String, dynamic> dta = doc.data()!;
+      // print('here');
+      for (int n = 0; n < selectedFields.toList().length; n++) {
+        if (selectedFields.contains(selectedFields.toList()[n])) {
+          var cell = sheetObject
+              .cell(CellIndex.indexByString("${columns[l + 1]}${i + 1}"));
+
+          // if (dta[dt.keys.toList()[n]].runtimeType.toString() == "Timestamp") {
+          if (selectedFields.toList()[n] == "joinDate") {
+            cell.value = dta[selectedFields.toList()[n]].toDate().toString(); //
+            cell.cellStyle = cellStyle;
+          } else {
+            cell.value = dta[selectedFields.toList()[n]].toString();
+            cell.cellStyle = cellStyle;
+          }
+          l++;
+        }
+
+        //    dynamic values support provided;
+
+      }
+
+      i++;
+    }
+
+    excel.setDefaultSheet('WalletReport');
+    var fileBytes = excel.encode();
+    File file;
+
+    final content = base64Encode(fileBytes!);
+    final anchor = AnchorElement(
+        href: "data:application/octet-stream;charset=utf-16le;base64,$content")
+      ..setAttribute("download", "369 Wallet Report Details.xlsx")
+      ..click();
   }
 
   next() {
@@ -50,7 +332,7 @@ class _WalletReportState extends State<WalletReport> {
           .limit(100)
           .snapshots();
     } else {
-      ind += 25;
+      ind += 100;
       userStream = FirebaseFirestore.instance
           .collection('registration')
           .where('walletReg',isEqualTo: true)
@@ -76,7 +358,7 @@ class _WalletReportState extends State<WalletReport> {
           .limit(100)
           .snapshots();
     } else {
-      ind -= 25;
+      ind -= 100;
 
       userStream = FirebaseFirestore.instance
           .collection('registration')
@@ -101,7 +383,7 @@ class _WalletReportState extends State<WalletReport> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: ListView(shrinkWrap: true, children: [
+        child: ListView(controller:scrollController,shrinkWrap: true, children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -121,28 +403,42 @@ class _WalletReportState extends State<WalletReport> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Total User',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
+                      //  Text(
+                      //   'Total Wallet Id\'s : $len',
+                      //   style: TextStyle(
+                      //     color: Colors.blueGrey,
+                      //     fontSize: 15,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 10),
                       Row(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(
-                                    color: Colors.black.withOpacity(0.3))),
-                            alignment: Alignment.center,
-                            height: 20,
-                            width: 50,
-                            child: const Text('Excel'),
-                          ),
+                          ElevatedButton(
+                              onPressed: () async {
+                                setState(() {
+                                  loading = true;
+                                });
+                                QuerySnapshot<Map<String, dynamic>> data =
+                                await FirebaseFirestore.instance
+                                    .collection('registration')
+                                    .where('walletReg',isEqualTo: true)
+                                    .orderBy('joinDate',descending: true)
+                                    .get();
+                                await getPurchases(data);
+                                setState(() {
+                                  loading = false;
+                                });
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(Icons.download),
+                                  Text('Wallet Report'),
+                                ],
+                              )),
                           const SizedBox(width: 10),
+                          // Text((pageIndex+1).toString()),
+                          // Text((ind+1).toString()),
                           const Spacer(),
                           const Text('Search'),
                           const SizedBox(width: 7),
@@ -207,6 +503,7 @@ class _WalletReportState extends State<WalletReport> {
                               lastDoc = snapshot.data!.docs[data.length - 1];
                               firstDoc = snapshot.data!.docs[0];
                               lastDocuments[pageIndex] = lastDoc!;
+
                               return Column(
                                 children: [
                                   DataTable(
